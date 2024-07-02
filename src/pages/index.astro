@@ -1,0 +1,20 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Anual from '../components/Anual.astro'
+import Comitions from '../components/Comitions.astro'
+import Ytd from '../components/Ytd.astro'
+import Acc from '../components/Acc.astro'
+---
+
+<Layout>
+	<main>
+    <h2>Rentabilidad histórica anual <small>(más es mejor)</small></h2>
+    <Anual />
+    <h2>Anual acumulado a la fecha <small>(más es mejor)</h2>
+    <Ytd />
+    <h2>Acumulado últimos 12 meses <small>(más es mejor)</h2>
+    <Acc />
+    <h2>Comisiones <small>(menos es mejor)</h2>
+    <Comitions />
+	</main>
+</Layout>
