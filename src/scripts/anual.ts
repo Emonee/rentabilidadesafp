@@ -4,7 +4,7 @@ import anualData from '../json_data/anual.json'
 let fondo: 'A' | 'B' | 'C' | 'D' | 'E' = 'A'
 const firstYear = 2005
 const actualYear = new Date().getFullYear()
-const years = [...Array(actualYear - firstYear + 1).keys()].map(i => firstYear + i)
+const years = [...Array(actualYear - firstYear).keys()].map(i => firstYear + i)
 let chart: Chart | null = null
 generateChart()
 document.querySelector<HTMLSelectElement>('#fondo')?.addEventListener('change', (event) => {
@@ -29,7 +29,7 @@ function generateChart() {
       ctx.moveTo(chart.chartArea.left, yValue); // Start drawing from the left of the chart
       ctx.lineTo(chart.chartArea.right, yValue); // Draw to the right of the chart
       ctx.lineWidth = 2; // Set line width
-      ctx.strokeStyle = 'rgba(0, 0, 180, 0.5)'; // Set line color (red, with 70% opacity)
+      ctx.strokeStyle = 'rgba(180, 0, 0, 0.3)'; // Set line color (red, with 70% opacity)
       ctx.stroke();
       ctx.restore();
     }
