@@ -1,0 +1,58 @@
+<h2>Mejor AFP <span data-tooltip="Year To Date">YTD</span> por fondo: <span data-best-afp-by-ytd-span></span></h2>
+<p>Corresponde al raking por rentabilidad real acumulada desde inicios del presente año a la actualidad.</p>
+<p><b>Fondo a visualizar:</b></p>
+<select id="fondos-select" style="max-width: 200px;">
+  <option value="A">A</option>
+  <option value="B">B</option>
+  <option value="C">C</option>
+  <option value="D">D</option>
+  <option value="E">E</option>
+</select>
+<table data-best-afp-by-ytd-table style="max-width: 500px;">
+  <tbody></tbody>
+</table>
+
+<script>
+  import jsonData from '@/json_data/ytd_acc.json'
+  import { getColor } from '@/lib/nums'
+  let fondo: 'A' | 'B' | 'C' | 'D' | 'E' = 'A'
+  const span = document.querySelector('span[data-best-afp-by-ytd-span]') as Element
+  const tableBody = document.querySelector('table[data-best-afp-by-ytd-table] tbody') as Element
+  const fondosSelect = document.querySelector('#fondos-select') as HTMLSelectElement
+  poblateTable()
+
+  fondosSelect.addEventListener('change', (event) => {
+    const newFondo = (event.target as HTMLSelectElement)?.value as typeof fondo
+    fondo = newFondo
+    poblateTable()
+  })
+
+  function poblateTable() {
+    const afps = getAfpsSortedByFondo()
+    const bestAfp = afps[0]
+    span.textContent = bestAfp.name
+    const fragment = document.createDocumentFragment()
+    for (const {name, value} of afps) {
+      const tableRow = document.createElement('tr')
+      const tableNameData = document.createElement('td')
+      const tableValueData = document.createElement('td')
+      tableNameData.textContent = name
+      tableValueData.textContent = value.toString().padEnd(4, '0') + '%'
+      const color = getColor(10, -10, value)
+      tableNameData.style.setProperty('border-left', `4px solid ${color}`)
+      tableValueData.style.setProperty('text-align', 'center')
+      tableValueData.style.setProperty('border-right', `4px solid ${color}`)
+      tableValueData.style.setProperty('border-left', `4px solid ${color}`)
+      tableRow.appendChild(tableNameData)
+      tableRow.appendChild(tableValueData)
+      fragment.appendChild(tableRow)
+    }
+    tableBody.replaceChildren(fragment)
+  }
+  function getAfpsSortedByFondo() {
+    const afpEntries = Object.entries(jsonData)
+    return afpEntries
+      .map(([afpName, fondos]) => ({ name: afpName, value: fondos[fondo].ytd }))
+      .sort(({value: value1}, {value: value2}) => value2 - value1)
+  }
+</script>

@@ -1,9 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import BestAFPByComition from '@/components/BestAFPByComition.astro';
+import BestAfpByYTD from '@/components/BestAfpByYTD.astro';
+import BestAFPByPeriod from '@/components/BestAFPByPeriod.astro';
 ---
 
 <Layout>
 	<main>
-    <p>Mira los <a href="/data">datos</a> y descubre nuestra <a href="/mision">misión</a></p>
+		<BestAfpByYTD />
+    <BestAFPByPeriod />
+    <BestAFPByComition />
 	</main>
 </Layout>

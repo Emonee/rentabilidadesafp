@@ -1,21 +1,24 @@
 ---
 import Layout from '@/layouts/Layout.astro';
 import Anual from '@/components/Anual.astro'
-import Comitions from '@/components/Comitions.astro'
 import Ytd from '@/components/Ytd.astro'
 import Acc from '@/components/Acc.astro'
+import Super from '@/components/Super.astro'
 ---
 
 <Layout>
 	<main>
-    <h2>Rentabilidad histórica anual <small style="font-size: 14px">(Más es mejor)</small></h2>
+    <h2>Rentabilidad real histórica <small style="font-size: 14px">(Más es mejor)</small></h2>
+    <p>Es el acumulado mes a mes de cada AFP.</p>
+    <Super />
+    <h2>Rentabilidad real histórica anual <small style="font-size: 14px">(Más es mejor)</small></h2>
+    <p>Lo que han rentado las AFP cada año.</p>
     <Anual />
-    <h2>Anual acumulado a la fecha<a href="#last-data" style="text-decoration: none">*</a> <small style="font-size: 14px">(Más es mejor)</h2>
+    <h2>Rentabilidad anual acumulada a la fecha<a href="#last-data" style="text-decoration: none">*</a> <small style="font-size: 14px">(Más es mejor)</h2>
+    <p>Taqmbién conocido como Year To Date.</p>
     <Ytd />
-    <h2>Acumulado últimos 12 meses<a href="#last-data" style="text-decoration: none">*</a> <small style="font-size: 14px">(Más es mejor)</h2>
+    <h2>Rentabilidad real últimos 12 meses<a href="#last-data" style="text-decoration: none">*</a> <small style="font-size: 14px">(Más es mejor)</h2>
     <Acc />
-    <h2>Comisiones<a href="#last-data" style="text-decoration: none">*</a> <small style="font-size: 14px">(Menos es mejor)</h2>
-    <Comitions />
     <p id="last-data">* Datos actualizados a Junio del 2024.</p>
 	</main>
 </Layout>

@@ -3,7 +3,7 @@ import Header from '@/components/Header.astro'
 ---
 
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="description" content="Rentabilidades AFP" />
@@ -22,6 +22,10 @@ import Header from '@/components/Header.astro'
 </html>
 
 <style is:global>
+	p, ul {
+    max-width: 800px;
+  }
+
   .chart-container {
     max-width: 1000px;
   }
