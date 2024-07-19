@@ -1,0 +1,79 @@
+---
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout>
+  <main>
+    <article>
+      <p><a href="#afp-title">AFP</a></p>
+      <p><a href="#inversion-title">Inversión</a></p>
+      <p><a href="#rentabilidad-title">Rentabilidad</a></p>
+    </article>
+    <hr>
+    <h3 id="afp-title">AFP</h3>
+    <p>
+      Una AFP, o <b>A</b>dministradora de <b>F</b>ondos de <b>P</b>ensiones, es una institución financiera privada encargada
+      de administrar los fondos de pensiones de los trabajadores afiliados al sistema de pensiones. Las AFP
+      tienen como objetivo gestionar y rentabilizar los ahorros previsionales obligatorios y voluntarios de
+      sus afiliados, con el fin de proporcionarles una pensión al momento de su jubilación.
+    </p>
+    <p>Las principales funciones de las AFP incluyen:</p>
+    <ul>
+      <li>Recaudación de Cotizaciones: Recibir las cotizaciones previsionales de los trabajadores y sus empleadores.</li>
+      <li>Inversión de Fondos: Invertir los fondos acumulados en diversos instrumentos financieros, tanto nacionales como internacionales, para obtener rentabilidad.</li>
+      <li>Gestión de Cuentas Individuales: Llevar el registro y administración de las cuentas individuales de los afiliados, donde se registran sus aportes y la rentabilidad obtenida.</li>
+      <li>Pago de Pensiones: Pagar las pensiones a los afiliados que han cumplido los requisitos para jubilarse, ya sea por vejez, invalidez o sobrevivencia.</li>
+    </ul>
+    <p>El sistema de AFP fue implementado en Chile en 1981 como parte de una reforma previsional, reemplazando al anterior sistema de reparto.</p>
+    <hr>
+    <h3 id="inversion-title">Inversión</h3>
+    <p>
+      Una inversión es la acción de destinar recursos, generalmente dinero, con el objetivo de obtener una
+      ganancia o beneficio en el futuro. Las inversiones pueden realizarse en diversos instrumentos financieros
+      como acciones, bonos, bienes raíces, empresas, entre otros. El propósito principal de una inversión
+      es incrementar el valor del capital inicial a lo largo del tiempo.
+    </p>
+    <p>Las características principales de una inversión incluyen:</p>
+    <ul>
+      <li>Riesgo: La posibilidad de que la inversión no genere los beneficios esperados o incluso que se pierda parte del capital invertido.</li>
+      <li>Retorno: El beneficio obtenido de la inversión, el cual puede ser en forma de ganancias de capital, intereses, dividendos, o ingresos por alquiler.</li>
+      <li>Horizonte de tiempo: El período durante el cual se espera que la inversión genere rendimientos.</li>
+      <li>Liquidez: La facilidad con la que una inversión puede convertirse en efectivo sin afectar su valor.</li>
+    </ul>
+    <hr>
+    <h3 id="rentabilidad-title">Rentabilidad</h3>
+    <p>
+      La rentabilidad es una medida del rendimiento que se obtiene de una inversión, expresada
+      generalmente como un porcentaje del capital invertido. Indica cuánto ha crecido (o disminuido)
+      el valor de la inversión en un período específico.
+    </p>
+    <p>Los aspectos importantes de la rentabilidad incluyen:</p>
+    <ul>
+      <li>Rentabilidad nominal: La tasa de retorno obtenida sin ajustar por la inflación.</li>
+      <li>Rentabilidad real: La tasa de retorno ajustada por la inflación, proporcionando una visión más precisa del poder adquisitivo de los rendimientos.</li>
+    </ul>
+    <p>
+      La rentabilidad es un factor crucial en la toma de decisiones de inversión, ya que permite a los
+      inversores evaluar y comparar el rendimiento potencial de diferentes oportunidades.
+    </p>
+  </main>
+</Layout>
+
+<style>
+  article {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    justify-content: space-around;
+    gap: 2rem;
+  }
+
+  article p {
+    margin: 0;
+  }
+
+  h3 {
+    scroll-margin-top: var(--pico-typography-spacing-top);
+  }
+</style>

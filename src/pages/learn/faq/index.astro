@@ -1,0 +1,44 @@
+---
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout>
+  <main>
+    <h2>Preguntas frecuentes</h2>
+    <article style="max-width: 800px;">
+      <details>
+        <summary><h5 style="margin: 0; display: inline;">¿Ahorraré más en una AFP con menor comisión?</h5></summary>
+        <p>
+          No, al menos no dentro del sistema. La comisión de las AFP actua sobre el salario imponible y no sobre
+          el ahorro obligatorio. Hagamos un ejercicio con números simples para verlo mejor:
+        </p>
+        <ul>
+          <li>Sueldo imponible: $100.000</li>
+          <li>Comisión AFP A: 1%</li>
+          <li>Comisión AFP B: 2%</li>
+          <li>Ahorro obligatorio: 10%</li>
+        </ul>
+        <p>
+          Como el ahorro obligatorio es del 10% no importa en qué AFP estés, pues siempre del sueldo imponible se
+          descontarán $10.000 equivalente a ese 10%. Sin embargo, AFP A te descontará $1.000 de tu sueldo imponible
+          en parte de comisión, mientras que AFP B te descontará $2.000. Esto solo afectará a tu sueldo líquido
+          (el que va directo a tu bolsillo) por lo que si estás en AFP B, y te cambias a AFP A, tu sueldo líquido
+          aumentaría en $1.000.
+        </p>
+      </details>
+      <!-- <hr> -->
+    </article>
+  </main>
+</Layout>
+
+<style>
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  summary::after {
+    margin-inline-start: unset
+  }
+</style>
