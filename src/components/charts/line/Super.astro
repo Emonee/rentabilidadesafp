@@ -11,6 +11,7 @@
 </article>
 
 <script>
+import { HISTORICAL_DATA_FILE_ROUTE } from "@/consts/data"
 import { Chart, type ChartDataset } from "chart.js"
 
 let chart: Chart | null = null
@@ -34,7 +35,7 @@ document.querySelector<HTMLSelectElement>('#fondo2')?.addEventListener('change',
 })
 async function generateChart() {
   if (!content) {
-    const superRes = await fetch('/super.csv')
+    const superRes = await fetch(HISTORICAL_DATA_FILE_ROUTE.route)
     const text = await superRes.text()
     content = text.split('\n')
     content.shift()?.split(',')

@@ -8,4 +8,3 @@ export const COLOR_BY_AFP = {
   "PROVIDA": 'purple',
   "UNO": 'brown'
 }
-

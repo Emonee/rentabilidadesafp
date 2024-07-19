@@ -1,5 +1,5 @@
 import Chart from 'chart.js/auto'
-import anualData from '../json_data/anual.json'
+import anualData from '../../json_data/anual.json'
 
 let fondo: 'A' | 'B' | 'C' | 'D' | 'E' = 'A'
 const firstYear = 2005

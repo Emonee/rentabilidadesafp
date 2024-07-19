@@ -98,8 +98,9 @@
   <ul data-out-of-period-afp></ul>
 </div>
 <script>
-import { getColor } from "@/lib/nums"
-import { getRetability } from "@/lib/nums"
+import { HISTORICAL_DATA_FILE_ROUTE } from "@/consts/data"
+import { getColor } from "@/lib/utilities/nums"
+import { getRetability } from "@/lib/utilities/nums"
 
   const AFPS = ['UNO', 'MODELO', 'PLANVITAL', 'HABITAT', 'CAPITAL', 'CUPRUM', 'PROVIDA', 'SISTEMA']
   const tableBody = document.querySelector('table[data-best-afp-by-period-table] tbody')
@@ -136,7 +137,7 @@ import { getRetability } from "@/lib/nums"
 
   async function getCsv () {
     if (csvData) return
-    return fetch('/super.csv')
+    return fetch(HISTORICAL_DATA_FILE_ROUTE.route)
       .then(res => res.text())
       .then(text => csvData = text)
   }
