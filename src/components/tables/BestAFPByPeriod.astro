@@ -102,105 +102,105 @@ import { HISTORICAL_DATA_FILE_ROUTE } from "@/consts/data"
 import { getColor } from "@/lib/utilities/nums"
 import { getRetability } from "@/lib/utilities/nums"
 
-  const AFPS = ['UNO', 'MODELO', 'PLANVITAL', 'HABITAT', 'CAPITAL', 'CUPRUM', 'PROVIDA', 'SISTEMA']
-  const tableBody = document.querySelector('table[data-best-afp-by-period-table] tbody')
-  const outOfPeriodAfspUl = document.querySelector('ul[data-out-of-period-afp]') as HTMLUListElement
-  const form = document.querySelector<HTMLFormElement>('#period-ranking-form')
-  const monthFromSelect = document.querySelector<HTMLSelectElement>('select[name="monthFrom"]')
-  const yearFromSelect = document.querySelector<HTMLSelectElement>('select[name="yearFrom"]')
-  const monthToSelect = document.querySelector<HTMLSelectElement>('select[name="monthTo"]')
-  const yearToSelect = document.querySelector<HTMLSelectElement>('select[name="yearTo"]')
-  const outOfPeriodContainer = document.querySelector<HTMLDivElement>('div[data-out-of-period-container]')
-  const now = new Date()
-  const threeYearsBefore = new Date()
+const AFPS = ['UNO', 'MODELO', 'PLANVITAL', 'HABITAT', 'CAPITAL', 'CUPRUM', 'PROVIDA', 'SISTEMA']
+const tableBody = document.querySelector('table[data-best-afp-by-period-table] tbody')
+const outOfPeriodAfspUl = document.querySelector('ul[data-out-of-period-afp]') as HTMLUListElement
+const form = document.querySelector<HTMLFormElement>('#period-ranking-form')
+const monthFromSelect = document.querySelector<HTMLSelectElement>('select[name="monthFrom"]')
+const yearFromSelect = document.querySelector<HTMLSelectElement>('select[name="yearFrom"]')
+const monthToSelect = document.querySelector<HTMLSelectElement>('select[name="monthTo"]')
+const yearToSelect = document.querySelector<HTMLSelectElement>('select[name="yearTo"]')
+const outOfPeriodContainer = document.querySelector<HTMLDivElement>('div[data-out-of-period-container]')
+const now = new Date()
+const threeYearsBefore = new Date()
 
-  let selectedFound = 'A'
-  let csvData: string
+let selectedFound = 'A'
+let csvData: string
 
-  threeYearsBefore.setFullYear(threeYearsBefore.getFullYear() - 3)
-  threeYearsBefore.setMonth(threeYearsBefore.getMonth() + 1)
-  if (monthFromSelect) monthFromSelect.value = (threeYearsBefore.getMonth() + 1).toString().padStart(2, '0')
-  if (yearFromSelect) yearFromSelect.value = threeYearsBefore.getFullYear().toString()
-  if (monthToSelect) monthToSelect.value = (now.getMonth() + 1).toString().padStart(2, '0')
-  if (yearToSelect) yearToSelect.value = now.getFullYear().toString()
+threeYearsBefore.setFullYear(threeYearsBefore.getFullYear() - 3)
+threeYearsBefore.setMonth(threeYearsBefore.getMonth() + 1)
+if (monthFromSelect) monthFromSelect.value = (threeYearsBefore.getMonth() + 1).toString().padStart(2, '0')
+if (yearFromSelect) yearFromSelect.value = threeYearsBefore.getFullYear().toString()
+if (monthToSelect) monthToSelect.value = (now.getMonth() + 1).toString().padStart(2, '0')
+if (yearToSelect) yearToSelect.value = now.getFullYear().toString()
 
 
-  form?.addEventListener('submit', (event) => {
-    event.preventDefault()
-    const { found } = Object.fromEntries(new FormData(event.target as HTMLFormElement))
-    selectedFound = found as string
-    renderTable()
-  })
-
-  await getCsv()
+form?.addEventListener('submit', (event) => {
+  event.preventDefault()
+  const { found } = Object.fromEntries(new FormData(event.target as HTMLFormElement))
+  selectedFound = found as string
   renderTable()
+})
 
-  async function getCsv () {
-    if (csvData) return
-    return fetch(HISTORICAL_DATA_FILE_ROUTE.route)
-      .then(res => res.text())
-      .then(text => csvData = text)
+await getCsv()
+renderTable()
+
+async function getCsv () {
+  if (csvData) return
+  return fetch(HISTORICAL_DATA_FILE_ROUTE.route)
+    .then(res => res.text())
+    .then(text => csvData = text)
+}
+function renderTable() {
+  const { afpsOutOfPeriod, data } = buildRankingData(selectedFound)
+  renderAfpsOutOfPeriod(afpsOutOfPeriod)
+  const fragment = document.createDocumentFragment()
+  for (const [name, value] of data) {
+    const tableRow = document.createElement('tr')
+    const tableNameData = document.createElement('td')
+    const tableValueData = document.createElement('td')
+    tableNameData.textContent = name
+    tableValueData.textContent = value.toString().padEnd(4, '0') + '%'
+    const color = getColor(100, -100, value, false, true)
+    tableNameData.style.setProperty('border-left', `4px solid ${color}`)
+    tableValueData.style.setProperty('text-align', 'center')
+    tableValueData.style.setProperty('border-right', `4px solid ${color}`)
+    tableValueData.style.setProperty('border-left', `4px solid ${color}`)
+    tableRow.appendChild(tableNameData)
+    tableRow.appendChild(tableValueData)
+    fragment.appendChild(tableRow)
   }
-  function renderTable() {
-    const { afpsOutOfPeriod, data } = buildRankingData(selectedFound)
-    renderAfpsOutOfPeriod(afpsOutOfPeriod)
-    const fragment = document.createDocumentFragment()
-    for (const [name, value] of data) {
-      const tableRow = document.createElement('tr')
-      const tableNameData = document.createElement('td')
-      const tableValueData = document.createElement('td')
-      tableNameData.textContent = name
-      tableValueData.textContent = value.toString().padEnd(4, '0') + '%'
-      const color = getColor(100, -100, value, false, true)
-      tableNameData.style.setProperty('border-left', `4px solid ${color}`)
-      tableValueData.style.setProperty('text-align', 'center')
-      tableValueData.style.setProperty('border-right', `4px solid ${color}`)
-      tableValueData.style.setProperty('border-left', `4px solid ${color}`)
-      tableRow.appendChild(tableNameData)
-      tableRow.appendChild(tableValueData)
-      fragment.appendChild(tableRow)
+  tableBody?.replaceChildren(fragment)
+}
+function renderAfpsOutOfPeriod(afpsOutOfPeriod: Set<string>) {
+  if (!afpsOutOfPeriod.size) return outOfPeriodContainer?.style.setProperty('display', 'none')
+  outOfPeriodContainer?.style.removeProperty('display')
+  outOfPeriodAfspUl.innerHTML = ''
+  for (const afpName of afpsOutOfPeriod) {
+    const li = document.createElement('li')
+    li.textContent = afpName
+    outOfPeriodAfspUl.appendChild(li)
+  }
+}
+function buildRankingData(rankingFound: string) {
+  const content = csvData.split('\n')
+  content.shift()?.split(',')
+  const date1 = yearMonthToDate(yearFromSelect?.value, monthFromSelect?.value)
+  const date2 = yearMonthToDate(yearToSelect?.value, monthToSelect?.value)
+  const fromDate = date1 < date2 ? date1 : date2
+  const toDate = date1 < date2 ? date2 : date1
+  const afpsOutOfPeriod: Set<string> = new Set()
+  const acc: { [key: string]: Array<number> } = {}
+  for (const row of content) {
+    const [afpName, month, year, found, rentability] = row.split(',')
+    const date = new Date(`${year}-${month}-02`)
+    if (date < fromDate || date > toDate || found !== rankingFound || !AFPS.includes(afpName) || afpsOutOfPeriod.has(afpName)) continue
+    if (rentability === '\r' || (!acc[afpName] && date > fromDate)) {
+      afpsOutOfPeriod.add(afpName)
+      continue
     }
-    tableBody?.replaceChildren(fragment)
+    acc[afpName] ||= []
+    acc[afpName].push(+rentability)
   }
-  function renderAfpsOutOfPeriod(afpsOutOfPeriod: Set<string>) {
-    if (!afpsOutOfPeriod.size) return outOfPeriodContainer?.style.setProperty('display', 'none')
-    outOfPeriodContainer?.style.removeProperty('display')
-    outOfPeriodAfspUl.innerHTML = ''
-    for (const afpName of afpsOutOfPeriod) {
-      const li = document.createElement('li')
-      li.textContent = afpName
-      outOfPeriodAfspUl.appendChild(li)
-    }
-  }
-  function buildRankingData(rankingFound: string) {
-    const content = csvData.split('\n')
-    content.shift()?.split(',')
-    const date1 = yearMonthToDate(yearFromSelect?.value, monthFromSelect?.value)
-    const date2 = yearMonthToDate(yearToSelect?.value, monthToSelect?.value)
-    const fromDate = date1 < date2 ? date1 : date2
-    const toDate = date1 < date2 ? date2 : date1
-    const afpsOutOfPeriod: Set<string> = new Set()
-    const acc: { [key: string]: Array<number> } = {}
-    for (const row of content) {
-      const [afpName, month, year, found, rentability] = row.split(',')
-      const date = new Date(`${year}-${month}-02`)
-      if (date < fromDate || date > toDate || found !== rankingFound || !AFPS.includes(afpName) || afpsOutOfPeriod.has(afpName)) continue
-      if (rentability === '\r' || (!acc[afpName] && date > fromDate)) {
-        afpsOutOfPeriod.add(afpName)
-        continue
-      }
-      acc[afpName] ||= []
-      acc[afpName].push(+rentability)
-    }
-    for (const afpName of afpsOutOfPeriod) delete acc[afpName]
-    const data = Object
-      .entries(acc)
-      .map<[string, number]>(([afpName, rentabilities]) => [afpName, getRetability(rentabilities)])
-      .sort(([, renta1], [, renta2]) => renta2 - renta1)
-    return { data, afpsOutOfPeriod }
-  }
-  function yearMonthToDate(year?: string, month?: string) {
-    if (!year || !month) throw new TypeError()
-    return new Date(`${year}-${month}-02`)
-  }
+  for (const afpName of afpsOutOfPeriod) delete acc[afpName]
+  const data = Object
+    .entries(acc)
+    .map<[string, number]>(([afpName, rentabilities]) => [afpName, getRetability(rentabilities)])
+    .sort(([, renta1], [, renta2]) => renta2 - renta1)
+  return { data, afpsOutOfPeriod }
+}
+function yearMonthToDate(year?: string, month?: string) {
+  if (!year || !month) throw new TypeError()
+  return new Date(`${year}-${month}-02`)
+}
 </script>

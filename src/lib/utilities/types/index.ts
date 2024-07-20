@@ -1,1 +1,1 @@
-export type Fondo = 'A' | 'B' | 'C' | 'D' | 'E'
+export type Found = 'A' | 'B' | 'C' | 'D' | 'E'

@@ -20,3 +20,18 @@ export function getRetability(rentabilities: number[]) {
   const rentabilityPercent = acc.minus(1).times(100)
   return rentabilityPercent.toDecimalPlaces(3).toNumber()
 }
+
+export function calculateAccumulatedRentability(rentabilities: Array<number | null>): Array<number | null> {
+  const accumulatedRentabilities: Array<number | null> = [];
+  let accumulatedValue = new Decimal(0);
+  for (const rentability of rentabilities) {
+    if (rentability == null) {
+      accumulatedRentabilities.push(rentability)
+      continue
+    }
+    const decimalRentability = new Decimal(rentability)
+    accumulatedValue = accumulatedValue.plus(accumulatedValue.times(decimalRentability.div(100)).plus(decimalRentability));
+    accumulatedRentabilities.push(accumulatedValue.toDecimalPlaces(3).toNumber());
+  }
+  return accumulatedRentabilities;
+}

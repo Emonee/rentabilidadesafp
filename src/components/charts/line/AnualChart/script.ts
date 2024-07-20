@@ -1,6 +1,6 @@
 import { BaseChart } from "@/components/charts/base/base";
 import anualData from '@/json_data/anual.json'
-import type { Fondo } from '@/lib/utilities/types/index'
+import type { Found } from '@/lib/utilities/types/index'
 import { ZERO_LINE_PLUGIN } from "@/consts/charts";
 
 const actualYear = new Date().getFullYear()
@@ -32,11 +32,11 @@ export class AnnualChart extends BaseChart {
       plugins: [ZERO_LINE_PLUGIN]
     })
     this.querySelector<HTMLSelectElement>('select')?.addEventListener('change', (event) => {
-      const newSelectedFondo = (event.target as HTMLSelectElement)?.value as Fondo
+      const newSelectedFondo = (event.target as HTMLSelectElement)?.value as Found
       this.updateDatasets(this.generateData(newSelectedFondo))
     })
   }
-  generateData(found: Fondo) {
+  generateData(found: Found) {
     const datasets = Object.entries(anualData).map(([name, data]) => {
       const firstYearAfp = Object.keys(data)[0]
       const yearDiff = +firstYearAfp - firstYear

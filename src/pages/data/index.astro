@@ -1,19 +1,19 @@
 ---
 import Layout from '@/layouts/Layout.astro';
-import Anual from '@/components/articles/AnualArticle.astro'
+import AnnualArticle from '@/components/articles/AnnualArticle.astro'
 import Ytd from '@/components/charts/bar/Ytd.astro'
 import Acc from '@/components/charts/bar/Acc.astro'
-import Super from '@/components/charts/line/Super.astro'
+import HistoricalArticle from '@/components/articles/HistoricalArticle.astro';
 ---
 
 <Layout>
 	<main>
     <h2>Rentabilidad real histórica <small style="font-size: 14px">(Más es mejor)</small></h2>
     <p>Es el acumulado mes a mes de cada AFP.</p>
-    <Super />
+    <HistoricalArticle />
     <h2>Rentabilidad real histórica anual <small style="font-size: 14px">(Más es mejor)</small></h2>
     <p>Lo que han rentado las AFP cada año.</p>
-    <Anual />
+    <AnnualArticle />
     <h2>Rentabilidad anual acumulada a la fecha<a href="#last-data" style="text-decoration: none">*</a> <small style="font-size: 14px">(Más es mejor)</h2>
     <p>Taqmbién conocido como Year To Date.</p>
     <Ytd />
