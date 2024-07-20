@@ -1,0 +1,1 @@
+export type Fondo = 'A' | 'B' | 'C' | 'D' | 'E'

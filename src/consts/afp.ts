@@ -8,3 +8,10 @@ export const COLOR_BY_AFP = {
   "PROVIDA": 'purple',
   "UNO": 'brown'
 }
+export const FONDOS = [
+  { name: 'A', description: '' },
+  { name: 'B', description: '' },
+  { name: 'C', description: '' },
+  { name: 'D', description: '' },
+  { name: 'E', description: '' },
+]
