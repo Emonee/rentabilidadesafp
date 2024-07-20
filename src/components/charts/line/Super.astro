@@ -104,8 +104,8 @@ async function generateChart() {
 function generateDataset(): ChartDataset[] {
   const datasets: { [key: string]: Array<number | null> } = {};
   for (const line of content) {
-    const [afpName, month, year, fondo, rentability] = line.split(',');
-    if (fondo !== selectedFondo) continue
+    const [afpName, month, year, found, rentability] = line.split(',');
+    if (found !== selectedFondo) continue
     datasets[afpName] ||= []
     const index = labels.indexOf(`${year}-${month}`)
     if (index < 0) continue

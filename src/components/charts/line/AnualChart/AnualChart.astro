@@ -1,12 +1,7 @@
 ---
 import FondosSelect from '@/components/forms/selects/FondosSelect.astro'
-
-interface Props {
-  defaultFondo?: string
-}
-const { defaultFondo = 'A' } = Astro.props
 ---
-<annual-chart fondo={defaultFondo}>
-  <FondosSelect defaultSelected={defaultFondo} />
+<annual-chart>
+  <FondosSelect />
 </annual-chart>
 <script src="./script.ts"></script>

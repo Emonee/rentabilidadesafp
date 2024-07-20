@@ -2,7 +2,7 @@
 <p>Corresponde al raking por rentabilidad real acumulada desde el periodo y fondo seleccionado.</p>
 <p><b>Fondo a visualizar:</b></p>
 <form id="period-ranking-form" style="max-width: 500px;">
-  <select name="fondo" style="max-width: 200px;">
+  <select name="found" style="max-width: 200px;">
     <option value="A">A</option>
     <option value="B">B</option>
     <option value="C">C</option>
@@ -127,8 +127,8 @@ import { getRetability } from "@/lib/utilities/nums"
 
   form?.addEventListener('submit', (event) => {
     event.preventDefault()
-    const { fondo } = Object.fromEntries(new FormData(event.target as HTMLFormElement))
-    selectedFound = fondo as string
+    const { found } = Object.fromEntries(new FormData(event.target as HTMLFormElement))
+    selectedFound = found as string
     renderTable()
   })
 
@@ -172,7 +172,7 @@ import { getRetability } from "@/lib/utilities/nums"
       outOfPeriodAfspUl.appendChild(li)
     }
   }
-  function buildRankingData(found: string) {
+  function buildRankingData(rankingFound: string) {
     const content = csvData.split('\n')
     content.shift()?.split(',')
     const date1 = yearMonthToDate(yearFromSelect?.value, monthFromSelect?.value)
@@ -182,9 +182,9 @@ import { getRetability } from "@/lib/utilities/nums"
     const afpsOutOfPeriod: Set<string> = new Set()
     const acc: { [key: string]: Array<number> } = {}
     for (const row of content) {
-      const [afpName, month, year, fondo, rentability] = row.split(',')
+      const [afpName, month, year, found, rentability] = row.split(',')
       const date = new Date(`${year}-${month}-02`)
-      if (date < fromDate || date > toDate || fondo !== found || !AFPS.includes(afpName) || afpsOutOfPeriod.has(afpName)) continue
+      if (date < fromDate || date > toDate || found !== rankingFound || !AFPS.includes(afpName) || afpsOutOfPeriod.has(afpName)) continue
       if (rentability === '\r' || (!acc[afpName] && date > fromDate)) {
         afpsOutOfPeriod.add(afpName)
         continue

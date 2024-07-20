@@ -15,15 +15,15 @@
 <script>
   import jsonData from '@/json_data/ytd_acc.json'
   import { getColor } from '@/lib/utilities/nums'
-  let fondo: 'A' | 'B' | 'C' | 'D' | 'E' = 'A'
+  let found: 'A' | 'B' | 'C' | 'D' | 'E' = 'A'
   const span = document.querySelector('span[data-best-afp-by-ytd-span]') as Element
   const tableBody = document.querySelector('table[data-best-afp-by-ytd-table] tbody') as Element
   const fondosSelect = document.querySelector('#fondos-select') as HTMLSelectElement
   poblateTable()
 
   fondosSelect.addEventListener('change', (event) => {
-    const newFondo = (event.target as HTMLSelectElement)?.value as typeof fondo
-    fondo = newFondo
+    const newFondo = (event.target as HTMLSelectElement)?.value as typeof found
+    found = newFondo
     poblateTable()
   })
 
@@ -52,7 +52,7 @@
   function getAfpsSortedByFondo() {
     const afpEntries = Object.entries(jsonData)
     return afpEntries
-      .map(([afpName, fondos]) => ({ name: afpName, value: fondos[fondo].ytd }))
+      .map(([afpName, fondos]) => ({ name: afpName, value: fondos[found].ytd }))
       .sort(({value: value1}, {value: value2}) => value2 - value1)
   }
 </script>
