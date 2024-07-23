@@ -98,7 +98,7 @@
   <ul data-out-of-period-afp></ul>
 </div>
 <script>
-import { HISTORICAL_DATA_FILE_ROUTE } from "@/consts/data"
+import { getHistoricalDataCsvString } from "@/lib/client/fetch"
 import { getColor } from "@/lib/utilities/nums"
 import { getRetability } from "@/lib/utilities/nums"
 
@@ -113,9 +113,9 @@ const yearToSelect = document.querySelector<HTMLSelectElement>('select[name="yea
 const outOfPeriodContainer = document.querySelector<HTMLDivElement>('div[data-out-of-period-container]')
 const now = new Date()
 const threeYearsBefore = new Date()
+const csvData = await getHistoricalDataCsvString()
 
 let selectedFound = 'A'
-let csvData: string
 
 threeYearsBefore.setFullYear(threeYearsBefore.getFullYear() - 3)
 threeYearsBefore.setMonth(threeYearsBefore.getMonth() + 1)
@@ -132,15 +132,8 @@ form?.addEventListener('submit', (event) => {
   renderTable()
 })
 
-await getCsv()
 renderTable()
 
-async function getCsv () {
-  if (csvData) return
-  return fetch(HISTORICAL_DATA_FILE_ROUTE.route)
-    .then(res => res.text())
-    .then(text => csvData = text)
-}
 function renderTable() {
   const { afpsOutOfPeriod, data } = buildRankingData(selectedFound)
   renderAfpsOutOfPeriod(afpsOutOfPeriod)
