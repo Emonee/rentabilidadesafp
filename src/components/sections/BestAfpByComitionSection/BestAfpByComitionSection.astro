@@ -1,0 +1,11 @@
+---
+import BestAFPByComitionTable from "@/components/tables/BestAFPByComitionTable.astro"
+import jsonData from '@/json_data/comitions.json'
+
+const sortedAfps = Object.entries(jsonData).sort(([, comition1], [, comition2]) => comition1 - comition2)
+const bestAfpName = sortedAfps[0][0]
+---
+
+<h2>Mejor AFP por comisión: {bestAfpName}</h2>
+<p>La AFP que menos saca de tu sueldo.</p>
+<BestAFPByComitionTable sortedAfps={sortedAfps} />

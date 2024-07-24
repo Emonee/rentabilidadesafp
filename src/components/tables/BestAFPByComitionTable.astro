@@ -1,0 +1,26 @@
+---
+import { getColor } from '@/lib/utilities/nums'
+
+interface Props {
+  sortedAfps: [string, number][]
+}
+const { sortedAfps } = Astro.props
+const bestAfpComition = sortedAfps[0][1]
+const worstAfpComition = sortedAfps[sortedAfps.length - 1][1]
+---
+
+<table style="max-width: 500px;">
+  <tbody>
+    {sortedAfps.map(([name, comition]) => {
+      const color = getColor(bestAfpComition, worstAfpComition, comition, true)
+      return (
+        <tr>
+          <td style={`border-left: 4px solid ${color};`}>{name}</td>
+          <td style={`text-align: center; border-right: 4px solid ${color}; border-left: 4px solid ${color};`}>
+            {comition.toString() + '%'}
+          </td>
+        </tr>
+      )
+    })}
+  </tbody>
+</table>
