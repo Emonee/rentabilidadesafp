@@ -1,6 +1,12 @@
 import { Decimal } from 'decimal.js'
 
-export function getColor(bestValue: number, worstValue: number, actualValue: number, lessIsBetter = false, avoidWhite = false) {
+export function getColor (
+  bestValue: number,
+  worstValue: number,
+  actualValue: number,
+  lessIsBetter = false,
+  avoidWhite = false
+) {
   const avarageValue = (bestValue + worstValue) / 2
   if (actualValue === avarageValue) return 'white'
   const condition = lessIsBetter ? actualValue < avarageValue : actualValue > avarageValue
@@ -14,24 +20,25 @@ export function getColor(bestValue: number, worstValue: number, actualValue: num
 }
 
 // (1+r1) × (1+r2) ×…× (1+rn) − 1
-export function getRetability(rentabilities: number[]) {
+export function getRetability (rentabilities: number[]) {
   let acc = new Decimal(1)
   for (const rentability of rentabilities) acc = acc.times(new Decimal(rentability).div(100).add(1))
   const rentabilityPercent = acc.minus(1).times(100)
   return rentabilityPercent.toDecimalPlaces(3).toNumber()
 }
 
-export function calculateAccumulatedRentability(rentabilities: Array<number | null>): Array<number | null> {
-  const accumulatedRentabilities: Array<number | null> = [];
-  let accumulatedValue = new Decimal(0);
+export function calculateAccumulatedRentability (rentabilities: Array<number | null>): Array<number | null> {
+  const accumulatedRentabilities: Array<number | null> = []
+  let accumulatedValue = new Decimal(0)
   for (const rentability of rentabilities) {
     if (rentability == null) {
       accumulatedRentabilities.push(rentability)
       continue
     }
     const decimalRentability = new Decimal(rentability)
-    accumulatedValue = accumulatedValue.plus(accumulatedValue.times(decimalRentability.div(100)).plus(decimalRentability));
-    accumulatedRentabilities.push(accumulatedValue.toDecimalPlaces(3).toNumber());
+    accumulatedValue = accumulatedValue
+      .plus(accumulatedValue.times(decimalRentability.div(100)).plus(decimalRentability))
+    accumulatedRentabilities.push(accumulatedValue.toDecimalPlaces(3).toNumber())
   }
-  return accumulatedRentabilities;
+  return accumulatedRentabilities
 }

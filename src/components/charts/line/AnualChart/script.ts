@@ -1,13 +1,13 @@
-import { BaseChart } from "@/components/charts/base/base";
+import { BaseChart } from '@/components/charts/base/base'
 import anualData from '@/json_data/anual.json'
 import type { Found } from '@/lib/utilities/types/index'
-import { ZERO_LINE_PLUGIN } from "@/consts/charts";
+import { ZERO_LINE_PLUGIN } from '@/consts/charts'
 
 const actualYear = new Date().getFullYear()
 const firstYear = 2005
 
 export class AnnualChart extends BaseChart {
-  constructor() {
+  constructor () {
     super()
     const years = [...Array(actualYear - firstYear).keys()].map(i => firstYear + i)
     this.drawChart(this, {
@@ -36,7 +36,8 @@ export class AnnualChart extends BaseChart {
       this.updateDatasets(this.generateData(newSelectedFondo))
     })
   }
-  generateData(found: Found) {
+
+  generateData (found: Found) {
     const datasets = Object.entries(anualData).map(([name, data]) => {
       const firstYearAfp = Object.keys(data)[0]
       const yearDiff = +firstYearAfp - firstYear
@@ -49,4 +50,4 @@ export class AnnualChart extends BaseChart {
     return datasets
   }
 }
-customElements.define('annual-chart', AnnualChart);
+customElements.define('annual-chart', AnnualChart)

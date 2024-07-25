@@ -1,17 +1,17 @@
-import { ZERO_LINE_PLUGIN } from "@/consts/charts"
-import { type ChartDataset } from "chart.js"
-import { BaseChart } from "@/components/charts/base/base"
-import type { Found } from "@/lib/utilities/types"
-import { getHistoricalDataCsvString } from "@/lib/client/fetch"
-import { calculateAccumulatedRentability } from "@/lib/utilities/nums"
+import { ZERO_LINE_PLUGIN } from '@/consts/charts'
+import { type ChartDataset } from 'chart.js'
+import { BaseChart } from '@/components/charts/base/base'
+import type { Found } from '@/lib/utilities/types'
+import { getHistoricalDataCsvString } from '@/lib/client/fetch'
+import { calculateAccumulatedRentability } from '@/lib/utilities/nums'
 
 export class HistoricalChart extends BaseChart {
   labels: string[]
   historicalDataCsvString?: string
-  constructor() {
+  constructor () {
     super()
     this.labels = this.generateLabels()
-    this.getHistoricalData()
+    this.getHistoricalData().catch(() => {})
     this.drawChart(this, {
       type: 'line',
       options: {
@@ -57,11 +57,13 @@ export class HistoricalChart extends BaseChart {
       this.updateDatasets(this.generateDataset(newSelectedFondo))
     })
   }
+
   async getHistoricalData () {
     this.historicalDataCsvString = await getHistoricalDataCsvString()
     this.updateDatasets(this.generateDataset('A'))
   }
-  generateLabels() {
+
+  generateLabels () {
     const labels: string[] = []
     const firstYear = 2005
     const actualYear = new Date().getFullYear()
@@ -72,19 +74,26 @@ export class HistoricalChart extends BaseChart {
     }
     return labels
   }
-  generateDataset(selectFound: Found): ChartDataset[] {
+
+  generateDataset (selectFound: Found): ChartDataset[] {
     const content = this.historicalDataCsvString?.split('\n')
     if (!content) return []
-    const datasets: { [key: string]: Array<number | null> } = {};
+    const datasets: { [key: string]: Array<number | null> } = {}
     for (const line of content) {
-      const [afpName, month, year, found, rentability] = line.split(',');
+      const [afpName, month, year, found, rentability] = line.split(',')
       if (found !== selectFound) continue
       datasets[afpName] ||= []
       const index = this.labels.indexOf(`${year}-${month}`)
       if (index < 0) continue
       datasets[afpName][index] = rentability === '\r' ? null : +rentability
     }
-    return Object.entries(datasets).map(([label, data]) => ({ label, data: calculateAccumulatedRentability(data), tension: 0.2, pointRadius: 0, pointHoverRadius: 7 }))
+    return Object.entries(datasets).map(([label, data]) => ({
+      label,
+      data: calculateAccumulatedRentability(data),
+      tension: 0.2,
+      pointRadius: 0,
+      pointHoverRadius: 7
+    }))
   }
 }
-customElements.define('historical-chart', HistoricalChart);
+customElements.define('historical-chart', HistoricalChart)

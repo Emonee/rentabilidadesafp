@@ -3,10 +3,12 @@ import { FONDOS } from "@/consts/afp";
 
 interface Props {
   defaultSelected?: string;
+  id?: string
 }
-const { defaultSelected = 'A' } = Astro.props
+const { defaultSelected = 'A', id } = Astro.props
 ---
-<select style="max-width: 200px;">
+
+<select id={id} style="max-width: 200px;">
   {FONDOS.map(({ name }) => (
     <option value={name} selected={name === defaultSelected}>{name}</option>
   ))}

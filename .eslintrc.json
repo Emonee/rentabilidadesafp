@@ -1,0 +1,22 @@
+{
+  "extends": ["./node_modules/ts-standard/eslintrc.json"],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-misused-promises": "off",
+    "@typescript-eslint/strict-boolean-expressions": "off",
+    "max-len": ["error", { "code": 120 }],
+    "no-unused-vars": ["error", { "args": "after-used" }],
+    "no-console": "warn"
+  },
+  "overrides": [
+    {
+      "files": ["*.tsx"],
+      "rules": {
+        "max-lines": ["error", { "max": 150 }]
+      }
+    }
+  ]
+}
