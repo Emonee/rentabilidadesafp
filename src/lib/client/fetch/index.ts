@@ -1,7 +1,7 @@
 import { CACHE_HEADER_NAME, HISTORICAL_DATA_FILE_ROUTE } from '@/consts/data'
 import { getHistoricalDataCache } from '@/lib/client/cache'
 
-export async function getHistoricalDataCsvString () {
+export async function getHistoricalDataCsvString() {
   const { cache, cacheResponse } = await getHistoricalDataCache()
   if (!cacheResponse) {
     const res = await fetch(HISTORICAL_DATA_FILE_ROUTE.route)
@@ -12,9 +12,7 @@ export async function getHistoricalDataCsvString () {
       statusText: res.statusText,
       headers
     })
-    cache
-      .put(HISTORICAL_DATA_FILE_ROUTE.route, clonedResponse)
-      .catch(() => {})
+    cache.put(HISTORICAL_DATA_FILE_ROUTE.route, clonedResponse).catch(() => {})
     const text = await res.text()
     return text
   }

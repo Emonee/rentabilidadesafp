@@ -1,14 +1,14 @@
-import { ZERO_LINE_PLUGIN } from '@/consts/charts'
-import { type ChartDataset } from 'chart.js'
 import { BaseChart } from '@/components/charts/base/base'
-import type { Found } from '@/lib/utilities/types'
+import { ZERO_LINE_PLUGIN } from '@/consts/charts'
 import { getHistoricalDataCsvString } from '@/lib/client/fetch'
 import { calculateAccumulatedRentability } from '@/lib/utilities/nums'
+import type { Found } from '@/lib/utilities/types'
+import type { ChartDataset } from 'chart.js'
 
 export class HistoricalChart extends BaseChart {
   labels: string[]
   historicalDataCsvString?: string
-  constructor () {
+  constructor() {
     super()
     this.labels = this.generateLabels()
     this.getHistoricalData().catch(() => {})
@@ -52,33 +52,42 @@ export class HistoricalChart extends BaseChart {
       },
       plugins: [ZERO_LINE_PLUGIN]
     })
-    this.querySelector<HTMLSelectElement>('select')?.addEventListener('change', (event) => {
-      const newSelectedFondo = (event.target as HTMLSelectElement)?.value as Found
-      this.updateDatasets(this.generateDataset(newSelectedFondo))
-    })
+    this.querySelector<HTMLSelectElement>('select')?.addEventListener(
+      'change',
+      (event) => {
+        const newSelectedFondo = (event.target as HTMLSelectElement)
+          ?.value as Found
+        this.updateDatasets(this.generateDataset(newSelectedFondo))
+      }
+    )
   }
 
-  async getHistoricalData () {
+  async getHistoricalData() {
     this.historicalDataCsvString = await getHistoricalDataCsvString()
     this.updateDatasets(this.generateDataset('A'))
   }
 
-  generateLabels () {
+  generateLabels() {
     const labels: string[] = []
     const firstYear = 2005
     const actualYear = new Date().getFullYear()
-    const years = [...Array(actualYear - firstYear + 1).keys()].map(i => firstYear + i)
-    const months = [...Array(12).keys()].map(i => 1 + i)
+    const years = [...Array(actualYear - firstYear + 1).keys()].map(
+      (i) => firstYear + i
+    )
+    const months = [...Array(12).keys()].map((i) => 1 + i)
     for (const year of years) {
-      for (const month of months) labels.push(`${year}-${month.toString().padStart(2, '0')}`)
+      for (const month of months)
+        labels.push(`${year}-${month.toString().padStart(2, '0')}`)
     }
     return labels
   }
 
-  generateDataset (selectFound: Found): ChartDataset[] {
+  generateDataset(selectFound: Found): ChartDataset[] {
     const content = this.historicalDataCsvString?.split('\n')
     if (!content) return []
-    const datasets: { [key: string]: Array<number | null> } = {}
+    const datasets: {
+      [key: string]: Array<number | null>
+    } = {}
     for (const line of content) {
       const [afpName, month, year, found, rentability] = line.split(',')
       if (found !== selectFound) continue

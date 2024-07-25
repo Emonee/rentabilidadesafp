@@ -2,7 +2,7 @@ import type { Chart } from 'chart.js'
 
 export const ZERO_LINE_PLUGIN = {
   id: 'zeroLine', // Custom ID for the plugin
-  beforeDatasetsDraw (chart: Chart) {
+  beforeDatasetsDraw(chart: Chart) {
     const yScale = chart.scales.y
     const ctx = chart.ctx
     const yValue = yScale.getPixelForValue(0) // Get the pixel value for zero on the Y-axis

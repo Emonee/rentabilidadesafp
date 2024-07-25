@@ -5,7 +5,7 @@ import {
   UPDATE_HISTORICAL_DATA_DAY
 } from '@/consts/data'
 
-export async function getHistoricalDataCache () {
+export async function getHistoricalDataCache() {
   const cache = await caches.open(HISTORICAL_DATE_CACHE_NAME)
   const cacheResponse = await cache.match(HISTORICAL_DATA_FILE_ROUTE.route)
   const cacheTimeStamp = cacheResponse?.headers.get(CACHE_HEADER_NAME)
@@ -24,7 +24,7 @@ export async function getHistoricalDataCache () {
   }
 }
 
-function getLastUpdateFromText (csvString: string): Date {
+function getLastUpdateFromText(csvString: string): Date {
   const lastLine = csvString.split('\n').at(-2)
   if (!lastLine) return new Date()
   const [, month, year] = lastLine.split(',')
