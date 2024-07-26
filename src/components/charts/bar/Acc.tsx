@@ -1,19 +1,15 @@
-<article class="chart-container">
-  <div><canvas id="acc"></canvas></div>
-</article>
-<script>
-import Chart from 'chart.js/auto'
 import ytdAccData from '@/json_data/ytd_acc.json'
+import Chart from 'chart.js/auto'
+import { onMount } from 'solid-js'
 
-(async function() {
+export default function () {
   const fondos = Object.keys(Object.values(ytdAccData)[0])
   const datasets = Object.entries(ytdAccData).map(([name, values]) => ({
     label: name,
     data: Object.values(values).map((v) => v.acc)
   }))
-  new Chart(
-    (document.getElementById('acc') as HTMLCanvasElement),
-    {
+  onMount(() => {
+    new Chart(document.getElementById('acc') as HTMLCanvasElement, {
       type: 'bar',
       options: {
         scales: {
@@ -26,7 +22,13 @@ import ytdAccData from '@/json_data/ytd_acc.json'
         labels: fondos,
         datasets
       }
-    }
-  );
-})();
-</script>
+    })
+  })
+  return (
+    <article class="chart-container">
+      <div>
+        <canvas id="acc" />
+      </div>
+    </article>
+  )
+}

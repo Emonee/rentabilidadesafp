@@ -13,9 +13,11 @@
   },
   "dependencies": {
     "@astrojs/check": "0.8.2",
+    "@astrojs/solid-js": "4.4.0",
     "astro": "4.12.2",
     "chart.js": "4.4.3",
     "decimal.js": "10.4.3",
+    "solid-js": "1.8.19",
     "typescript": "5.5.4"
   },
   "devDependencies": {
