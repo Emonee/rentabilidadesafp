@@ -8,6 +8,8 @@ const sortedAfps = Object.entries(jsonData).sort(
 const bestAfpName = sortedAfps[0][0]
 ---
 
-<h2>Mejor AFP por comisión: {bestAfpName}</h2>
-<p>La AFP que menos saca de tu sueldo.</p>
-<BestAFPByComitionTable sortedAfps={sortedAfps} />
+<section>
+  <h2>Mejor AFP por comisión: {bestAfpName}</h2>
+  <p>La AFP que menos saca de tu sueldo.</p>
+  <BestAFPByComitionTable sortedAfps={sortedAfps} />
+</section>

@@ -1,17 +1,17 @@
-export const DEFAULT_COLOR = 'gray'
-export const COLOR_BY_AFP = {
-  CAPITAL: 'red',
-  CUPRUM: 'yellow',
-  HABITAT: 'green',
-  MODELO: 'blue',
-  PLANVITAL: 'orange',
-  PROVIDA: 'purple',
-  UNO: 'brown'
+export const AFPS = {
+  UNO: {},
+  MODELO: {},
+  PLANVITAL: {},
+  HABITAT: {},
+  CAPITAL: {},
+  CUPRUM: {},
+  PROVIDA: {},
+  SISTEMA: {}
 }
 export const FONDOS = [
-  { name: 'A', description: '' },
-  { name: 'B', description: '' },
-  { name: 'C', description: '' },
-  { name: 'D', description: '' },
-  { name: 'E', description: '' }
+  { name: 'A', description: 'Muy riesgoso' },
+  { name: 'B', description: 'Riesgoso' },
+  { name: 'C', description: 'Moderado' },
+  { name: 'D', description: 'Conservador' },
+  { name: 'E', description: 'Muy conservador' }
 ]

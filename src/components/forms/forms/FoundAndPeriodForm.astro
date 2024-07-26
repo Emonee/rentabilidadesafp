@@ -1,0 +1,21 @@
+---
+import FoundsSelect from "@/components/forms/selects/FoundsSelect.astro";
+import MonthsSelect from "@/components/forms/selects/MonthsSelect.astro";
+import YearsSelect from "@/components/forms/selects/YearsSelect.astro";
+---
+
+<form id="period-ranking-form" style="max-width: 500px;">
+  <FoundsSelect attributes={{ name: 'found' }}/>
+  <p><b>Periodo:</b></p>
+  <div role="group" style="display: flex; align-items: center;">
+    <p style="margin: 0 10px 0 0;">Desde</p>
+    <MonthsSelect attributes={{ name: 'monthFrom' }} />
+    <YearsSelect attributes={{ name: 'yearFrom' }} />
+  </div>
+  <div role="group" style="display: flex; align-items: center;">
+    <p style="margin: 0 10px 0 0;">Hasta</p>
+    <MonthsSelect attributes={{ name: 'monthTo' }} />
+    <YearsSelect attributes={{ name: 'yearTo' }} />
+  </div>
+  <button type="submit">Calcular</button>
+</form>
