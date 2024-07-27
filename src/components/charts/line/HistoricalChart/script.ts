@@ -52,14 +52,10 @@ export class HistoricalChart extends BaseChart {
       },
       plugins: [ZERO_LINE_PLUGIN]
     })
-    this.querySelector<HTMLSelectElement>('select')?.addEventListener(
-      'change',
-      (event) => {
-        const newSelectedFondo = (event.target as HTMLSelectElement)
-          ?.value as Found
-        this.updateDatasets(this.generateDataset(newSelectedFondo))
-      }
-    )
+    this.querySelector<HTMLSelectElement>('select')?.addEventListener('change', (event) => {
+      const newSelectedFondo = (event.target as HTMLSelectElement)?.value as Found
+      this.updateDatasets(this.generateDataset(newSelectedFondo))
+    })
   }
 
   async getHistoricalData() {
@@ -71,13 +67,10 @@ export class HistoricalChart extends BaseChart {
     const labels: string[] = []
     const firstYear = 2005
     const actualYear = new Date().getFullYear()
-    const years = [...Array(actualYear - firstYear + 1).keys()].map(
-      (i) => firstYear + i
-    )
+    const years = [...Array(actualYear - firstYear + 1).keys()].map((i) => firstYear + i)
     const months = [...Array(12).keys()].map((i) => 1 + i)
     for (const year of years) {
-      for (const month of months)
-        labels.push(`${year}-${month.toString().padStart(2, '0')}`)
+      for (const month of months) labels.push(`${year}-${month.toString().padStart(2, '0')}`)
     }
     return labels
   }

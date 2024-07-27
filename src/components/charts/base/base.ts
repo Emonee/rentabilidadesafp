@@ -1,8 +1,4 @@
-import type {
-  ChartConfiguration,
-  ChartConfigurationCustomTypesPerDataset,
-  ChartDataset
-} from 'chart.js'
+import type { ChartConfiguration, ChartConfigurationCustomTypesPerDataset, ChartDataset } from 'chart.js'
 import { Chart } from 'chart.js/auto'
 
 export class BaseChart extends HTMLElement {
@@ -13,10 +9,7 @@ export class BaseChart extends HTMLElement {
     this.canvas = document.createElement('canvas')
   }
 
-  drawChart(
-    parent: HTMLElement,
-    config: ChartConfiguration | ChartConfigurationCustomTypesPerDataset
-  ) {
+  drawChart(parent: HTMLElement, config: ChartConfiguration | ChartConfigurationCustomTypesPerDataset) {
     parent.appendChild(this.canvas)
     this.chart = new Chart(this.canvas, config)
   }

@@ -16,12 +16,8 @@ class BestYtdAfpSection extends HTMLElement {
 
   set selectedFound(newSelectedFound: Found) {
     this._selectedFound = newSelectedFound
-    const bestAfpSpan = this.querySelector<HTMLSpanElement>(
-      'span[data-best-afp-by-ytd-span]'
-    )
-    const bestAfpByYtdTable = this.querySelector<HTMLElement>(
-      'best-afp-by-ytd-table'
-    )
+    const bestAfpSpan = this.querySelector<HTMLSpanElement>('span[data-best-afp-by-ytd-span]')
+    const bestAfpByYtdTable = this.querySelector<HTMLElement>('best-afp-by-ytd-table')
     const afpEntries = Object.entries(jsonData)
     const afpSortedByFondo = afpEntries
       .map(([afpName, fondos]) => ({
@@ -30,10 +26,7 @@ class BestYtdAfpSection extends HTMLElement {
       }))
       .sort(({ value: value1 }, { value: value2 }) => value2 - value1)
     if (bestAfpSpan) bestAfpSpan.textContent = afpSortedByFondo[0].name
-    bestAfpByYtdTable?.setAttribute(
-      'data-table-rows',
-      JSON.stringify(afpSortedByFondo)
-    )
+    bestAfpByYtdTable?.setAttribute('data-table-rows', JSON.stringify(afpSortedByFondo))
   }
 
   get selectedFound() {

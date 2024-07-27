@@ -9,9 +9,7 @@ const firstYear = 2005
 export class AnnualChart extends BaseChart {
   constructor() {
     super()
-    const years = [...Array(actualYear - firstYear).keys()].map(
-      (i) => firstYear + i
-    )
+    const years = [...Array(actualYear - firstYear).keys()].map((i) => firstYear + i)
     this.drawChart(this, {
       type: 'line',
       options: {
@@ -33,14 +31,10 @@ export class AnnualChart extends BaseChart {
       },
       plugins: [ZERO_LINE_PLUGIN]
     })
-    this.querySelector<HTMLSelectElement>('select')?.addEventListener(
-      'change',
-      (event) => {
-        const newSelectedFondo = (event.target as HTMLSelectElement)
-          ?.value as Found
-        this.updateDatasets(this.generateData(newSelectedFondo))
-      }
-    )
+    this.querySelector<HTMLSelectElement>('select')?.addEventListener('change', (event) => {
+      const newSelectedFondo = (event.target as HTMLSelectElement)?.value as Found
+      this.updateDatasets(this.generateData(newSelectedFondo))
+    })
   }
 
   generateData(found: Found) {
@@ -49,10 +43,7 @@ export class AnnualChart extends BaseChart {
       const yearDiff = +firstYearAfp - firstYear
       return {
         label: name,
-        data: [
-          ...Array(yearDiff).fill(null),
-          ...Object.values(data).map((v) => v[found])
-        ],
+        data: [...Array(yearDiff).fill(null), ...Object.values(data).map((v) => v[found])],
         tension: 0.2
       }
     })

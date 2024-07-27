@@ -2,9 +2,7 @@
 import BestAFPByComitionTable from '@/components/tables/BestAFPByComitionTable.astro'
 import jsonData from '@/json_data/comitions.json'
 
-const sortedAfps = Object.entries(jsonData).sort(
-  ([, comition1], [, comition2]) => comition1 - comition2
-)
+const sortedAfps = Object.entries(jsonData).sort(([, comition1], [, comition2]) => comition1 - comition2)
 const bestAfpName = sortedAfps[0][0]
 ---
 
