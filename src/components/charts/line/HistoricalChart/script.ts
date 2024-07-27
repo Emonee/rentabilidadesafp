@@ -1,4 +1,5 @@
 import { BaseChart } from '@/components/charts/base/base'
+import { AFPS } from '@/consts/afp'
 import { ZERO_LINE_PLUGIN } from '@/consts/charts'
 import { getHistoricalDataCsvString } from '@/lib/client/fetch'
 import { calculateAccumulatedRentability } from '@/lib/utilities/nums'
@@ -83,7 +84,7 @@ export class HistoricalChart extends BaseChart {
     } = {}
     for (const line of content) {
       const [afpName, month, year, found, rentability] = line.split(',')
-      if (found !== selectFound) continue
+      if (found !== selectFound || !(afpName in AFPS)) continue
       datasets[afpName] ||= []
       const index = this.labels.indexOf(`${year}-${month}`)
       if (index < 0) continue
