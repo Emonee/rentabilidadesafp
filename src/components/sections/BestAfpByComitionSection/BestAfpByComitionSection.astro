@@ -1,13 +1,15 @@
 ---
 import BestAFPByComitionTable from '@/components/tables/BestAFPByComitionTable.astro'
-import jsonData from '@/json_data/comitions.json'
+import { AFPS } from '@/consts/afp'
 
-const sortedAfps = Object.entries(jsonData).sort(([, comition1], [, comition2]) => comition1 - comition2)
-const bestAfpName = sortedAfps[0][0]
+const sortedAfpsEntries = Object.entries(AFPS).sort(
+  ([, { comition }], [, { comition: comition2 }]) => comition - comition2
+)
+const bestAfpName = sortedAfpsEntries[0][0]
 ---
 
 <section>
   <h2>Mejor AFP por comisión: {bestAfpName}</h2>
   <p>La AFP que menos saca de tu sueldo.</p>
-  <BestAFPByComitionTable sortedAfps={sortedAfps} />
+  <BestAFPByComitionTable sortedAfpsEntries={sortedAfpsEntries} />
 </section>

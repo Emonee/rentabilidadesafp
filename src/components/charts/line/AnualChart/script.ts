@@ -1,12 +1,14 @@
 import { BaseChart } from '@/components/charts/base/base'
 import { ZERO_LINE_PLUGIN } from '@/consts/charts'
-import anualData from '@/json_data/anual.json'
-import type { Found } from '@/lib/utilities/types/index'
+import { PUBLIC_ANNUAL_RETURNS_DATA } from '@/consts/data'
+import { fetchResource } from '@/lib/client/fetch'
+import type { AnualReturns, Found } from '@/lib/utilities/types/index'
 
 const actualYear = new Date().getFullYear()
 const firstYear = 2005
 
 export class AnnualChart extends BaseChart {
+  anualData?: AnualReturns
   constructor() {
     super()
     const years = [...Array(actualYear - firstYear).keys()].map((i) => firstYear + i)
@@ -31,14 +33,15 @@ export class AnnualChart extends BaseChart {
       },
       plugins: [ZERO_LINE_PLUGIN]
     })
+    this.getAnnualData()
     this.querySelector<HTMLSelectElement>('select')?.addEventListener('change', (event) => {
       const newSelectedFondo = (event.target as HTMLSelectElement)?.value as Found
       this.updateDatasets(this.generateData(newSelectedFondo))
     })
   }
-
   generateData(found: Found) {
-    const datasets = Object.entries(anualData).map(([name, data]) => {
+    if (!this.anualData) return []
+    const datasets = Object.entries(this.anualData).map(([name, data]) => {
       const firstYearAfp = Object.keys(data)[0]
       const yearDiff = +firstYearAfp - firstYear
       return {
@@ -48,6 +51,13 @@ export class AnnualChart extends BaseChart {
       }
     })
     return datasets
+  }
+  async getAnnualData() {
+    this.anualData = await fetchResource<AnualReturns>({
+      cacheName: PUBLIC_ANNUAL_RETURNS_DATA.cacheName,
+      route: PUBLIC_ANNUAL_RETURNS_DATA.route
+    })
+    this.updateDatasets(this.generateData('A'))
   }
 }
 customElements.define('annual-chart', AnnualChart)

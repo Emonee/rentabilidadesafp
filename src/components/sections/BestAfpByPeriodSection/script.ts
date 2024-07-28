@@ -1,5 +1,6 @@
 import { AFPS } from '@/consts/afp'
-import { getHistoricalDataCsvString } from '@/lib/client/fetch'
+import { HISTORICAL_DATA } from '@/consts/data'
+import { fetchResource } from '@/lib/client/fetch'
 import { yearMonthToDate } from '@/lib/utilities/dates'
 import { throwIfNullish } from '@/lib/utilities/helpers'
 import { getRetability } from '@/lib/utilities/nums'
@@ -25,7 +26,11 @@ class BestAfpByPeriodSection extends HTMLElement {
     })
   }
   async getCsvData() {
-    this.csvData = await getHistoricalDataCsvString()
+    this.csvData = await fetchResource<string>({
+      cacheName: HISTORICAL_DATA.cacheName,
+      route: HISTORICAL_DATA.route,
+      isJson: false
+    })
   }
   renderData() {
     const { afpsOutOfPeriod, data } = this.buildRankingData()

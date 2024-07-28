@@ -1,7 +1,8 @@
 import { BaseChart } from '@/components/charts/base/base'
 import { AFPS } from '@/consts/afp'
 import { ZERO_LINE_PLUGIN } from '@/consts/charts'
-import { getHistoricalDataCsvString } from '@/lib/client/fetch'
+import { HISTORICAL_DATA } from '@/consts/data'
+import { fetchResource } from '@/lib/client/fetch'
 import { calculateAccumulatedRentability } from '@/lib/utilities/nums'
 import type { Found } from '@/lib/utilities/types'
 import type { ChartDataset } from 'chart.js'
@@ -60,7 +61,11 @@ export class HistoricalChart extends BaseChart {
   }
 
   async getHistoricalData() {
-    this.historicalDataCsvString = await getHistoricalDataCsvString()
+    this.historicalDataCsvString = await fetchResource({
+      cacheName: HISTORICAL_DATA.cacheName,
+      route: HISTORICAL_DATA.route,
+      isJson: false
+    })
     this.updateDatasets(this.generateDataset('A'))
   }
 

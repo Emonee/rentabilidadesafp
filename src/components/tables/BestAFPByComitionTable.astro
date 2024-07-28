@@ -2,16 +2,16 @@
 import { getColor } from '@/lib/utilities/nums'
 
 interface Props {
-  sortedAfps: [string, number][]
+  sortedAfpsEntries: Array<[string, { comition: number }]>
 }
-const { sortedAfps } = Astro.props
-const bestAfpComition = sortedAfps[0][1]
-const worstAfpComition = sortedAfps[sortedAfps.length - 1][1]
+const { sortedAfpsEntries } = Astro.props
+const bestAfpComition = sortedAfpsEntries[0][1].comition
+const worstAfpComition = sortedAfpsEntries[sortedAfpsEntries.length - 1][1].comition
 ---
 
 <table style="max-width: 500px;">
   <tbody>
-    {sortedAfps.map(([name, comition]) => {
+    {sortedAfpsEntries.map(([name, {comition}]) => {
       const color = getColor(bestAfpComition, worstAfpComition, comition, true)
       return (
         <tr>

@@ -1,14 +1,9 @@
-import {
-  CACHE_HEADER_NAME,
-  HISTORICAL_DATA_FILE_ROUTE,
-  HISTORICAL_DATE_CACHE_NAME,
-  UPDATE_HISTORICAL_DATA_DAY
-} from '@/consts/data'
+import { TIMESTAMP_CACHE_HEADER_NAME, UPDATE_HISTORICAL_DATA_DAY } from '@/consts/data'
 
-export async function getHistoricalDataCache() {
-  const cache = await caches.open(HISTORICAL_DATE_CACHE_NAME)
-  const cacheResponse = await cache.match(HISTORICAL_DATA_FILE_ROUTE.route)
-  const cacheTimeStamp = cacheResponse?.headers.get(CACHE_HEADER_NAME)
+export async function getCacheWithResponse({ cacheName, route }: { cacheName: string; route: string }) {
+  const cache = await caches.open(cacheName)
+  const cacheResponse = await cache.match(route)
+  const cacheTimeStamp = cacheResponse?.headers.get(TIMESTAMP_CACHE_HEADER_NAME)
   if (!cacheResponse || !cacheTimeStamp) {
     return {
       cache,
