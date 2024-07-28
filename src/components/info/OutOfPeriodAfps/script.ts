@@ -1,6 +1,6 @@
 class OutOfPeriodAfps extends HTMLElement {
   static observedAttributes = ['data-afps']
-  attributeChangedCallback(attName: string, _oldValue: string, newValue: string) {
+  attributeChangedCallback(_attName: string, _oldValue: string, newValue: string) {
     const ul = this.querySelector('ul')
     if (!ul || !newValue) return this.changeDisplay('none')
     const afps = JSON.parse(newValue) as string[]

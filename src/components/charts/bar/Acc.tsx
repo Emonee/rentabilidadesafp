@@ -2,7 +2,7 @@ import { PUBLIC_YTD_ACC_DATA } from '@/consts/data'
 import { fetchResource } from '@/lib/client/fetch'
 import type { FundSystemData } from '@/lib/utilities/types'
 import Chart from 'chart.js/auto'
-import { createResource, onCleanup, onMount } from 'solid-js'
+import { onCleanup, onMount } from 'solid-js'
 
 export default function () {
   onMount(async () => {

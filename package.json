@@ -9,6 +9,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "lint": "biome check",
+    "check": "astro check",
     "oxlint": "npx oxlint@latest"
   },
   "dependencies": {
