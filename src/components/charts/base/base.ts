@@ -19,4 +19,11 @@ export class BaseChart extends HTMLElement {
     this.chart.data.datasets = newDatasets
     this.chart.update()
   }
+
+  updateChart({ newLabels, newDatasets }: { newLabels?: string[]; newDatasets?: ChartDataset[] }) {
+    if (!this.chart) return
+    if (newLabels) this.chart.data.labels = newLabels
+    if (newDatasets) this.chart.data.datasets = newDatasets
+    this.chart.update()
+  }
 }
