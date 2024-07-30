@@ -7,13 +7,22 @@ import { calculateAccumulatedRentability } from '@/lib/utilities/nums'
 import type { Found } from '@/lib/utilities/types'
 import type { ChartDataset } from 'chart.js'
 
+const REACTIVE_ATTRIBUTES = ['data-json-props']
+
 export class HistoricalChart extends BaseChart {
-  labels: string[]
+  props: { found: string; monthFrom: number; monthTo: number; yearFrom: number; yearTo: number }
   historicalDataCsvString?: string
+  static observedAttributes = REACTIVE_ATTRIBUTES
   constructor() {
     super()
-    this.labels = this.generateLabels()
-    this.getHistoricalData().catch(() => {})
+    const now = new Date()
+    this.props = {
+      found: 'A',
+      monthFrom: 1,
+      yearFrom: 2005,
+      monthTo: now.getMonth() + 1,
+      yearTo: now.getFullYear()
+    }
     this.drawChart(this, {
       type: 'line',
       options: {
@@ -49,15 +58,22 @@ export class HistoricalChart extends BaseChart {
         }
       },
       data: {
-        labels: this.labels,
-        datasets: this.generateDataset('A')
+        labels: [],
+        datasets: []
       },
       plugins: [ZERO_LINE_PLUGIN]
     })
-    this.querySelector<HTMLSelectElement>('select')?.addEventListener('change', (event) => {
-      const newSelectedFondo = (event.target as HTMLSelectElement)?.value as Found
-      this.updateDatasets(this.generateDataset(newSelectedFondo))
-    })
+    this.getHistoricalData().catch(() => {})
+  }
+
+  attributeChangedCallback() {
+    const { jsonProps } = this.dataset
+    if (!jsonProps) return
+    const newProps = JSON.parse(jsonProps) as typeof this.props
+    this.props = { ...this.props, ...newProps }
+    const newLabels = this.generateLabels()
+    const newDatasets = this.generateDataset({ labels: newLabels })
+    this.updateChart({ newLabels, newDatasets })
   }
 
   async getHistoricalData() {
@@ -66,22 +82,41 @@ export class HistoricalChart extends BaseChart {
       route: HISTORICAL_DATA.route,
       isJson: false
     })
-    this.updateDatasets(this.generateDataset('A'))
+    const labels = this.generateLabels()
+    this.updateChart({
+      newLabels: labels,
+      newDatasets: this.generateDataset({ labels })
+    })
   }
 
   generateLabels() {
-    const labels: string[] = []
-    const firstYear = 2005
-    const actualYear = new Date().getFullYear()
-    const years = [...Array(actualYear - firstYear + 1).keys()].map((i) => firstYear + i)
+    const { monthFrom, monthTo, yearFrom, yearTo } = this.props
     const months = [...Array(12).keys()].map((i) => 1 + i)
-    for (const year of years) {
-      for (const month of months) labels.push(`${year}-${month.toString().padStart(2, '0')}`)
+    const labels: string[] = []
+    if (yearFrom === yearTo) {
+      for (const month of months) labels.push(`${yearFrom}-${month.toString().padStart(2, '0')}`)
+      return labels
     }
+    const years = [...Array(yearTo - yearFrom + 1).keys()].map((i) => yearFrom + i)
+    years.forEach((year, index) => {
+      const isFirstYear = index === 0
+      const isLastYear = index === years.length - 1
+      if (isFirstYear) {
+        const months = [...Array(12 - monthFrom + 1).keys()].map((i) => i + monthFrom)
+        for (const month of months) labels.push(`${year}-${month.toString().padStart(2, '0')}`)
+        return
+      }
+      if (isLastYear) {
+        const months = [...Array(monthTo).keys()].map((i) => i + 1)
+        for (const month of months) labels.push(`${year}-${month.toString().padStart(2, '0')}`)
+        return
+      }
+      for (const month of months) labels.push(`${year}-${month.toString().padStart(2, '0')}`)
+    })
     return labels
   }
 
-  generateDataset(selectFound: Found): ChartDataset[] {
+  generateDataset({ labels }: { labels: string[] }): ChartDataset[] {
     const content = this.historicalDataCsvString?.split('\n')
     if (!content) return []
     const datasets: {
@@ -89,9 +124,9 @@ export class HistoricalChart extends BaseChart {
     } = {}
     for (const line of content) {
       const [afpName, month, year, found, rentability] = line.split(',')
-      if (found !== selectFound || !(afpName in AFPS)) continue
+      if (found !== this.props.found || !(afpName in AFPS)) continue
       datasets[afpName] ||= []
-      const index = this.labels.indexOf(`${year}-${month}`)
+      const index = labels.indexOf(`${year}-${month}`)
       if (index < 0) continue
       datasets[afpName][index] = rentability === '\r' ? null : +rentability
     }
