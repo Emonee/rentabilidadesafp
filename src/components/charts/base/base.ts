@@ -24,7 +24,23 @@ export class BaseChart extends HTMLElement {
   updateChart({ newLabels, newDatasets }: { newLabels?: string[]; newDatasets?: ChartDataset[] }) {
     if (!this.chart) return
     if (newLabels) this.chart.data.labels = newLabels
-    if (newDatasets) this.chart.data.datasets = newDatasets
+    if (newDatasets) {
+      const indexesToRemove: number[] = []
+      this.chart.data.datasets.forEach(({ label: label1 }, index) => {
+        if (!newDatasets.some(({ label }) => label === label1)) indexesToRemove.push(index)
+      })
+      indexesToRemove.forEach((val, index) => this.chart?.data.datasets.splice(val - index, 1))
+      for (const dataset of newDatasets) {
+        const selectedDataset = this.chart.data.datasets.find(({ label }) => label === dataset.label)
+        if (!selectedDataset) {
+          this.chart.data.datasets.push(dataset)
+          continue
+        }
+        selectedDataset.data.forEach((_, index, array) => {
+          array[index] = dataset.data[index]
+        })
+      }
+    }
     this.chart.update()
   }
 }
