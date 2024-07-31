@@ -10,6 +10,7 @@ export class BaseChart extends HTMLElement {
   }
 
   drawChart(parent: HTMLElement, config: ChartConfiguration | ChartConfigurationCustomTypesPerDataset) {
+    parent.style.setProperty('display', 'block')
     parent.appendChild(this.canvas)
     this.chart = new Chart(this.canvas, config)
   }

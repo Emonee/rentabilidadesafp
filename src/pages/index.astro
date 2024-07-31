@@ -1,6 +1,6 @@
 ---
 import BestAfpByComitionSection from '@/components/sections/BestAfpByComitionSection/BestAfpByComitionSection.astro'
-import BestAfpByPeriodSection from '@/components/sections/BestAfpByPeriodSection/BestAfpByPeriodSection.astro'
+import BestAfpByPeriodSectionSolid from '@/components/sections/BestAfpByPeriodSection/BestAfpByPeriodSection.solid'
 import BestAfpByYtdSection from '@/components/sections/BestAfpByYtdSection/BestAfpByYtdSection.astro'
 import Layout from '@/layouts/Layout.astro'
 ---
@@ -8,7 +8,7 @@ import Layout from '@/layouts/Layout.astro'
 <Layout>
 	<main>
 		<BestAfpByYtdSection />
-    <BestAfpByPeriodSection />
+		<BestAfpByPeriodSectionSolid client:only="solid" />
 		<BestAfpByComitionSection />
 	</main>
 </Layout>

@@ -1,6 +1,6 @@
 import { getColor } from '@/lib/utilities/nums'
 
-class BestAfpByPeriodTable extends HTMLElement {
+export class BestAfpByPeriodTable extends HTMLElement {
   static observedAttributes = ['data-table-rows']
   attributeChangedCallback(attName: string, _oldValue: string, newValue: string) {
     if (attName !== 'data-table-rows') return

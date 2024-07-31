@@ -4,7 +4,6 @@ import { ZERO_LINE_PLUGIN } from '@/consts/charts'
 import { HISTORICAL_DATA } from '@/consts/data'
 import { fetchResource } from '@/lib/client/fetch'
 import { calculateAccumulatedRentability } from '@/lib/utilities/nums'
-import type { Found } from '@/lib/utilities/types'
 import type { ChartDataset } from 'chart.js'
 
 const REACTIVE_ATTRIBUTES = ['data-json-props']
@@ -51,7 +50,7 @@ export class HistoricalChart extends BaseChart {
               display: true,
               text: 'Tiempo (Año-Mes)',
               font: {
-                size: 20
+                size: 16
               }
             }
           }
