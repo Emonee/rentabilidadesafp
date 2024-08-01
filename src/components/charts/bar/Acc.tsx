@@ -28,7 +28,10 @@ export default function () {
               beginAtZero: true,
               title: {
                 display: true,
-                text: 'Rentabilidad real'
+                text: 'Rentabilidad real',
+                font: {
+                  size: 18
+                }
               },
               ticks: {
                 callback: (value) => `${value}%`
@@ -37,7 +40,10 @@ export default function () {
             x: {
               title: {
                 display: true,
-                text: 'Fondo'
+                text: 'Fondo',
+                font: {
+                  size: 18
+                }
               }
             }
           },

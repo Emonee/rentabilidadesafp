@@ -50,7 +50,7 @@ export class HistoricalChart extends BaseChart {
               display: true,
               text: 'Año-Mes',
               font: {
-                size: 16
+                size: 18
               }
             }
           }

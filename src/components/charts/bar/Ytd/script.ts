@@ -23,7 +23,10 @@ new Chart(document.getElementById('ytd') as HTMLCanvasElement, {
         beginAtZero: true,
         title: {
           display: true,
-          text: 'Rentabilidad real'
+          text: 'Rentabilidad real',
+          font: {
+            size: 18
+          }
         },
         ticks: {
           callback: (value) => `${value}%`
@@ -32,7 +35,10 @@ new Chart(document.getElementById('ytd') as HTMLCanvasElement, {
       x: {
         title: {
           display: true,
-          text: 'Fondo'
+          text: 'Fondo',
+          font: {
+            size: 18
+          }
         }
       }
     },

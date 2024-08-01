@@ -42,7 +42,7 @@ export class AnnualChart extends BaseChart {
               display: true,
               text: 'Año',
               font: {
-                size: 16
+                size: 18
               }
             }
           }
