@@ -54,6 +54,14 @@ export class HistoricalChart extends BaseChart {
               }
             }
           }
+        },
+        plugins: {
+          tooltip: {
+            itemSort: ({ formattedValue }, { formattedValue: formattedValue2 }) => +formattedValue2 - +formattedValue,
+            callbacks: {
+              label: ({ dataset, formattedValue }) => `${dataset.label}: ${formattedValue}%`
+            }
+          }
         }
       },
       data: {
@@ -131,6 +139,8 @@ export class HistoricalChart extends BaseChart {
     }
     return Object.entries(datasets).map(([label, data]) => ({
       label,
+      borderColor: AFPS[label as keyof typeof AFPS].mainColor,
+      backgroundColor: AFPS[label as keyof typeof AFPS].mainColor,
       data: calculateAccumulatedRentability(data),
       tension: 0.2,
       pointRadius: 0,

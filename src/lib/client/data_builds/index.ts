@@ -3,6 +3,7 @@ import { HISTORICAL_DATA } from '@/consts/data'
 import { fetchResource } from '@/lib/client/fetch'
 import { yearMonthToDate } from '@/lib/utilities/dates'
 import { calculateAccumulatedRentability, getRetability } from '@/lib/utilities/nums'
+import type { ChartDataset } from 'chart.js'
 
 export async function buildHistoricalData({
   found,
@@ -63,8 +64,10 @@ export async function buildHistoricalData({
     if (index < 0) continue
     preDatasets[afpName][index] = rentability === '\r' ? null : +rentability
   }
-  const datasets = Object.entries(preDatasets).map(([label, data]) => ({
+  const datasets: ChartDataset[] = Object.entries(preDatasets).map(([label, data]) => ({
     label,
+    borderColor: AFPS[label as keyof typeof AFPS].mainColor,
+    backgroundColor: AFPS[label as keyof typeof AFPS].mainColor,
     data: calculateAccumulatedRentability(data),
     tension: 0.2,
     pointRadius: 0,
