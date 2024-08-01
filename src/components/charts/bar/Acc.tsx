@@ -25,7 +25,27 @@ export default function () {
         options: {
           scales: {
             y: {
-              beginAtZero: true
+              beginAtZero: true,
+              title: {
+                display: true,
+                text: 'Rentabilidad real'
+              },
+              ticks: {
+                callback: (value) => `${value}%`
+              }
+            },
+            x: {
+              title: {
+                display: true,
+                text: 'Fondo'
+              }
+            }
+          },
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: ({ dataset, formattedValue }) => `${dataset.label}: ${formattedValue}%`
+              }
             }
           }
         },

@@ -2,7 +2,7 @@
 import AnnualArticle from '@/components/articles/AnnualArticle.astro'
 import HistoricalArticle from '@/components/articles/HistoricalArticle.astro'
 import Acc from '@/components/charts/bar/Acc'
-import Ytd from '@/components/charts/bar/Ytd.astro'
+import Ytd from '@/components/charts/bar/Ytd/Ytd.astro'
 import Layout from '@/layouts/Layout.astro'
 ---
 
@@ -15,7 +15,7 @@ import Layout from '@/layouts/Layout.astro'
     <p>Lo que han rentado las AFP cada año.</p>
     <AnnualArticle />
     <h2>Rentabilidad anual acumulada a la fecha<a href="#last-data" style="text-decoration: none">*</a> <small style="font-size: 14px">(Más es mejor)</h2>
-    <p>Taqmbién conocido como Year To Date.</p>
+    <p>También conocido como Year To Date.</p>
     <Ytd />
     <h2>Rentabilidad real últimos 12 meses<a href="#last-data" style="text-decoration: none">*</a> <small style="font-size: 14px">(Más es mejor)</h2>
     <Acc client:only="solid" />

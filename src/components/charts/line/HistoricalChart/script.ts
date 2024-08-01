@@ -36,7 +36,7 @@ export class HistoricalChart extends BaseChart {
             min: -40,
             title: {
               display: true,
-              text: 'Rentabilidad real (%)',
+              text: 'Rentabilidad real',
               font: {
                 size: 18
               }
@@ -48,7 +48,7 @@ export class HistoricalChart extends BaseChart {
           x: {
             title: {
               display: true,
-              text: 'Tiempo (Año-Mes)',
+              text: 'Año-Mes',
               font: {
                 size: 16
               }

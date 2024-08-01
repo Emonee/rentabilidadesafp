@@ -25,7 +25,34 @@ export class AnnualChart extends BaseChart {
         scales: {
           y: {
             min: -50,
-            max: 50
+            max: 50,
+            title: {
+              display: true,
+              text: 'Rentabilidad real',
+              font: {
+                size: 18
+              }
+            },
+            ticks: {
+              callback: (value) => `${value}%`
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Año',
+              font: {
+                size: 16
+              }
+            }
+          }
+        },
+        plugins: {
+          tooltip: {
+            itemSort: ({ formattedValue }, { formattedValue: formattedValue2 }) => +formattedValue2 - +formattedValue,
+            callbacks: {
+              label: ({ dataset, formattedValue }) => `${dataset.label}: ${formattedValue}%`
+            }
           }
         }
       },
