@@ -2,10 +2,7 @@ name: Scrap Superintencia
 
 on:
   schedule:
-    - cron: '0 13 * * *'
-    - cron: '0 10 * * *'
-    - cron: '0 8 * * *'
-    - cron: '0 4 * * *'
+    - cron: '0 13 3 * *'
   workflow_dispatch:
 
 jobs:
@@ -21,5 +18,8 @@ jobs:
       with:
         node-version: '20.x'
 
+    - name: Install dependencies
+      run: npm install
+    
     - name: Run script
       run: node cron/index.js

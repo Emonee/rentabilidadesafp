@@ -17,6 +17,7 @@
     "@astrojs/solid-js": "4.4.0",
     "astro": "4.12.2",
     "chart.js": "4.4.3",
+    "cheerio": "1.0.0-rc.12",
     "decimal.js": "10.4.3",
     "solid-js": "1.8.19",
     "typescript": "5.5.4"
