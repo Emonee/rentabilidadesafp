@@ -73,6 +73,13 @@ tables.slice(1).each((index, table) => {
       acc = Number.parseFloat($(tds[3]).text().replace('%', '').replace(',', '.'))
     } catch (e) {}
 
+    const invalidData = [monthRentability, ytd, acc].some((val) => val == null || Number.isNaN(val))
+    if (invalidData) {
+      console.log('Invalid data:')
+      console.log({ invalidData })
+      process.exit(1)
+    }
+
     stringData += `${afpName},${month},${year},${found},${monthRentability}\n`
     jsonData[afpName][found].month = monthRentability
     jsonData[afpName][found].ytd = ytd
