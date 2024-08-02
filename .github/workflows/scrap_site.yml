@@ -2,8 +2,11 @@ name: Scrap Superintencia
 
 on:
   schedule:
-    # Runs every 10 min
-    - cron: '*/10 * * * *'
+    - cron: '0 13 * * *'
+    - cron: '0 10 * * *'
+    - cron: '0 8 * * *'
+    - cron: '0 4 * * *'
+  workflow_dispatch:
 
 jobs:
   run-script:
