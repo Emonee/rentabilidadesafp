@@ -87,7 +87,7 @@ try {
   ])
   execSync('git add .')
   console.log('Commiting files')
-  const commitRes = execSync(`git commit -m "update: main data files ${year}-${month}"`)
+  const commitRes = execSync(`git commit -m "update: main data files ${year}-${month} [github-action]"`)
   console.log(commitRes.toString())
   console.log('Pushing changes')
   const pushRes = execSync('git push')
