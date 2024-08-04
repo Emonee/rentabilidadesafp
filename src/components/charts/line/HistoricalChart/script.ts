@@ -18,7 +18,7 @@ export class HistoricalChart extends BaseChart {
   static observedAttributes = REACTIVE_ATTRIBUTES
   constructor() {
     super()
-    this.historicalData = JSON.parse(this.dataset.historicalData || '')
+    this.historicalData = JSON.parse(this.dataset.historicalData || '[]')
     const now = new Date()
     this.props = {
       found: 'A',

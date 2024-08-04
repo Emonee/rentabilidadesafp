@@ -6,7 +6,10 @@ let csvData: CsvData
 
 export async function getHistoricalData(): Promise<CsvData> {
   if (csvData) return csvData
-  const filePath = new URL('../../../data/historical_data.csv', import.meta.url)
+  const isDev = import.meta.env.MODE === 'development'
+  const filePath = isDev
+    ? new URL('../../../data/historical_data.csv', import.meta.url)
+    : new URL('../historical_data.csv', import.meta.url)
   const csvString = await readFile(filePath)
   csvData = csvString
     .toString()
