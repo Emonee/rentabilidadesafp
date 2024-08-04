@@ -12,13 +12,23 @@ const NAV_LINKS = [
 <header>
   <nav>
     <ul>
-      <li><a href="/" style="color: white"><h1 style="font-size: 21px; margin: 0">📈 Rentabilidades AFP</h1></a></li>
+      <li>
+        <a href="/" style="color: white"
+          ><h1 style="font-size: 21px; margin: 0">📈 Rentabilidades AFP</h1></a
+        >
+      </li>
     </ul>
     <ul class="menu">
-      {NAV_LINKS.map(({ label, href }) => <li><a href={href}>{label}</a></li>)}
+      {
+        NAV_LINKS.map(({ label, href }) => (
+          <li>
+            <a href={href}>{label}</a>
+          </li>
+        ))
+      }
     </ul>
     <ul class="small-menu">
-      <input type="checkbox" id="burger">
+      <input type="checkbox" id="burger" />
       <label for="burger" class="burger-container">
         <li><BurgerMenuIcon /></li>
       </label>
@@ -28,7 +38,15 @@ const NAV_LINKS = [
       <label for="burger" class="menu">
         <ul>
           <li><b><a href="/">Inicio</a></b></li>
-          {NAV_LINKS.map(({ label, href }) => <li><b><a href={href}>{label}</a></b></li>)}
+          {
+            NAV_LINKS.map(({ label, href }) => (
+              <li>
+                <b>
+                  <a href={href}>{label}</a>
+                </b>
+              </li>
+            ))
+          }
         </ul>
       </label>
     </ul>
@@ -36,71 +54,71 @@ const NAV_LINKS = [
 </header>
 
 <style>
-ul.menu {
-  display: none
-}
-ul.small-menu {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-label {
-  margin: 0;
-}
-ul.small-menu li a {
-  font-size: large;
-}
-label.menu {
-  display: none;
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  position: fixed;
-  top: 9%;
-  right: 0;
-  z-index: 1;
-  padding: 20px;
-  width: 100%;
-  height: 91%;
-}
-label.menu ul {
-  display: flex;
-  flex-direction: column;
-}
-label.close-container {
-  display: none;
-}
-label.burger-container {
-  display: block
-}
-input:checked ~ label.menu,
-input:checked ~ label.close-container {
-  display: block;
-}
-input:checked ~ label.burger-container {
-  display: none;
-}
-input[type="checkbox"] {
-  visibility: hidden;
-  height: 0px;
-  width: 0px;
-  margin: 0px;
-  border: none;
-}
-header {
-  position: sticky;
-  top: 0;
-  background: white;
-  z-index: 1;
-}
-@media (min-width: 768px) {
   ul.menu {
-    display: block
+    display: none;
   }
   ul.small-menu {
-    display: none
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  label {
+    margin: 0;
+  }
+  ul.small-menu li a {
+    font-size: large;
+  }
+  label.menu {
+    display: none;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    position: fixed;
+    top: 9%;
+    right: 0;
+    z-index: 1;
+    padding: 20px;
+    width: 100%;
+    height: 91%;
+  }
+  label.menu ul {
+    display: flex;
+    flex-direction: column;
+  }
+  label.close-container {
+    display: none;
+  }
+  label.burger-container {
+    display: block;
+  }
+  input:checked ~ label.menu,
+  input:checked ~ label.close-container {
+    display: block;
+  }
+  input:checked ~ label.burger-container {
+    display: none;
+  }
+  input[type='checkbox'] {
+    visibility: hidden;
+    height: 0px;
+    width: 0px;
+    margin: 0px;
+    border: none;
   }
   header {
-    position: static;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 1;
   }
-}
+  @media (min-width: 768px) {
+    ul.menu {
+      display: block;
+    }
+    ul.small-menu {
+      display: none;
+    }
+    header {
+      position: static;
+    }
+  }
 </style>

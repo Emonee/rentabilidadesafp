@@ -1,13 +1,7 @@
 import { AFPS } from '@/consts/afp'
-import { PUBLIC_YTD_ACC_DATA } from '@/consts/data'
-import { fetchResource } from '@/lib/client/fetch'
-import type { FundSystemData } from '@/lib/utilities/types'
+import ytdAccData from '@/data/ytd_12_months.json'
 import Chart from 'chart.js/auto'
 
-const ytdAccData = await fetchResource<FundSystemData>({
-  cacheName: PUBLIC_YTD_ACC_DATA.cacheName,
-  route: PUBLIC_YTD_ACC_DATA.route
-})
 const fondos = Object.keys(Object.values(ytdAccData)[0])
 const datasets = Object.entries(ytdAccData).map(([name, values]) => ({
   label: name,
@@ -45,7 +39,8 @@ new Chart(document.getElementById('ytd') as HTMLCanvasElement, {
     plugins: {
       tooltip: {
         callbacks: {
-          label: ({ dataset, formattedValue }) => `${dataset.label}: ${formattedValue}%`
+          label: ({ dataset, formattedValue }) =>
+            `${dataset.label}: ${formattedValue}%`
         }
       }
     }

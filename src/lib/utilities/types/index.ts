@@ -9,6 +9,7 @@ export type AnualReturns = {
   [key: string]: YearData
 }
 export type FundData = {
+  month: number
   ytd: number
   acc: number
 }
