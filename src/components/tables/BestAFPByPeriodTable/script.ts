@@ -2,7 +2,11 @@ import { getColor } from '@/lib/utilities/nums'
 
 export class BestAfpByPeriodTable extends HTMLElement {
   static observedAttributes = ['data-table-rows']
-  attributeChangedCallback(attName: string, _oldValue: string, newValue: string) {
+  attributeChangedCallback(
+    attName: string,
+    _oldValue: string,
+    newValue: string
+  ) {
     if (attName !== 'data-table-rows') return
     const newRows = JSON.parse(newValue)
     const fragment = document.createDocumentFragment()

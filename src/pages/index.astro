@@ -3,12 +3,18 @@ import BestAfpByComitionSection from '@/components/sections/BestAfpByComitionSec
 import BestAfpByPeriodSectionSolid from '@/components/sections/BestAfpByPeriodSection/BestAfpByPeriodSection.solid'
 import BestAfpByYtdSection from '@/components/sections/BestAfpByYtdSection/BestAfpByYtdSection.astro'
 import Layout from '@/layouts/Layout.astro'
+import { getHistoricalData } from '@/lib/server/data'
+
+const historicalData = await getHistoricalData()
 ---
 
 <Layout>
-	<main>
-		<BestAfpByYtdSection />
-		<BestAfpByPeriodSectionSolid client:only="solid" />
-		<BestAfpByComitionSection />
-	</main>
+  <main>
+    <BestAfpByYtdSection />
+    <BestAfpByPeriodSectionSolid
+      historicalData={historicalData}
+      client:only="solid"
+    />
+    <BestAfpByComitionSection />
+  </main>
 </Layout>

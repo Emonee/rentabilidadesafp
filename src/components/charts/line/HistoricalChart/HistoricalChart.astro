@@ -1,18 +1,31 @@
 ---
 import FoundsSelect from '@/components/forms/selects/FoundsSelect.astro'
+import { getHistoricalData } from '@/lib/server/data'
+const historicalData = await getHistoricalData()
 ---
-<FoundsSelect attributes={{id:"found-historical-select"}} />
-<historical-chart id="historical-chart"></historical-chart>
+
+<FoundsSelect attributes={{ id: 'found-historical-select' }} />
+<historical-chart
+  id="historical-chart"
+  data-historical-data={JSON.stringify(historicalData)}></historical-chart>
 <script src="./script.ts"></script>
 
 <script>
-import type { Found } from "@/lib/utilities/types"
-import { HistoricalChart } from "./script"
+  import type { Found } from '@/lib/utilities/types'
+  import { HistoricalChart } from './script'
 
-const chart = document.querySelector<HistoricalChart>('historical-chart#historical-chart')
+  const chart = document.querySelector<HistoricalChart>(
+    'historical-chart#historical-chart'
+  )
 
-document.querySelector<HTMLSelectElement>('select#found-historical-select')?.addEventListener('change', (event) => {
-  const newSelectedFondo = (event.target as HTMLSelectElement)?.value as Found
-  chart?.setAttribute(HistoricalChart.observedAttributes[0], JSON.stringify({ found: newSelectedFondo }))
-})
+  document
+    .querySelector<HTMLSelectElement>('select#found-historical-select')
+    ?.addEventListener('change', (event) => {
+      const newSelectedFondo = (event.target as HTMLSelectElement)
+        ?.value as Found
+      chart?.setAttribute(
+        HistoricalChart.observedAttributes[0],
+        JSON.stringify({ found: newSelectedFondo })
+      )
+    })
 </script>

@@ -8,9 +8,7 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "lint": "biome check",
-    "check": "astro check",
-    "oxlint": "npx oxlint@latest"
+    "check": "astro check"
   },
   "dependencies": {
     "@astrojs/check": "0.8.2",
@@ -23,6 +21,7 @@
     "typescript": "5.5.4"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.8.3"
+    "@types/node": "22.1.0",
+    "prettier": "3.3.3"
   }
 }

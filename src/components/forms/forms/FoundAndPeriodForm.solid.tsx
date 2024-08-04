@@ -13,14 +13,20 @@ export default function FoundAndPeriodForm(props: PropType) {
   threeYearsBefore.setFullYear(threeYearsBefore.getFullYear() - 3)
   threeYearsBefore.setMonth(threeYearsBefore.getMonth() + 1)
   const months = [...Array(12).keys()].map((_, i) => i + 1)
-  const years = [...Array(now.getFullYear() - firstYear + 1).keys()].map((_, i) => i + firstYear)
-  const defaultOnSubmit: JSX.EventHandler<HTMLFormElement, SubmitEvent> = (e) => {
+  const years = [...Array(now.getFullYear() - firstYear + 1).keys()].map(
+    (_, i) => i + firstYear
+  )
+  const defaultOnSubmit: JSX.EventHandler<HTMLFormElement, SubmitEvent> = (
+    e
+  ) => {
     e.preventDefault()
   }
   return (
     <form onSubmit={props.onSubmit || defaultOnSubmit}>
       <select style="max-width: 200px;" name="found">
-        <For each={FONDOS}>{({ name }) => <option value={name}>{name}</option>}</For>
+        <For each={FONDOS}>
+          {({ name }) => <option value={name}>{name}</option>}
+        </For>
       </select>
       <p>
         <b>Periodo:</b>
@@ -30,7 +36,10 @@ export default function FoundAndPeriodForm(props: PropType) {
         <select name="monthFrom">
           <For each={months}>
             {(month) => (
-              <option value={month.toString().padStart(2, '0')} selected={threeYearsBefore.getMonth() + 1 === month}>
+              <option
+                value={month.toString().padStart(2, '0')}
+                selected={threeYearsBefore.getMonth() + 1 === month}
+              >
                 {getMonthNameByMonth(month)}
               </option>
             )}
@@ -39,7 +48,10 @@ export default function FoundAndPeriodForm(props: PropType) {
         <select name="yearFrom">
           <For each={years}>
             {(year) => (
-              <option value={year} selected={threeYearsBefore.getFullYear() === year}>
+              <option
+                value={year}
+                selected={threeYearsBefore.getFullYear() === year}
+              >
                 {year}
               </option>
             )}
@@ -51,7 +63,10 @@ export default function FoundAndPeriodForm(props: PropType) {
         <select name="monthTo">
           <For each={months}>
             {(month) => (
-              <option value={month.toString().padStart(2, '0')} selected={now.getMonth() + 1 === month}>
+              <option
+                value={month.toString().padStart(2, '0')}
+                selected={now.getMonth() + 1 === month}
+              >
                 {getMonthNameByMonth(month)}
               </option>
             )}
