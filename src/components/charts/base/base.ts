@@ -46,16 +46,20 @@ export class BaseChart extends HTMLElement {
       indexesToRemove.forEach((val, index) =>
         this.chart?.data.datasets.splice(val - index, 1)
       )
-      for (const dataset of newDatasets) {
+      for (const newDataset of newDatasets) {
         const selectedDataset = this.chart.data.datasets.find(
-          ({ label }) => label === dataset.label
+          ({ label }) => label === newDataset.label
         )
         if (!selectedDataset) {
-          this.chart.data.datasets.push(dataset)
+          this.chart.data.datasets.push(newDataset)
           continue
         }
         selectedDataset.data.forEach((_, index, array) => {
-          array[index] = dataset.data[index]
+          array[index] = newDataset.data[index]
+        })
+        newDataset.data.forEach((data, index) => {
+          if (index in selectedDataset.data) return
+          selectedDataset.data.push(data)
         })
       }
     }
