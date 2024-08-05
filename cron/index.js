@@ -2,7 +2,6 @@ import * as cheerio from 'cheerio'
 
 const TOKEN = process.env.GITHUB_TOKEN
 const REPO_NAME = process.env.REPO_NAME
-const USER_NAME = process.env.USER_NAME
 const HISTORICAL_DATA_FILE_ROUTE = './src/data/historical_data.csv'
 const YTD_12_MONTHS_FILE_ROUTE = './src/data/ytd_12_months.json'
 
@@ -106,24 +105,25 @@ tables.slice(1).each((index, table) => {
   })
 })
 try {
-  console.log({ TOKEN, REPO_NAME, USER_NAME })
-  // console.log('Modifying files')
-  // await Promise.all([
-  //   appendFile(HISTORICAL_DATA_FILE_ROUTE, stringData),
-  //   writeFile(
-  //     YTD_12_MONTHS_FILE_ROUTE,
-  //     `${JSON.stringify(jsonData, undefined, 2)}\n`
-  //   )
-  // ])
-  // execSync('git add .')
-  // console.log('Commiting files')
-  // const commitRes = execSync(
-  //   `git commit -m "update: main data files ${year}-${month} [github-action]"`
-  // )
-  // console.log(commitRes.toString())
-  // console.log('Pushing changes')
-  // const pushRes = execSync('git push')
-  // console.log(pushRes.toString())
+  console.log('Modifying files')
+  await Promise.all([
+    appendFile(HISTORICAL_DATA_FILE_ROUTE, stringData),
+    writeFile(
+      YTD_12_MONTHS_FILE_ROUTE,
+      `${JSON.stringify(jsonData, undefined, 2)}\n`
+    )
+  ])
+  execSync('git add .')
+  console.log('Commiting files')
+  const commitRes = execSync(
+    `git commit -m "update: main data files ${year}-${month} [github-action]"`
+  )
+  console.log(commitRes.toString())
+  console.log('Pushing changes')
+  const pushRes = execSync(
+    `git push https://${TOKEN}@github.com/${REPO_NAME}.git`
+  )
+  console.log(pushRes.toString())
 } catch (error) {
   console.error(error)
   process.exit(1)
