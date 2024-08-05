@@ -10,13 +10,10 @@ export async function getHistoricalData(): Promise<CsvData> {
   const filePath = isDev
     ? new URL('../../../data/historical_data.csv', import.meta.url)
     : new URL('../data/historical_data.csv', import.meta.url)
-  const csvString = await readFile(filePath)
-  csvData = csvString
-    .toString()
-    .split('\n')
-    .map((row) => {
-      const [afpName, month, year, rowFound, rentability] = row.split(',')
-      return [afpName, month, year, rowFound, rentability]
-    })
+  const csvString = await readFile(filePath, { encoding: 'utf-8' })
+  csvData = csvString.split('\n').map((row) => {
+    const [afpName, month, year, rowFound, rentability] = row.split(',')
+    return [afpName, month, year, rowFound, rentability]
+  })
   return csvData
 }
