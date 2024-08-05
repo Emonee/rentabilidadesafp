@@ -11,9 +11,9 @@
     "check": "astro check"
   },
   "dependencies": {
-    "@astrojs/check": "0.8.2",
+    "@astrojs/check": "0.9.1",
     "@astrojs/solid-js": "4.4.0",
-    "astro": "4.12.2",
+    "astro": "4.13.1",
     "chart.js": "4.4.3",
     "cheerio": "1.0.0-rc.12",
     "decimal.js": "10.4.3",
