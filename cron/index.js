@@ -2,8 +2,6 @@ import * as cheerio from 'cheerio'
 import { execSync } from 'node:child_process'
 import { appendFile, writeFile } from 'node:fs/promises'
 
-const TOKEN = process.env.GITHUB_TOKEN
-const REPO_NAME = process.env.REPO_NAME
 const HISTORICAL_DATA_FILE_ROUTE = './src/data/historical_data.csv'
 const YTD_12_MONTHS_FILE_ROUTE = './src/data/ytd_12_months.json'
 
@@ -122,9 +120,7 @@ try {
   )
   console.log(commitRes.toString())
   console.log('Pushing changes')
-  const pushRes = execSync(
-    `git push https://${TOKEN}@github.com/${REPO_NAME}.git`
-  )
+  const pushRes = execSync('git push')
   console.log(pushRes.toString())
 } catch (error) {
   console.error(error)
