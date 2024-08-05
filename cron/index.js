@@ -2,8 +2,8 @@ import * as cheerio from 'cheerio'
 import { execSync } from 'node:child_process'
 import { appendFile, writeFile } from 'node:fs/promises'
 
-const HISTORICAL_DATA_FILE_ROUTE = './public/data/historical_data.csv'
-const YTD_12_MONTHS_FILE_ROUTE = './public/data/ytd_12_months.json'
+const HISTORICAL_DATA_FILE_ROUTE = './src/data/historical_data.csv'
+const YTD_12_MONTHS_FILE_ROUTE = './src/data/ytd_12_months.json'
 
 const now = new Date()
 const month = now.getMonth().toString().padStart(2, '0')
