@@ -1,4 +1,6 @@
 import * as cheerio from 'cheerio'
+import { execSync } from 'node:child_process'
+import { appendFile, writeFile } from 'node:fs/promises'
 
 const TOKEN = process.env.GITHUB_TOKEN
 const REPO_NAME = process.env.REPO_NAME
