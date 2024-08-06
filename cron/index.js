@@ -1,23 +1,21 @@
 import * as cheerio from 'cheerio'
 import { execSync } from 'node:child_process'
 import { appendFile, writeFile } from 'node:fs/promises'
+import { founds, validAfps } from './consts.js'
+import { parseReturn } from './lib.js'
+import { MonthDataSaver } from './month.js'
+import { YearDataSaver } from './year.js'
 
 const HISTORICAL_DATA_FILE_ROUTE = './src/data/historical_data.csv'
 const YTD_12_MONTHS_FILE_ROUTE = './src/data/ytd_12_months.json'
+const ANNUAL_RETURNS_FILE_ROUTE = './src/data/anual_returns.json'
 
+const yearDataSaver = new YearDataSaver()
+const monthDataSaver = new MonthDataSaver()
 const now = new Date()
 const month = now.getMonth().toString().padStart(2, '0')
+const isJanuary = month === '01'
 const year = now.getFullYear().toString()
-const founds = ['A', 'B', 'C', 'D', 'E']
-const validAfps = [
-  'CAPITAL',
-  'CUPRUM',
-  'HABITAT',
-  'MODELO',
-  'PLANVITAL',
-  'PROVIDA',
-  'UNO'
-]
 const url = 'https://www.spensiones.cl/apps/rentabilidad/getRentabilidad.php'
 const searchParams = new URLSearchParams({
   tiprent: 'FP',
@@ -38,13 +36,10 @@ const res = await fetch(urlWithParams, {
   body: formData.toString()
 })
 if (!res.ok) {
-  console.log('Invalid res:')
-  console.log(res.statusText)
+  console.error('Invalid res: ', res.statusText)
   process.exit(1)
 }
 const htmlString = await res.text()
-const jsonData = {}
-let stringData = ''
 const $ = cheerio.load(htmlString)
 const tables = $(
   'table.table.table-striped.table-hover.table-bordered.table-condensed'
@@ -58,70 +53,52 @@ if (tables.length === 0) {
 tables.slice(1).each((index, table) => {
   const found = founds[index]
   const trs = $(table).find('tr')
-
   trs.slice(4).each((_, tr) => {
     const tds = $(tr).find('td')
     const afpName = $(tds[0]).text()
-
     if (!validAfps.includes(afpName)) return
-    jsonData[afpName] ||= {}
-    jsonData[afpName][found] ||= {}
-
-    let monthRentability = null
-    let ytd = null
-    let acc = null
-
-    try {
-      monthRentability = Number.parseFloat(
-        $(tds[1]).text().replace('%', '').replace(',', '.')
-      )
-    } catch (e) {}
-
-    try {
-      ytd = Number.parseFloat(
-        $(tds[2]).text().replace('%', '').replace(',', '.')
-      )
-    } catch (e) {}
-
-    try {
-      acc = Number.parseFloat(
-        $(tds[3]).text().replace('%', '').replace(',', '.')
-      )
-    } catch (e) {}
-
-    const invalidData = [monthRentability, ytd, acc].some(
-      (val) => val == null || Number.isNaN(val)
-    )
-    if (invalidData) {
-      console.log('Invalid data:')
-      console.log({ invalidData })
-      process.exit(1)
-    }
-
-    stringData += `${afpName},${month},${year},${found},${monthRentability}\n`
-    jsonData[afpName][found].month = monthRentability
-    jsonData[afpName][found].ytd = ytd
-    jsonData[afpName][found].acc = acc
+    const monthRentability = parseReturn($(tds[1]).text())
+    const ytd = parseReturn($(tds[2]).text())
+    const acc = parseReturn($(tds[3]).text())
+    if (isJanuary)
+      yearDataSaver.registerData({
+        afpName,
+        year: +year - 1,
+        found,
+        profitability: acc
+      })
+    monthDataSaver.saveData({
+      afpName,
+      month,
+      year,
+      found,
+      acc,
+      monthRentability,
+      ytd
+    })
   })
 })
+
 try {
-  console.log('Modifying files')
+  console.info('Modifying files')
+  if (isJanuary)
+    await writeFile(ANNUAL_RETURNS_FILE_ROUTE, yearDataSaver.annualData)
   await Promise.all([
-    appendFile(HISTORICAL_DATA_FILE_ROUTE, stringData),
+    appendFile(HISTORICAL_DATA_FILE_ROUTE, monthDataSaver.stringDataForCsv),
     writeFile(
       YTD_12_MONTHS_FILE_ROUTE,
-      `${JSON.stringify(jsonData, undefined, 2)}\n`
+      `${JSON.stringify(monthDataSaver.jsonDataForYtd, undefined, 2)}\n`
     )
   ])
   execSync('git add .')
-  console.log('Commiting files')
+  console.info('Commiting files')
   const commitRes = execSync(
     `git commit -m "update: main data files ${year}-${month} [github-action]"`
   )
-  console.log(commitRes.toString())
-  console.log('Pushing changes')
+  console.info(commitRes.toString())
+  console.info('Pushing changes')
   const pushRes = execSync('git push')
-  console.log(pushRes.toString())
+  console.info(pushRes.toString())
 } catch (error) {
   console.error(error)
   process.exit(1)
