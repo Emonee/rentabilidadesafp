@@ -17,3 +17,12 @@ export async function getHistoricalData(): Promise<CsvData> {
   })
   return csvData
 }
+
+export async function getLastUpdateDate(): Promise<Date> {
+  const isDev = import.meta.env.MODE === 'development'
+  const filePath = isDev
+    ? new URL('../../../data/last_updated.txt', import.meta.url)
+    : new URL('../data/last_updated.txt', import.meta.url)
+  const lastUpdateString = await readFile(filePath, { encoding: 'utf-8' })
+  return new Date(lastUpdateString)
+}

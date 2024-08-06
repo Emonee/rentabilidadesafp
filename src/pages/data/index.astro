@@ -4,6 +4,11 @@ import HistoricalArticle from '@/components/articles/HistoricalArticle.astro'
 import Acc from '@/components/charts/bar/Acc'
 import Ytd from '@/components/charts/bar/Ytd/Ytd.astro'
 import Layout from '@/layouts/Layout.astro'
+import { getLastUpdateDate } from '@/lib/server/data'
+import { getMonthNameByMonth } from '@/lib/utilities/dates'
+
+const lastUpdatedDate = await getLastUpdateDate()
+const monthString = getMonthNameByMonth(lastUpdatedDate.getMonth())
 ---
 
 <Layout>
@@ -39,6 +44,8 @@ import Layout from '@/layouts/Layout.astro'
       <small style="font-size: 14px">(Más es mejor)</small>
     </h2>
     <Acc client:only="solid" />
-    <p id="last-data">* Datos actualizados a Julio del 2024.</p>
+    <p id="last-data">
+      * Datos actualizados a {monthString} del {lastUpdatedDate.getFullYear()}.
+    </p>
   </main>
 </Layout>
