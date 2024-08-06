@@ -28,17 +28,17 @@ import Layout from '@/layouts/Layout.astro'
         style="text-decoration: none">*</a
       >
       <small style="font-size: 14px">(Más es mejor)</small>
-      <p>También conocido como Year To Date.</p>
-      <Ytd />
-      <h2>
-        Rentabilidad real últimos 12 meses<a
-          href="#last-data"
-          style="text-decoration: none">*</a
-        >
-        <small style="font-size: 14px">(Más es mejor)</small>
-        <Acc client:only="solid" />
-        <p id="last-data">* Datos actualizados a Junio del 2024.</p>
-      </h2>
     </h2>
-  </main></Layout
->
+    <p>También conocido como Year To Date.</p>
+    <Ytd />
+    <h2>
+      Rentabilidad real últimos 12 meses<a
+        href="#last-data"
+        style="text-decoration: none">*</a
+      >
+      <small style="font-size: 14px">(Más es mejor)</small>
+    </h2>
+    <Acc client:only="solid" />
+    <p id="last-data">* Datos actualizados a Julio del 2024.</p>
+  </main>
+</Layout>
