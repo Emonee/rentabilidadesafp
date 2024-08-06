@@ -2,7 +2,7 @@ import * as cheerio from 'cheerio'
 import { execSync } from 'node:child_process'
 import { appendFile, writeFile } from 'node:fs/promises'
 import { founds, validAfps } from './consts.js'
-import { parseReturn } from './lib.js'
+import { parseReturn, setLastUpdate } from './lib.js'
 import { MonthDataSaver } from './month.js'
 import { YearDataSaver } from './year.js'
 
@@ -88,7 +88,8 @@ try {
     writeFile(
       YTD_12_MONTHS_FILE_ROUTE,
       `${JSON.stringify(monthDataSaver.jsonDataForYtd, undefined, 2)}\n`
-    )
+    ),
+    setLastUpdate()
   ])
   execSync('git add .')
   console.info('Commiting files')
