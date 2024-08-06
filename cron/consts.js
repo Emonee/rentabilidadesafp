@@ -8,3 +8,5 @@ export const validAfps = [
   'UNO'
 ]
 export const founds = ['A', 'B', 'C', 'D', 'E']
+export const superintendenciaUrl =
+  'https://www.spensiones.cl/apps/rentabilidad/getRentabilidad.php'

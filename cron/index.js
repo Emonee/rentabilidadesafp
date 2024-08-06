@@ -2,7 +2,7 @@ import * as cheerio from 'cheerio'
 import { execSync } from 'node:child_process'
 import { appendFile, writeFile } from 'node:fs/promises'
 import { founds, validAfps } from './consts.js'
-import { parseReturn, setLastUpdate } from './lib.js'
+import { fetchSuperintendencia, parseReturn, setLastUpdate } from './lib.js'
 import { MonthDataSaver } from './month.js'
 import { YearDataSaver } from './year.js'
 
@@ -12,29 +12,14 @@ const ANNUAL_RETURNS_FILE_ROUTE = './src/data/anual_returns.json'
 
 const yearDataSaver = new YearDataSaver()
 const monthDataSaver = new MonthDataSaver()
+
 const now = new Date()
 const month = now.getMonth().toString().padStart(2, '0')
-const isJanuary = month === '01'
 const year = now.getFullYear().toString()
-const url = 'https://www.spensiones.cl/apps/rentabilidad/getRentabilidad.php'
-const searchParams = new URLSearchParams({
-  tiprent: 'FP',
-  template: '0'
-})
-const urlWithParams = `${url}?${searchParams.toString()}`
-const formData = new URLSearchParams({
-  aaaa: year,
-  mm: month,
-  btn: 'Buscar'
-})
 
-const res = await fetch(urlWithParams, {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/x-www-form-urlencoded'
-  },
-  body: formData.toString()
-})
+const isJanuary = month === '01'
+
+const res = await fetchSuperintendencia({ year, month })
 if (!res.ok) {
   console.error('Invalid res: ', res.statusText)
   process.exit(1)
