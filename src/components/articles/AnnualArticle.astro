@@ -1,8 +1,8 @@
 ---
-import AnualChart from '@/components/charts/line/AnualChart/AnualChart.astro'
+import AnualChart from '@/components/charts/line/AnualChart/AnualChart'
 ---
+
 <article class="chart-container">
   <p>Fondo a visualizar:</p>
-  <AnualChart />
+  <AnualChart client:visible />
 </article>
-
