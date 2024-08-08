@@ -73,7 +73,7 @@ export class AnnualChart extends BaseChart {
       (event) => {
         const newSelectedFondo = (event.target as HTMLSelectElement)
           ?.value as Found
-        this.updateDatasets(this.generateData(newSelectedFondo))
+        this.updateChart({ newDatasets: this.generateData(newSelectedFondo) })
       }
     )
   }
