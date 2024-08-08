@@ -35,7 +35,7 @@ const monthString = getMonthNameByMonth(lastUpdatedDate.getMonth())
       <small style="font-size: 14px">(Más es mejor)</small>
     </h2>
     <p>También conocido como Year To Date.</p>
-    <Ytd client:load />
+    <Ytd client:visible />
     <h2>
       Rentabilidad real últimos 12 meses<a
         href="#last-data"
@@ -43,7 +43,7 @@ const monthString = getMonthNameByMonth(lastUpdatedDate.getMonth())
       >
       <small style="font-size: 14px">(Más es mejor)</small>
     </h2>
-    <Acc client:load />
+    <Acc client:visible />
     <p id="last-data">
       * Datos actualizados a {monthString} del {lastUpdatedDate.getFullYear()}.
     </p>
