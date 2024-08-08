@@ -1,21 +1,18 @@
 import { AFPS } from '@/consts/afp'
 import ytdAccData from '@/data/ytd_12_months.json'
-import Chart, { type ChartDataset } from 'chart.js/auto'
+import Chart from 'chart.js/auto'
 import { onMount } from 'solid-js'
 
-export default function () {
+export default function Ytd() {
   let chart!: HTMLCanvasElement
-  const founds = ytdAccData ? Object.keys(Object.values(ytdAccData)[0]) : []
-  const datasets: ChartDataset[] = Object.entries(ytdAccData || {}).map(
-    ([name, values]) => ({
-      label: name,
-      borderColor: AFPS[name as keyof typeof AFPS].mainColor,
-      backgroundColor: AFPS[name as keyof typeof AFPS].mainColor,
-      data: Object.values(values).map((v) => v.acc)
-    })
-  )
+  const labels = Object.keys(Object.values(ytdAccData)[0])
+  const datasets = Object.entries(ytdAccData).map(([name, values]) => ({
+    label: name,
+    borderColor: AFPS[name as keyof typeof AFPS].mainColor,
+    backgroundColor: AFPS[name as keyof typeof AFPS].mainColor,
+    data: Object.values(values).map((v) => v.ytd)
+  }))
   onMount(() => {
-    if (!chart) return
     new Chart(chart, {
       type: 'bar',
       options: {
@@ -53,16 +50,14 @@ export default function () {
         }
       },
       data: {
-        labels: founds,
-        datasets: datasets
+        labels,
+        datasets
       }
     })
   })
   return (
     <article class="chart-container">
-      <div>
-        <canvas id="acc" ref={chart} />
-      </div>
+      <canvas ref={chart}></canvas>
     </article>
   )
 }

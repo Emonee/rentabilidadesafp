@@ -2,7 +2,7 @@
 import AnnualArticle from '@/components/articles/AnnualArticle.astro'
 import HistoricalArticle from '@/components/articles/HistoricalArticle.astro'
 import Acc from '@/components/charts/bar/Acc'
-import Ytd from '@/components/charts/bar/Ytd/Ytd.astro'
+import Ytd from '@/components/charts/bar/Ytd'
 import Layout from '@/layouts/Layout.astro'
 import { getLastUpdateDate } from '@/lib/server/data'
 import { getMonthNameByMonth } from '@/lib/utilities/dates'
@@ -35,7 +35,7 @@ const monthString = getMonthNameByMonth(lastUpdatedDate.getMonth())
       <small style="font-size: 14px">(Más es mejor)</small>
     </h2>
     <p>También conocido como Year To Date.</p>
-    <Ytd />
+    <Ytd client:load />
     <h2>
       Rentabilidad real últimos 12 meses<a
         href="#last-data"
@@ -43,7 +43,7 @@ const monthString = getMonthNameByMonth(lastUpdatedDate.getMonth())
       >
       <small style="font-size: 14px">(Más es mejor)</small>
     </h2>
-    <Acc client:only="solid" />
+    <Acc client:load />
     <p id="last-data">
       * Datos actualizados a {monthString} del {lastUpdatedDate.getFullYear()}.
     </p>
