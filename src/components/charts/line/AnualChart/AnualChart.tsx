@@ -2,6 +2,7 @@ import FoundsSelect from '@/components/forms/selects/FoundsSelect'
 import { AFPS } from '@/consts/afp'
 import { ZERO_LINE_PLUGIN } from '@/consts/charts'
 import jsonAnnualData from '@/data/anual_returns.json'
+import { updateChart } from '@/lib/client/charts'
 import type { Found } from '@/lib/utilities/types'
 import { Chart } from 'chart.js/auto'
 import { createEffect, createSignal } from 'solid-js'
@@ -91,8 +92,7 @@ export default function AnnualChart() {
         plugins: [ZERO_LINE_PLUGIN]
       })
     } else {
-      chart.data.datasets = getDatasets()
-      chart.update()
+      updateChart({ chart, newDatasets: getDatasets() })
     }
   })
 
