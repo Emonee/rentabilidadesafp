@@ -15,7 +15,7 @@ export class BestAfpByPeriodTable extends HTMLElement {
       const tableNameData = document.createElement('td')
       const tableValueData = document.createElement('td')
       tableNameData.textContent = name
-      tableValueData.textContent = `${value.toString().padEnd(4, '0')} %`
+      tableValueData.textContent = `${value.toString().padEnd(4, '0')}%`
       const color = getColor(100, -100, value, false, true)
       tableNameData.style.setProperty('border-left', `4px solid ${color}`)
       tableValueData.style.setProperty('text-align', 'center')

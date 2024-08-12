@@ -22,7 +22,7 @@ export default function BestAfpByYTDTable(props: Props) {
                     'border-right': colorStyle
                   }}
                 >
-                  {value}
+                  {value}%
                 </td>
               </tr>
             )
