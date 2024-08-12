@@ -1,7 +1,7 @@
 ---
 import BestAfpByComitionSection from '@/components/sections/BestAfpByComitionSection/BestAfpByComitionSection.astro'
 import BestAfpByPeriodSectionSolid from '@/components/sections/BestAfpByPeriodSection/BestAfpByPeriodSection.solid'
-import BestAfpByYtdSection from '@/components/sections/BestAfpByYtdSection/BestAfpByYtdSection.astro'
+import BestAfpByYtdSection from '@/components/sections/BestAfpByYtdSection/BestAfpByYtdSection'
 import Layout from '@/layouts/Layout.astro'
 import { getHistoricalData, getLastUpdateDate } from '@/lib/server/data'
 import { getMonthNameByMonth } from '@/lib/utilities/dates'
@@ -13,7 +13,7 @@ const monthString = getMonthNameByMonth(lastUpdatedDate.getMonth())
 
 <Layout>
   <main>
-    <BestAfpByYtdSection />
+    <BestAfpByYtdSection client:visible />
     <BestAfpByPeriodSectionSolid
       historicalData={historicalData}
       client:only="solid"
