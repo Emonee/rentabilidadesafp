@@ -1,7 +1,7 @@
 import { createRequire } from 'node:module'
 
 const require = createRequire(import.meta.url)
-const annualJson = require('../src/data/anual_returns.json')
+const annualJson = require('../../src/data/anual_returns.json')
 
 export class YearDataSaver {
   constructor() {
