@@ -56,9 +56,9 @@ export default function BestAfpByPeriodSection(props: {
     threeYearsBefore.setMonth(threeYearsBefore.getMonth() + 1)
     buildTableAndChart({
       found: 'A',
-      monthFrom: threeYearsBefore.getMonth() + 1,
+      monthFrom: threeYearsBefore.getMonth(),
       yearFrom: threeYearsBefore.getFullYear(),
-      monthTo: now.getMonth() + 1,
+      monthTo: now.getMonth(),
       yearTo: now.getFullYear()
     })
   })

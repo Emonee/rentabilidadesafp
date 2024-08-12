@@ -38,7 +38,7 @@ export default function FoundAndPeriodForm(props: PropType) {
             {(month) => (
               <option
                 value={month.toString().padStart(2, '0')}
-                selected={threeYearsBefore.getMonth() + 1 === month}
+                selected={threeYearsBefore.getMonth() === month}
               >
                 {getMonthNameByMonth(month)}
               </option>
@@ -65,7 +65,7 @@ export default function FoundAndPeriodForm(props: PropType) {
             {(month) => (
               <option
                 value={month.toString().padStart(2, '0')}
-                selected={now.getMonth() + 1 === month}
+                selected={now.getMonth() === month}
               >
                 {getMonthNameByMonth(month)}
               </option>
