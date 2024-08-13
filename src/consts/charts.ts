@@ -1,4 +1,4 @@
-import type { Chart } from 'chart.js'
+import type { Chart, ChartConfiguration } from 'chart.js'
 
 export const ZERO_LINE_PLUGIN = {
   id: 'zeroLine', // Custom ID for the plugin
@@ -15,4 +15,55 @@ export const ZERO_LINE_PLUGIN = {
     ctx.stroke()
     ctx.restore()
   }
+}
+
+export const HISTORICAL_INITIAL_CHART_CONFIG: ChartConfiguration = {
+  type: 'line',
+  options: {
+    interaction: {
+      mode: 'nearest',
+      intersect: false,
+      axis: 'x'
+    },
+    scales: {
+      y: {
+        max: 140,
+        min: -40,
+        title: {
+          display: true,
+          text: 'Rentabilidad real',
+          font: {
+            size: 18
+          }
+        },
+        ticks: {
+          callback: (value) => `${value}%`
+        }
+      },
+      x: {
+        title: {
+          display: true,
+          text: 'Año-Mes',
+          font: {
+            size: 18
+          }
+        }
+      }
+    },
+    plugins: {
+      tooltip: {
+        itemSort: ({ formattedValue }, { formattedValue: formattedValue2 }) =>
+          +formattedValue2 - +formattedValue,
+        callbacks: {
+          label: ({ dataset, formattedValue }) =>
+            `${dataset.label}: ${formattedValue}%`
+        }
+      }
+    }
+  },
+  data: {
+    labels: [],
+    datasets: []
+  },
+  plugins: [ZERO_LINE_PLUGIN]
 }
