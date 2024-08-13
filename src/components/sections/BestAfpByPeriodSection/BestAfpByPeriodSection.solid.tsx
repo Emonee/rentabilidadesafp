@@ -1,8 +1,8 @@
-import '@/components/charts/line/HistoricalChart/script'
-import type { HistoricalChart } from '@/components/charts/line/HistoricalChart/script'
+import HistoricalChart from '@/components/charts/line/HistoricalChart/HistoricalChart'
 import FoundAndPeriodForm from '@/components/forms/forms/FoundAndPeriodForm.solid'
 import BestAFPByPeriodTable from '@/components/tables/BestAFPByPeriodTable'
 import { buildHistoricalData } from '@/lib/server/data_builds'
+import type { ChartDataset } from 'chart.js'
 import { For, type JSX, Show, createSignal, onMount } from 'solid-js'
 
 export default function BestAfpByPeriodSection(props: {
@@ -11,7 +11,8 @@ export default function BestAfpByPeriodSection(props: {
   const [bestAfp, setBestAfp] = createSignal<string>('')
   const [afpsOutOfPeriod, setAfpsOutOfPeriod] = createSignal<string[]>([])
   const [getTableRows, setTableRows] = createSignal<[string, number][]>([])
-  let historicalChart!: HistoricalChart
+  const [getDatasets, setDatasets] = createSignal<ChartDataset[]>([])
+  const [getLabels, setLabels] = createSignal<string[]>([])
   const buildTableAndChart = ({
     found,
     monthFrom,
@@ -25,25 +26,23 @@ export default function BestAfpByPeriodSection(props: {
     yearFrom: number
     yearTo: number
   }) => {
-    buildHistoricalData({
-      historicalData: props.historicalData,
-      found,
-      monthFrom,
-      yearFrom,
-      monthTo,
-      yearTo
-    }).then(({ labels, datasets, afpsOutOfPeriod, tableData }) => {
-      const filteredDatasets = datasets.filter(({ data }) =>
-        data.every((d) => d != null)
-      )
-      tableData.length ? setBestAfp(tableData[0][0]) : setBestAfp('')
-      setAfpsOutOfPeriod([...afpsOutOfPeriod])
-      setTableRows(tableData)
-      historicalChart.updateChart({
-        newDatasets: filteredDatasets,
-        newLabels: labels
+    const { labels, datasets, afpsOutOfPeriod, tableData } =
+      buildHistoricalData({
+        historicalData: props.historicalData,
+        found,
+        monthFrom,
+        yearFrom,
+        monthTo,
+        yearTo
       })
-    })
+    const filteredDatasets = datasets.filter(({ data }) =>
+      data.every((d) => d != null)
+    )
+    tableData.length ? setBestAfp(tableData[0][0]) : setBestAfp('')
+    setAfpsOutOfPeriod([...afpsOutOfPeriod])
+    setTableRows(tableData)
+    setDatasets(filteredDatasets)
+    setLabels(labels)
   }
   onMount(() => {
     const now = new Date()
@@ -94,10 +93,7 @@ export default function BestAfpByPeriodSection(props: {
         </p>
         <FoundAndPeriodForm onSubmit={handleSubmit} />
         <BestAFPByPeriodTable rows={getTableRows()} />
-        <historical-chart
-          ref={historicalChart}
-          style={{ display: bestAfp() ? 'block' : 'none' }}
-        />
+        <HistoricalChart datasets={getDatasets()} labels={getLabels()} />
         <Show when={afpsOutOfPeriod().length}>
           <p>
             Las siguientes AFP quedaron fuera del ranking por no existir dentro
