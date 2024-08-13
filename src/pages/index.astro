@@ -14,10 +14,7 @@ const monthString = getMonthNameByMonth(lastUpdatedDate.getMonth())
 <Layout>
   <main>
     <BestAfpByYtdSection client:visible />
-    <BestAfpByPeriodSectionSolid
-      historicalData={historicalData}
-      client:only="solid"
-    />
+    <BestAfpByPeriodSectionSolid historicalData={historicalData} client:load />
     <BestAfpByComitionSection />
     <p id="last-data">
       * Datos actualizados a {monthString} del {lastUpdatedDate.getFullYear()}.

@@ -1,12 +1,13 @@
 ---
 import AnnualArticle from '@/components/articles/AnnualArticle.astro'
-import HistoricalArticle from '@/components/articles/HistoricalArticle.astro'
+import HistoricalArticle from '@/components/articles/HistoricalArticle'
 import Acc from '@/components/charts/bar/Acc'
 import Ytd from '@/components/charts/bar/Ytd'
 import Layout from '@/layouts/Layout.astro'
-import { getLastUpdateDate } from '@/lib/server/data'
+import { getHistoricalData, getLastUpdateDate } from '@/lib/server/data'
 import { getMonthNameByMonth } from '@/lib/utilities/dates'
 
+const historicalData = await getHistoricalData()
 const lastUpdatedDate = await getLastUpdateDate()
 const monthString = getMonthNameByMonth(lastUpdatedDate.getMonth())
 ---
@@ -19,7 +20,7 @@ const monthString = getMonthNameByMonth(lastUpdatedDate.getMonth())
       >
     </h2>
     <p>Es el acumulado mes a mes de cada AFP.</p>
-    <HistoricalArticle />
+    <HistoricalArticle historicalData={historicalData} client:load />
     <h2>
       Rentabilidad real histórica anual <small style="font-size: 14px"
         >(Más es mejor)</small

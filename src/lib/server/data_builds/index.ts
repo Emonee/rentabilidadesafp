@@ -6,7 +6,7 @@ import {
 } from '@/lib/utilities/nums'
 import type { ChartDataset } from 'chart.js'
 
-export async function buildHistoricalData({
+export function buildHistoricalData({
   historicalData,
   found,
   monthFrom,
