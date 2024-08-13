@@ -1,8 +1,7 @@
 import '@/components/charts/line/HistoricalChart/script'
 import type { HistoricalChart } from '@/components/charts/line/HistoricalChart/script'
 import FoundAndPeriodForm from '@/components/forms/forms/FoundAndPeriodForm.solid'
-import '@/components/tables/BestAFPByPeriodTable/script'
-import type { BestAfpByPeriodTable } from '@/components/tables/BestAFPByPeriodTable/script'
+import BestAFPByPeriodTable from '@/components/tables/BestAFPByPeriodTable'
 import { buildHistoricalData } from '@/lib/server/data_builds'
 import { For, type JSX, Show, createSignal, onMount } from 'solid-js'
 
@@ -11,8 +10,8 @@ export default function BestAfpByPeriodSection(props: {
 }) {
   const [bestAfp, setBestAfp] = createSignal<string>('')
   const [afpsOutOfPeriod, setAfpsOutOfPeriod] = createSignal<string[]>([])
+  const [getTableRows, setTableRows] = createSignal<[string, number][]>([])
   let historicalChart!: HistoricalChart
-  let bestAfpsPeriodTable!: BestAfpByPeriodTable
   const buildTableAndChart = ({
     found,
     monthFrom,
@@ -39,10 +38,7 @@ export default function BestAfpByPeriodSection(props: {
       )
       tableData.length ? setBestAfp(tableData[0][0]) : setBestAfp('')
       setAfpsOutOfPeriod([...afpsOutOfPeriod])
-      bestAfpsPeriodTable.setAttribute(
-        'data-table-rows',
-        JSON.stringify(tableData)
-      )
+      setTableRows(tableData)
       historicalChart.updateChart({
         newDatasets: filteredDatasets,
         newLabels: labels
@@ -97,11 +93,7 @@ export default function BestAfpByPeriodSection(props: {
           <b>Fondo a visualizar:</b>
         </p>
         <FoundAndPeriodForm onSubmit={handleSubmit} />
-        <best-afp-by-period-table ref={bestAfpsPeriodTable}>
-          <table>
-            <tbody />
-          </table>
-        </best-afp-by-period-table>
+        <BestAFPByPeriodTable rows={getTableRows()} />
         <historical-chart
           ref={historicalChart}
           style={{ display: bestAfp() ? 'block' : 'none' }}

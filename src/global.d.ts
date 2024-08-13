@@ -3,7 +3,6 @@ declare global {
     namespace JSX {
       interface IntrinsicElements {
         'historical-chart': HTMLAttributes<HTMLElement>
-        'best-afp-by-period-table': HTMLAttributes<HTMLElement>
       }
     }
   }
