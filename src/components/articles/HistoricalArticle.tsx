@@ -1,3 +1,4 @@
+import { buildHistoricalData } from '@/lib/server/data_builds'
 import { createSignal } from 'solid-js'
 import HistoricalChart from '../charts/line/HistoricalChart/HistoricalChart'
 import FoundsSelect from '../forms/selects/FoundsSelect'
@@ -15,15 +16,19 @@ export default function (props: Props) {
     monthTo: now.getMonth(),
     yearTo: now.getFullYear()
   }
+  const getHistoricalChhartProps = () => {
+    const { labels, datasets } = buildHistoricalData({
+      found: getFound(),
+      historicalData: props.historicalData,
+      ...initialChartProps
+    })
+    return { labels, datasets }
+  }
   return (
     <article>
       <p>Fondo a visualizar:</p>
       <FoundsSelect selectedFound={getFound()} setSelectedFound={setFound} />
-      <HistoricalChart
-        found={getFound()}
-        historicalData={props.historicalData}
-        {...initialChartProps}
-      />
+      <HistoricalChart {...getHistoricalChhartProps()} />
     </article>
   )
 }
