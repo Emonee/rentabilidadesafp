@@ -20,6 +20,7 @@ export const ZERO_LINE_PLUGIN = {
 export const HISTORICAL_INITIAL_CHART_CONFIG: ChartConfiguration = {
   type: 'line',
   options: {
+    maintainAspectRatio: false,
     interaction: {
       mode: 'nearest',
       intersect: false,

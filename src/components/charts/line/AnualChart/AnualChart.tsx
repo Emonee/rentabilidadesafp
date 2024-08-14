@@ -46,6 +46,7 @@ export default function AnnualChart() {
           datasets: getDatasets()
         },
         options: {
+          maintainAspectRatio: false,
           interaction: {
             mode: 'nearest',
             intersect: false,
@@ -102,7 +103,7 @@ export default function AnnualChart() {
         selectedFound={getSelectedFound()}
         setSelectedFound={setSelectedFound}
       />
-      <div>
+      <div style={{ 'min-height': '456px' }}>
         <canvas ref={chartCanvas} />
       </div>
     </>

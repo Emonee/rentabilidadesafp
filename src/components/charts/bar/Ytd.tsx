@@ -16,6 +16,7 @@ export default function Ytd() {
     new Chart(chart, {
       type: 'bar',
       options: {
+        maintainAspectRatio: false,
         scales: {
           y: {
             beginAtZero: true,
@@ -57,7 +58,9 @@ export default function Ytd() {
   })
   return (
     <article class="chart-container">
-      <canvas ref={chart}></canvas>
+      <div style={{ 'min-height': '456px' }}>
+        <canvas ref={chart}></canvas>
+      </div>
     </article>
   )
 }

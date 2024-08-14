@@ -17,5 +17,9 @@ export default function (props: Props) {
       chart = new Chart(canvasElement, HISTORICAL_INITIAL_CHART_CONFIG)
     updateChart({ chart, newDatasets: props.datasets, newLabels: props.labels })
   })
-  return <canvas ref={canvasElement} />
+  return (
+    <div style={{ 'min-height': '456px' }}>
+      <canvas ref={canvasElement} />
+    </div>
+  )
 }

@@ -19,6 +19,7 @@ export default function () {
     new Chart(chart, {
       type: 'bar',
       options: {
+        maintainAspectRatio: false,
         scales: {
           y: {
             beginAtZero: true,
@@ -60,7 +61,7 @@ export default function () {
   })
   return (
     <article class="chart-container">
-      <div>
+      <div style={{ 'min-height': '456px' }}>
         <canvas id="acc" ref={chart} />
       </div>
     </article>
