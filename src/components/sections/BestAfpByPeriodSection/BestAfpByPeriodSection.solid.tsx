@@ -57,12 +57,14 @@ export default function BestAfpByPeriodSection(props: {
       yearTo: now.getFullYear()
     })
   })
-  const handleSubmit: JSX.EventHandler<HTMLFormElement, SubmitEvent> = (
-    event
-  ) => {
-    event.preventDefault()
+  const onChange: JSX.EventHandler<
+    HTMLSelectElement | HTMLInputElement,
+    Event
+  > = (event) => {
+    const form = (event.target as HTMLSelectElement | HTMLInputElement)
+      .form as HTMLFormElement
     const { found, monthFrom, monthTo, yearFrom, yearTo } = Object.fromEntries(
-      new FormData(event.target as HTMLFormElement)
+      new FormData(form)
     )
     if (
       typeof found !== 'string' ||
@@ -91,7 +93,7 @@ export default function BestAfpByPeriodSection(props: {
         <p>
           <b>Fondo a visualizar:</b>
         </p>
-        <FoundAndPeriodForm onSubmit={handleSubmit} />
+        <FoundAndPeriodForm onChange={onChange} />
         <BestAFPByPeriodTable rows={getTableRows()} />
         <HistoricalChart datasets={getDatasets()} labels={getLabels()} />
         <Show when={afpsOutOfPeriod().length}>

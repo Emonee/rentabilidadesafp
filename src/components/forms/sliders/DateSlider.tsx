@@ -4,11 +4,16 @@ import {
 } from '@/lib/utilities/dates'
 import '@material/web/slider/slider'
 import type { MdSlider } from '@material/web/slider/slider'
-import { createSignal, onMount } from 'solid-js'
+import { createSignal, type JSX, onCleanup, onMount } from 'solid-js'
 import './styles.css'
 
-export default function () {
+type Props = {
+  onChange?: JSX.EventHandler<HTMLInputElement, Event>
+}
+
+export default function (props: Props) {
   let slider: MdSlider | undefined
+  let timeoutId: NodeJS.Timeout
   const firstDate = new Date('2005-08-11')
   const lastMonth = new Date()
   lastMonth.setMonth(lastMonth.getMonth() - 1)
@@ -23,7 +28,8 @@ export default function () {
     toDate: threeYearsBefore
   })
   onMount(() => {
-    slider?.addEventListener('input', () => {
+    slider?.addEventListener('input', (event) => {
+      event.currentTarget
       const { valueStart, valueEnd } = slider
       const newStartDate = new Date(firstDate)
       newStartDate.setMonth((valueStart || 0) + firstDate.getMonth())
@@ -31,7 +37,16 @@ export default function () {
       newEndingDate.setMonth((valueEnd || 0) + firstDate.getMonth())
       setInitialRangeDate(newStartDate)
       setEndingRangeDate(newEndingDate)
+      if (timeoutId) clearTimeout(timeoutId)
+      timeoutId = setTimeout(() => {
+        props.onChange?.(
+          event as Event & { currentTarget: HTMLInputElement; target: Element }
+        )
+      }, 800)
     })
+  })
+  onCleanup(() => {
+    if (timeoutId) clearTimeout(timeoutId)
   })
   return (
     <>

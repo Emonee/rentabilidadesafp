@@ -4,17 +4,13 @@ import DateSlider from '../sliders/DateSlider'
 
 type PropType = {
   onSubmit?: JSX.EventHandler<HTMLFormElement, SubmitEvent>
+  onChange?: JSX.EventHandler<HTMLSelectElement | HTMLInputElement, Event>
 }
 
 export default function FoundAndPeriodForm(props: PropType) {
-  const defaultOnSubmit: JSX.EventHandler<HTMLFormElement, SubmitEvent> = (
-    e
-  ) => {
-    e.preventDefault()
-  }
   return (
-    <form onSubmit={props.onSubmit || defaultOnSubmit}>
-      <select style="max-width: 200px;" name="found">
+    <form onSubmit={props.onSubmit || ((e) => e.preventDefault())}>
+      <select style="max-width: 200px;" name="found" onChange={props.onChange}>
         <For each={FONDOS}>
           {({ name }) => <option value={name}>{name}</option>}
         </For>
@@ -22,8 +18,7 @@ export default function FoundAndPeriodForm(props: PropType) {
       <p>
         <b>Periodo:</b>
       </p>
-      <DateSlider />
-      <button type="submit">Calcular</button>
+      <DateSlider onChange={props.onChange} />
     </form>
   )
 }
