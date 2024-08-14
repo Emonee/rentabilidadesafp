@@ -54,7 +54,7 @@ export default function (props: Props) {
         class="papito"
         style={{
           'text-align': 'center',
-          width: '400px',
+          width: 'min(400px, 100%)',
           padding: '7px',
           'border-radius': '8px',
           border: '2px solid var(--md-sys-color-primary)',
