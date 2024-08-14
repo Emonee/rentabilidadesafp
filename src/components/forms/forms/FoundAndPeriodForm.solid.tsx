@@ -1,10 +1,14 @@
 import { FONDOS } from '@/consts/afp'
+import type { MdSlider } from '@material/web/slider/slider'
 import { For, type JSX } from 'solid-js'
 import DateSlider from '../sliders/DateSlider'
 
 type PropType = {
   onSubmit?: JSX.EventHandler<HTMLFormElement, SubmitEvent>
-  onChange?: JSX.EventHandler<HTMLSelectElement | HTMLInputElement, Event>
+  onChange?: JSX.EventHandler<
+    HTMLSelectElement | HTMLInputElement | MdSlider,
+    Event
+  >
 }
 
 export default function FoundAndPeriodForm(props: PropType) {

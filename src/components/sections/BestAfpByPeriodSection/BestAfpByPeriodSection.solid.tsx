@@ -2,6 +2,7 @@ import HistoricalChart from '@/components/charts/line/HistoricalChart/Historical
 import FoundAndPeriodForm from '@/components/forms/forms/FoundAndPeriodForm.solid'
 import BestAFPByPeriodTable from '@/components/tables/BestAFPByPeriodTable'
 import { buildHistoricalData } from '@/lib/server/data_builds'
+import type { MdSlider } from '@material/web/slider/slider'
 import type { ChartDataset } from 'chart.js'
 import { For, type JSX, Show, createSignal, onMount } from 'solid-js'
 
@@ -58,7 +59,7 @@ export default function BestAfpByPeriodSection(props: {
     })
   })
   const onChange: JSX.EventHandler<
-    HTMLSelectElement | HTMLInputElement,
+    HTMLSelectElement | HTMLInputElement | MdSlider,
     Event
   > = (event) => {
     const form = (event.target as HTMLSelectElement | HTMLInputElement)

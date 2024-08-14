@@ -4,11 +4,11 @@ import {
 } from '@/lib/utilities/dates'
 import '@material/web/slider/slider'
 import type { MdSlider } from '@material/web/slider/slider'
-import { createSignal, type JSX, onCleanup, onMount } from 'solid-js'
+import { createSignal, type JSX, onCleanup } from 'solid-js'
 import './styles.css'
 
 type Props = {
-  onChange?: JSX.EventHandler<HTMLInputElement, Event>
+  onChange?: JSX.EventHandler<MdSlider, Event>
 }
 
 export default function (props: Props) {
@@ -27,24 +27,19 @@ export default function (props: Props) {
     fromDate: firstDate,
     toDate: threeYearsBefore
   })
-  onMount(() => {
-    slider?.addEventListener('input', (event) => {
-      event.currentTarget
-      const { valueStart, valueEnd } = slider
-      const newStartDate = new Date(firstDate)
-      newStartDate.setMonth((valueStart || 0) + firstDate.getMonth())
-      const newEndingDate = new Date(firstDate)
-      newEndingDate.setMonth((valueEnd || 0) + firstDate.getMonth())
-      setInitialRangeDate(newStartDate)
-      setEndingRangeDate(newEndingDate)
-      if (timeoutId) clearTimeout(timeoutId)
-      timeoutId = setTimeout(() => {
-        props.onChange?.(
-          event as Event & { currentTarget: HTMLInputElement; target: Element }
-        )
-      }, 800)
-    })
-  })
+  const onInput: JSX.EventHandler<MdSlider, Event> = (event) => {
+    const { valueStart, valueEnd } = event.currentTarget
+    const newStartDate = new Date(firstDate)
+    newStartDate.setMonth((valueStart || 0) + firstDate.getMonth())
+    const newEndingDate = new Date(firstDate)
+    newEndingDate.setMonth((valueEnd || 0) + firstDate.getMonth())
+    setInitialRangeDate(newStartDate)
+    setEndingRangeDate(newEndingDate)
+    if (timeoutId) clearTimeout(timeoutId)
+    timeoutId = setTimeout(() => {
+      props.onChange?.(event)
+    }, 800)
+  }
   onCleanup(() => {
     if (timeoutId) clearTimeout(timeoutId)
   })
@@ -75,6 +70,7 @@ export default function (props: Props) {
         range
         max={maxRange}
         ref={slider}
+        on:input={onInput}
         attr:value-start={startValue}
         attr:value-end={maxRange}
         style={{
