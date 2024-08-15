@@ -1,0 +1,23 @@
+.container {
+  --main-color: 180, 100%, 21%;
+  --main-color-opacity: 1;
+  --md-sys-color-primary: hsla(var(--main-color), var(--main-color-opacity));
+  border: 2px solid var(--md-sys-color-primary);
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 1rem;
+}
+
+.container p {
+  --main-color-opacity: 0.5;
+  display: flex;
+  gap: 5px;
+  width: max-content;
+  box-shadow: 0 1px 0 hsla(var(--main-color), var(--main-color-opacity));
+}
+
+.container p small {
+  width: 135px;
+  display: flex;
+  gap: 10px;
+}

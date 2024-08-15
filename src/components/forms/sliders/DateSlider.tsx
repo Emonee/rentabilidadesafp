@@ -5,7 +5,7 @@ import {
 import '@material/web/slider/slider'
 import type { MdSlider } from '@material/web/slider/slider'
 import { createSignal, type JSX, onCleanup } from 'solid-js'
-import './styles.css'
+import styles from './styles.module.css'
 
 type Props = {
   onChange?: JSX.EventHandler<MdSlider, Event>
@@ -44,26 +44,19 @@ export default function (props: Props) {
     if (timeoutId) clearTimeout(timeoutId)
   })
   return (
-    <>
-      <p
-        class="papito"
-        style={{
-          'text-align': 'center',
-          width: 'min(400px, 100%)',
-          padding: '7px',
-          'border-radius': '8px',
-          border: '2px solid var(--md-sys-color-primary)',
-          display: 'flex',
-          'justify-content': 'space-around'
-        }}
-      >
-        <small style={{ width: '200px' }}>
-          {getMonthNameByMonth(getInitialRangeDate().getMonth() + 1)}{' '}
-          {getInitialRangeDate().getFullYear()}
+    <div class={styles.container}>
+      <p>
+        <small>
+          <span style={{ width: '100px', 'text-align': 'right' }}>
+            {getMonthNameByMonth(getInitialRangeDate().getMonth() + 1)}
+          </span>
+          <span>{getInitialRangeDate().getFullYear()},</span>
         </small>
-        <small style={{ width: '200px' }}>
-          {getMonthNameByMonth(getEndingRangeDate().getMonth() + 1)}{' '}
-          {getEndingRangeDate().getFullYear()}
+        <small>
+          <span style={{ width: '100px', 'text-align': 'right' }}>
+            {getMonthNameByMonth(getEndingRangeDate().getMonth() + 1)}
+          </span>
+          <span>{getEndingRangeDate().getFullYear()}</span>
         </small>
       </p>
       <md-slider
@@ -74,8 +67,7 @@ export default function (props: Props) {
         attr:value-start={startValue}
         attr:value-end={maxRange}
         style={{
-          width: '100%',
-          'margin-bottom': 'var(--pico-typography-spacing-vertical, 1rem)'
+          width: '100%'
         }}
       />
       <input
@@ -102,6 +94,6 @@ export default function (props: Props) {
         name="yearTo"
         value={getEndingRangeDate().getFullYear()}
       />
-    </>
+    </div>
   )
 }
