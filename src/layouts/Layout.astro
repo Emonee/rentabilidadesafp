@@ -1,37 +1,48 @@
 ---
-import { ViewTransitions } from 'astro:transitions'
 import Header from '@/components/Header.astro'
+import { ViewTransitions } from 'astro:transitions'
 ---
 
 <!doctype html>
 <html lang="en" data-theme="light">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Rentabilidades AFP" />
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.min.css" />
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.colors.min.css" />
-		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>">
-		<meta name="generator" content={Astro.generator} />
-		<title>Rentabilidades AFP</title>
-		<ViewTransitions />
-	</head>
-	<body>
-		<Header />
-		<slot />
-	</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Rentabilidades AFP" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.classless.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.colors.min.css"
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📈</text></svg>"
+    />
+    <meta name="generator" content={Astro.generator} />
+    <title>Rentabilidades AFP</title>
+    <ViewTransitions />
+  </head>
+  <body>
+    <Header />
+    <slot />
+  </body>
 </html>
 
 <style is:global>
-	html {
-		scroll-behavior: smooth;
-	}
+  html {
+    scroll-behavior: smooth;
+    scrollbar-gutter: stable;
+  }
 
-	p, ul {
+  p,
+  ul {
     max-width: 800px;
   }
 
-	article.chart-container {
-		max-width: 1000px;
-	}
+  article.chart-container {
+    max-width: 1000px;
+  }
 </style>
