@@ -35,3 +35,5 @@ export const FONDOS = [
   { name: 'D', description: 'Conservador' },
   { name: 'E', description: 'Muy conservador' }
 ]
+
+export const MONTHLY_CONTRIBUTION_PROPORTION = 0.1

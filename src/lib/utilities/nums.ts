@@ -52,3 +52,13 @@ export function calculateAccumulatedRentability(
   }
   return accumulatedRentabilities
 }
+
+export function getAvarageFromArray(numbers: number[]) {
+  let acc = new Decimal(0)
+  for (const number of numbers) acc = acc.plus(new Decimal(number))
+  return acc.div(new Decimal(numbers.length)).toDecimalPlaces(3).toNumber()
+}
+
+export function formatNumber(num: number) {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+}

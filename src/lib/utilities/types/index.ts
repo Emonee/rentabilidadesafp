@@ -19,3 +19,4 @@ export type FundCompanyData = {
 export type FundSystemData = {
   [company: string]: FundCompanyData
 }
+export type CsvData = Array<[string, string, string, string, string]>

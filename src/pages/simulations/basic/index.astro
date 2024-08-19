@@ -1,0 +1,18 @@
+---
+import BasicSimulationResultsSection from '@/components/sections/BasicSimulationSection'
+import Layout from '@/layouts/Layout.astro'
+import { getHistoricalData } from '@/lib/server/data'
+
+const historicalData = await getHistoricalData()
+---
+
+<Layout>
+  <main>
+    <h2>Simulación de pensión</h2>
+    <p>Ingresa el sueldo líquido que deseas analizar:</p>
+    <BasicSimulationResultsSection
+      historicalData={historicalData}
+      client:load
+    />
+  </main>
+</Layout>
