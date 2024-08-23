@@ -1,6 +1,5 @@
+import type { CsvData } from '@/lib/utilities/types'
 import { readFile } from 'node:fs/promises'
-
-type CsvData = Array<[string, string, string, string, string]>
 
 let csvData: CsvData
 

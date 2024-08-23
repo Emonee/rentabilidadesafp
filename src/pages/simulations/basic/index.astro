@@ -1,0 +1,45 @@
+---
+import LinkIcon from '@/components/icons/LinkIcon'
+import BasicSimulationResultsSection from '@/components/sections/BasicSimulationSection'
+import Layout from '@/layouts/Layout.astro'
+import { getHistoricalData } from '@/lib/server/data'
+
+const historicalData = await getHistoricalData()
+---
+
+<Layout>
+  <main>
+    <header>
+      <h2>Simulación de pensión</h2>
+      <p>
+        <small
+          ><a
+            href="/mision#methodology"
+            target="_blank"
+            rel="noopener noreferrer">Metodología <LinkIcon /></a
+          ></small
+        >
+      </p>
+    </header>
+    <p>Ingresa el sueldo líquido que deseas analizar:</p>
+    <BasicSimulationResultsSection
+      historicalData={historicalData}
+      client:load
+    />
+  </main>
+</Layout>
+
+<style>
+  header {
+    display: flex;
+    gap: 1rem;
+  }
+  header a {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+  header p {
+    align-self: end;
+  }
+</style>
