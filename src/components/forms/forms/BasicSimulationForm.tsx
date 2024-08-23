@@ -1,19 +1,18 @@
 import type { JSX } from 'solid-js'
+import MoneyInput from '../inputs/MoneyInput'
 
 type Props = {
   onSubmit: JSX.EventHandler<HTMLFormElement, Event>
+  initialValue?: number
 }
 
 export default function (props: Props) {
   return (
     <form onSubmit={props.onSubmit}>
-      <input
-        type="number"
-        min="1"
-        name="net_salary"
-        value={1_000_000}
-        placeholder="Sueldo líquido"
-        required
+      <MoneyInput
+        inicialValue={props.initialValue}
+        labelInputAttributes={{ placeholder: 'Sueldo líquido', required: true }}
+        hiddenInputAttributes={{ name: 'net_salary' }}
       />
       <button type="submit">Simular</button>
     </form>

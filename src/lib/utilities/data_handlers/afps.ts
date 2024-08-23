@@ -3,10 +3,24 @@ import type { CsvData } from '@/lib/utilities/types'
 import Decimal from 'decimal.js'
 import { getAvarageFromArray } from '../nums'
 
-export function getAvarageMonthlyReturnsByAfp(historicalData: CsvData) {
+export function getAvarageMonthlyReturnsByAfp(
+  historicalData: CsvData,
+  {
+    startingMonth,
+    startingYear
+  }: { startingMonth?: number; startingYear?: number } = {}
+) {
   const afps: { [afpName: string]: { [found: string]: number[] } } = {}
-  for (const [afpName, , , found, rentability] of historicalData) {
+  for (const [afpName, month, year, found, rentability] of historicalData) {
     if (!(afpName in AFPS) || rentability == '\r' || isNaN(+rentability))
+      continue
+    if (startingYear && +year < startingYear) continue
+    if (
+      startingMonth &&
+      startingYear &&
+      +year === startingYear &&
+      +month < startingMonth
+    )
       continue
     afps[afpName] ||= {}
     afps[afpName][found] ||= []

@@ -20,3 +20,11 @@ export type FundSystemData = {
   [company: string]: FundCompanyData
 }
 export type CsvData = Array<[string, string, string, string, string]>
+export type BasicAfpSimulationResult = {
+  afpName: string
+  avgReturn: number
+  accReturn: string
+  accTotal: number
+  estimatedPension: number
+  salaryPensionProportion: number
+}

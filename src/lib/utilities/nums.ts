@@ -59,6 +59,7 @@ export function getAvarageFromArray(numbers: number[]) {
   return acc.div(new Decimal(numbers.length)).toDecimalPlaces(3).toNumber()
 }
 
-export function formatNumber(num: number) {
+export function formatNumber(num?: number) {
+  if (num == null) return ''
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 }
