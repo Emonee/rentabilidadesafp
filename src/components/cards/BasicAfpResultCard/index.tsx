@@ -37,7 +37,7 @@ export default function (props: Props) {
         ${formatNumber(props.afp.estimatedPension)}
       </p>
       <p>
-        Proporsión del sueldo: {props.afp.salaryPensionProportion.toFixed(1)}%
+        Proporción del sueldo: {props.afp.salaryPensionProportion.toFixed(1)}%
       </p>
       <p>Rentabilidad mensual promedio: {props.afp.avgReturn}%</p>
       <p>Rentabilidad acumulada: {props.afp.accReturn}%</p>
