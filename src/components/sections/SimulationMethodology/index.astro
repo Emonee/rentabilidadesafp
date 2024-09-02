@@ -7,6 +7,7 @@ import {
   BASIC_SIMULATION_STARTING_YEAR,
   BASIC_SIMULATION_STATING_MONTH,
   BASIC_SIMULATION_YEARS,
+  BASIC_SIMULATION_YEARS_OF_RETIREMENTS,
   NET_TO_GROSS_BASIC_PROPORTION
 } from '@/consts/num'
 ---
@@ -39,6 +40,11 @@ import {
         BASIC_SIMULATION_STARTING_YEAR
       }</u
     ><a href="#date-detail" style="text-decoration: none;">*</a> a la actualidad.
+  </li>
+  <li>
+    La pensión se calcula a {BASIC_SIMULATION_YEARS_OF_RETIREMENTS} años de renta
+    sobre el acumulado final. Esto es una simplificación en la que simplemente se
+    divide en {BASIC_SIMULATION_YEARS_OF_RETIREMENTS} el total acumulado.
   </li>
 </ul>
 <p id="date-detail">
