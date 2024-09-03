@@ -8,7 +8,8 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "check": "astro check"
+    "check": "astro check",
+    "cron": "node cron"
   },
   "dependencies": {
     "@astrojs/check": "0.9.3",

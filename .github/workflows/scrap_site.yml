@@ -2,7 +2,7 @@ name: Scrap Superintencia
 
 on:
   schedule:
-    - cron: '0 0 3 * *'
+    - cron: '0 0 4 * *'
   workflow_dispatch:
 
 jobs:
@@ -27,4 +27,4 @@ jobs:
           git config --global user.name "github-actions[bot]"
 
       - name: Run script
-        run: node cron/index.js
+        run: npm run cron
