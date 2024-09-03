@@ -33,6 +33,12 @@ tables.slice(1).each((index, table) => {
     const monthRentability = parseReturn($(tds[1]).text())
     const ytd = parseReturn($(tds[2]).text())
     const acc = parseReturn($(tds[3]).text())
+    const invalidData =
+      Number.isNaN(acc) || Number.isNaN(ytd) || Number.isNaN(monthRentability)
+    if (invalidData)
+      throw new Error(
+        `Invalid data: acc: ${acc}, ytd: ${ytd}, monthRentability: ${monthRentability}`
+      )
     if (isJanuary)
       yearDataSaver.registerData({
         afpName,
