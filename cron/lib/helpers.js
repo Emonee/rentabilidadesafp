@@ -59,7 +59,9 @@ export function getTablesFromHtml(htmlString) {
 export async function saveAndCommitChanges({
   yearDataSaver,
   monthDataSaver,
-  isJanuary
+  isJanuary,
+  year,
+  month
 }) {
   try {
     console.info('Modifying files')

@@ -52,4 +52,4 @@ tables.slice(1).each((index, table) => {
   })
 })
 
-saveAndCommitChanges({ monthDataSaver, yearDataSaver, isJanuary })
+saveAndCommitChanges({ monthDataSaver, yearDataSaver, isJanuary, year, month })
