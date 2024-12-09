@@ -1,6 +1,6 @@
 ---
 import Header from '@/components/Header.astro'
-import { ViewTransitions } from 'astro:transitions'
+import { ClientRouter } from 'astro:transitions'
 ---
 
 <!doctype html>
@@ -23,7 +23,7 @@ import { ViewTransitions } from 'astro:transitions'
     />
     <meta name="generator" content={Astro.generator} />
     <title>Rentabilidades AFP</title>
-    <ViewTransitions />
+    <ClientRouter />
   </head>
   <body>
     <Header />
