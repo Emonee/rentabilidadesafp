@@ -49,10 +49,9 @@ export default function BestAfpByPeriodSection(props: {
     const now = new Date()
     const threeYearsBefore = new Date()
     threeYearsBefore.setFullYear(threeYearsBefore.getFullYear() - 3)
-    threeYearsBefore.setMonth(threeYearsBefore.getMonth() + 1)
     buildTableAndChart({
       found: 'A',
-      monthFrom: threeYearsBefore.getMonth(),
+      monthFrom: threeYearsBefore.getMonth() + 1,
       yearFrom: threeYearsBefore.getFullYear(),
       monthTo: now.getMonth(),
       yearTo: now.getFullYear()
