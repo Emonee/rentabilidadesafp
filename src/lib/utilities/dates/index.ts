@@ -6,7 +6,7 @@ export function yearMonthToDate(year?: string, month?: string) {
 }
 
 export function getMonthNameByMonth(month: number) {
-  const monthName = MONTHS[month]
+  const monthName = MONTHS[month || 12]
   if (!monthName) throw new Error(`Invalid month: ${month}`)
   return monthName
 }
