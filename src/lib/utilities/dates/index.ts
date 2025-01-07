@@ -19,6 +19,6 @@ export function monthsCountBetweenDates({
   toDate?: Date
 }) {
   const yearsDiff = Math.abs(toDate.getFullYear() - fromDate.getFullYear())
-  const monthsDiff = Math.abs(toDate.getMonth() - fromDate.getMonth())
+  const monthsDiff = toDate.getMonth() - fromDate.getMonth()
   return yearsDiff * 12 + monthsDiff
 }
