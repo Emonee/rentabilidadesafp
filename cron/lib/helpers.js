@@ -4,6 +4,7 @@ import { appendFile, writeFile } from 'node:fs/promises'
 import {
   ANNUAL_RETURNS_FILE_ROUTE,
   HISTORICAL_DATA_FILE_ROUTE,
+  isTest,
   superintendenciaUrl,
   YTD_12_MONTHS_FILE_ROUTE
 } from './consts.js'
@@ -33,6 +34,8 @@ export async function fetchSuperintendencia({ year, month }) {
     mm: month,
     btn: 'Buscar'
   })
+  console.info('Fetching data to: ', urlWithParams)
+  console.info('With data: ', formData.toString())
   const res = await fetch(urlWithParams, {
     method: 'POST',
     headers: {
@@ -75,6 +78,7 @@ export async function saveAndCommitChanges({
       ),
       setLastUpdate()
     ])
+    if (isTest) return
     execSync('git add .')
     console.info('Commiting files')
     const commitRes = execSync(

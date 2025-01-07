@@ -11,9 +11,10 @@ import { YearDataSaver } from './lib/year.js'
 const yearDataSaver = new YearDataSaver()
 const monthDataSaver = new MonthDataSaver()
 
-const now = new Date()
-const month = now.getMonth().toString().padStart(2, '0')
-const year = now.getFullYear().toString()
+const prevMonthDate = new Date()
+prevMonthDate.setMonth(prevMonthDate.getMonth() - 1)
+const month = (prevMonthDate.getMonth() + 1).toString().padStart(2, '0')
+const year = prevMonthDate.getFullYear().toString()
 
 const isJanuary = month === '01'
 
