@@ -9,20 +9,20 @@ type Props = {
 
 export default function (props: Props) {
   const [getValue, setValue] = createSignal(props.inicialValue || 0)
+
   const onInput: JSX.EventHandler<HTMLInputElement, Event> = (event) => {
     const { value } = event.currentTarget
     const numeric = Number(value.replace(/\D/g, ''))
     setValue(numeric)
+    event.currentTarget.value = `$ ${formatNumber(getValue())}`
   }
-  const getFormatedValue = () => {
-    return `$ ${formatNumber(getValue())}`
-  }
+
   return (
     <>
       <input
         {...props.labelInputAttributes}
         type="text"
-        value={getFormatedValue()}
+        value={`$ ${formatNumber(getValue())}`}
         onInput={onInput}
       />
       <input
