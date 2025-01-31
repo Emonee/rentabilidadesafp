@@ -16,7 +16,7 @@
     "@astrojs/check": "0.9.4",
     "@astrojs/solid-js": "5.0.0",
     "@material/web": "2.1.0",
-    "astro": "5.0.3",
+    "astro": "5.2.1",
     "chart.js": "4.4.4",
     "cheerio": "1.0.0",
     "decimal.js": "10.4.3",
