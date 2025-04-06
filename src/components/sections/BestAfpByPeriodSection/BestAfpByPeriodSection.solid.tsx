@@ -3,7 +3,6 @@ import FoundAndPeriodForm from '@/components/forms/forms/FoundAndPeriodForm.soli
 import BestAFPByPeriodTable from '@/components/tables/BestAFPByPeriodTable'
 import { getBestAfpByPeriodInitialData } from '@/lib/client/initialData'
 import { buildHistoricalData } from '@/lib/server/data_builds'
-import type { MdSlider } from '@material/web/slider/slider'
 import type { ChartDataset } from 'chart.js'
 import { For, type JSX, Show, createSignal, onMount } from 'solid-js'
 
@@ -51,7 +50,7 @@ export default function BestAfpByPeriodSection(props: {
   onMount(() => buildTableAndChart(getBestAfpByPeriodInitialData()))
 
   const onChange: JSX.EventHandler<
-    HTMLSelectElement | HTMLInputElement | MdSlider,
+    HTMLSelectElement | HTMLInputElement,
     Event
   > = (event) => {
     const form = (event.target as HTMLSelectElement | HTMLInputElement)

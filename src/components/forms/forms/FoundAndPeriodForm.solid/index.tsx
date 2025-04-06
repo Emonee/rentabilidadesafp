@@ -1,5 +1,4 @@
 import { FONDOS } from '@/consts/afp'
-import type { MdSlider } from '@material/web/slider/slider'
 import { For, type JSX } from 'solid-js'
 import { MONTHS, YEARS } from '@/consts/dates'
 import { getBestAfpByPeriodInitialData } from '@/lib/client/initialData'
@@ -8,10 +7,7 @@ const { monthFrom, monthTo, yearFrom, yearTo } = getBestAfpByPeriodInitialData()
 
 type PropType = {
   onSubmit?: JSX.EventHandler<HTMLFormElement, SubmitEvent>
-  onChange?: JSX.EventHandler<
-    HTMLSelectElement | HTMLInputElement | MdSlider,
-    Event
-  >
+  onChange?: JSX.EventHandler<HTMLSelectElement | HTMLInputElement, Event>
 }
 
 export default function FoundAndPeriodForm(props: PropType) {
