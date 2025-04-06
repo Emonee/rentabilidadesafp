@@ -1,6 +1,7 @@
 import HistoricalChart from '@/components/charts/line/HistoricalChart/HistoricalChart'
 import FoundAndPeriodForm from '@/components/forms/forms/FoundAndPeriodForm.solid'
 import BestAFPByPeriodTable from '@/components/tables/BestAFPByPeriodTable'
+import { getBestAfpByPeriodInitialData } from '@/lib/client/initialData'
 import { buildHistoricalData } from '@/lib/server/data_builds'
 import type { MdSlider } from '@material/web/slider/slider'
 import type { ChartDataset } from 'chart.js'
@@ -14,6 +15,7 @@ export default function BestAfpByPeriodSection(props: {
   const [getTableRows, setTableRows] = createSignal<[string, number][]>([])
   const [getDatasets, setDatasets] = createSignal<ChartDataset[]>([])
   const [getLabels, setLabels] = createSignal<string[]>([])
+
   const buildTableAndChart = ({
     found,
     monthFrom,
@@ -45,19 +47,9 @@ export default function BestAfpByPeriodSection(props: {
     setDatasets(filteredDatasets)
     setLabels(labels)
   }
-  onMount(() => {
-    const lastMonth = new Date()
-    lastMonth.setMonth(lastMonth.getMonth() - 1)
-    const threeYearsBefore = new Date()
-    threeYearsBefore.setFullYear(threeYearsBefore.getFullYear() - 3)
-    buildTableAndChart({
-      found: 'A',
-      monthFrom: threeYearsBefore.getMonth() + 1,
-      yearFrom: threeYearsBefore.getFullYear(),
-      monthTo: lastMonth.getMonth() + 1,
-      yearTo: lastMonth.getFullYear()
-    })
-  })
+
+  onMount(() => buildTableAndChart(getBestAfpByPeriodInitialData()))
+
   const onChange: JSX.EventHandler<
     HTMLSelectElement | HTMLInputElement | MdSlider,
     Event
@@ -68,21 +60,21 @@ export default function BestAfpByPeriodSection(props: {
       new FormData(form)
     )
     if (
-      typeof found !== 'string' ||
-      typeof monthFrom !== 'string' ||
-      typeof monthTo !== 'string' ||
-      typeof yearFrom !== 'string' ||
-      typeof yearTo !== 'string'
+      [found, monthFrom, monthTo, yearFrom, yearTo].some(
+        (value) => typeof value !== 'string'
+      )
     )
       return
+
     buildTableAndChart({
-      found,
+      found: found as string,
       monthFrom: +monthFrom,
       monthTo: +monthTo,
       yearFrom: +yearFrom,
       yearTo: +yearTo
     })
   }
+
   return (
     <section>
       <h2>Mejor AFP por periodo y fondo: {bestAfp()}</h2>

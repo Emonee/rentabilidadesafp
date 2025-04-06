@@ -12,3 +12,8 @@ export const MONTHS: { [num: number]: string | undefined } = {
   11: 'Noviembre',
   12: 'Diciembre'
 }
+
+export const YEARS = Array.from(
+  { length: new Date().getFullYear() - 2005 + 1 },
+  (_, i) => 2005 + i
+)
