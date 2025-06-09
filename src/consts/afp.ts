@@ -1,3 +1,5 @@
+import type { Found } from '@/lib/utilities/types'
+
 export const AFPS = {
   UNO: {
     mainColor: '#D33485BB',
@@ -42,7 +44,7 @@ export const AFPS = {
     comition: 1.45
   }
 }
-export const FONDOS = [
+export const FONDOS: { name: Found; description: string }[] = [
   { name: 'A', description: 'Muy riesgoso' },
   { name: 'B', description: 'Riesgoso' },
   { name: 'C', description: 'Moderado' },

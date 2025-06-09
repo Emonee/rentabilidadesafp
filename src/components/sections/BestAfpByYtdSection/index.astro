@@ -2,16 +2,18 @@
 import jsonData from '@/data/ytd_12_months.json'
 import { FONDOS } from '@/consts/afp'
 import { getColor } from '@/lib/utilities/nums'
+import type { Found } from '@/lib/utilities/types'
 
 const afpEntries = Object.entries(jsonData)
-const initialFound = 'A'
-const sortedAfps = afpEntries
-  .map(([afpName, fondos]) => ({
-    name: afpName,
-    value: fondos[initialFound].ytd
-  }))
-  .sort(({ value: value1 }, { value: value2 }) => value2 - value1)
-const [initialBestAfp] = sortedAfps
+const getSortedAfpsByFound = (found: Found) =>
+  afpEntries
+    .map(([afpName, fondos]) => ({
+      name: afpName,
+      value: fondos[found].ytd
+    }))
+    .sort(({ value: value1 }, { value: value2 }) => value2 - value1)
+const initialSortedAfps = getSortedAfpsByFound('A')
+const [initialBestAfp] = initialSortedAfps
 ---
 
 <section>
@@ -31,71 +33,60 @@ const [initialBestAfp] = sortedAfps
   <select name="found" style="max-width: 200px;">
     {FONDOS.map(({ name }) => <option value={name}>{name}</option>)}
   </select>
-  <table style="max-width: 500px;">
-    <tbody data-tbody-best-ytd-afp>
-      {
-        sortedAfps.map(({ name, value }) => {
-          const color = getColor(10, -10, value)
-          const colorStyle = `4px solid ${color}`
-          return (
-            <tr>
-              <td style={{ 'border-left': colorStyle }}>{name}</td>
-              <td
-                style={{
-                  'border-left': colorStyle,
-                  'border-right': colorStyle
-                }}
-              >
-                {value}%
-              </td>
-            </tr>
-          )
-        })
-      }
-    </tbody>
+  <table style="max-width: 500px;" data-best-ytd-afp-table>
+    {
+      FONDOS.map(({ name }, index) => {
+        const sortedAfps = getSortedAfpsByFound(name)
+        return (
+          <tbody
+            data-found={name}
+            style={{ display: index === 0 ? undefined : 'none' }}
+          >
+            {sortedAfps.map(({ name, value }) => {
+              const color = getColor(10, -10, value)
+              const colorStyle = `4px solid ${color}`
+              return (
+                <tr>
+                  <td style={{ 'border-left': colorStyle }}>{name}</td>
+                  <td
+                    style={{
+                      'border-left': colorStyle,
+                      'border-right': colorStyle
+                    }}
+                  >
+                    {value}%
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
+        )
+      })
+    }
   </table>
 </section>
 
 <script>
-  import jsonData from '@/data/ytd_12_months.json'
   import type { Found } from '@/lib/utilities/types'
-  import { getColor } from '@/lib/utilities/nums'
 
-  const afpEntries = Object.entries(jsonData)
-  const bestAfpSpan = document.querySelector<HTMLSpanElement>(
-    'span[data-span-best-ytd-afp]'
-  )
-  const select = document.querySelector<HTMLSelectElement>(
+  const foundSelect = document.querySelector<HTMLSelectElement>(
     'select[name="found"]'
   )
-  const tbody = document.querySelector<HTMLTableSectionElement>(
-    'tbody[data-tbody-best-ytd-afp]'
+  const table = document.querySelector<HTMLTableElement>(
+    'table[data-best-ytd-afp-table]'
   )
+  if (!foundSelect || !table) throw new Error('Elements not found')
 
-  if (!bestAfpSpan || !select || !tbody) throw new Error('Missing dom elements')
-
-  select.addEventListener('change', (e) => {
+  foundSelect.addEventListener('change', (e) => {
     const target = e.target as HTMLSelectElement
-    const sortedAfps = afpEntries
-      .map(([afpName, fondos]) => ({
-        name: afpName,
-        value: fondos[target.value as Found].ytd
-      }))
-      .sort(({ value: value1 }, { value: value2 }) => value2 - value1)
-    const [initialBestAfp] = sortedAfps
-    bestAfpSpan.textContent = initialBestAfp.name
-    tbody.innerHTML = ''
-    tbody.innerHTML = sortedAfps
-      .map(({ name, value }) => {
-        const color = getColor(10, -10, value)
-        const colorStyle = `4px solid ${color}`
-        return `
-            <tr>
-              <td style="border-left: ${colorStyle}">${name}</td>
-              <td style="border-left: ${colorStyle}; border-right: ${colorStyle}">${value}%</td>
-            </tr>
-          `
-      })
-      .join('')
+    const found = target.value as Found
+    const tbs = table.querySelectorAll<HTMLTableSectionElement>('tbody')
+    tbs.forEach((tb) => {
+      tb.style.display = 'none'
+    })
+    const tbody = table.querySelector<HTMLTableSectionElement>(
+      `tbody[data-found="${found}"]`
+    )!
+    tbody.style.display = 'table-row-group'
   })
 </script>
