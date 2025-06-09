@@ -1,0 +1,43 @@
+---
+import Chart from './Chart.astro'
+import Form from './Form.astro'
+import OutOfPeriod from './OutOfPeriod.astro'
+import Table from './Table.astro'
+import { getBestAfpByPeriodInitialData } from '@/lib/client/initialData'
+import { getHistoricalData } from '@/lib/server/data'
+import { buildHistoricalData } from '@/lib/server/data_builds'
+
+const historicalData = await getHistoricalData()
+const { monthFrom, monthTo, yearFrom, yearTo } = getBestAfpByPeriodInitialData()
+const { tableData } = buildHistoricalData({
+  historicalData,
+  found: 'A',
+  monthFrom,
+  yearFrom,
+  monthTo,
+  yearTo
+})
+---
+
+<section>
+  <h2>
+    Mejor AFP por periodo y fondo: <span data-best-period-afp-name
+      >{tableData[0][0]}</span
+    >
+  </h2>
+  <p>
+    Corresponde al raking por rentabilidad real acumulada desde el periodo y
+    fondo seleccionado.
+  </p>
+  <article class="chart-container">
+    <p>
+      <b>Fondo a visualizar:</b>
+    </p>
+    <Form />
+    <Table />
+    <Chart />
+    <OutOfPeriod />
+  </article>
+</section>
+
+<script></script>

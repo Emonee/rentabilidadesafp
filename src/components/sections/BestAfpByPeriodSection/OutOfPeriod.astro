@@ -1,0 +1,28 @@
+<div data-afp-out-of-period style="display: none">
+  <p>
+    Las siguientes AFP quedaron fuera del ranking por no existir dentro del
+    periodo completo:
+  </p>
+  <ul></ul>
+</div>
+
+<script>
+  import { observeAtt } from '@/lib/client/observer'
+
+  const divAfpOutOfPeriod = document.querySelector<HTMLDivElement>(
+    'div[data-afp-out-of-period]'
+  )
+  const ul = divAfpOutOfPeriod?.querySelector<HTMLUListElement>('ul')
+  if (!divAfpOutOfPeriod || !ul) throw new Error('Missing dom elements')
+
+  observeAtt<string[]>({
+    element: divAfpOutOfPeriod,
+    attribute: 'data-afps-out-of-period',
+    callback: (afpsOutOfPeriod) => {
+      divAfpOutOfPeriod.style.display =
+        afpsOutOfPeriod.length > 0 ? 'block' : 'none'
+
+      ul.innerHTML = afpsOutOfPeriod.map((afp) => `<li>${afp}</li>`).join('')
+    }
+  })
+</script>

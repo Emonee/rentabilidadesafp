@@ -1,0 +1,109 @@
+---
+import { FONDOS } from '@/consts/afp'
+---
+
+<select style="max-width: 200px;" name="annual-chart-found">
+  {FONDOS.map(({ name }) => <option value={name}>{name}</option>)}
+</select>
+
+<div style={{ 'min-height': '456px' }}>
+  <canvas data-annual-chart></canvas>
+</div>
+
+<script>
+  import { ZERO_LINE_PLUGIN } from '@/consts/charts'
+  import { updateChart } from '@/lib/client/charts'
+  import { AFPS } from '@/consts/afp'
+  import jsonAnnualData from '@/data/anual_returns.json'
+  import { Chart } from 'chart.js/auto'
+  import type { Found } from '@/lib/utilities/types'
+
+  const foundSelect = document.querySelector<HTMLSelectElement>(
+    'select[name="annual-chart-found"]'
+  )
+  const chartCanvas = document.querySelector<HTMLCanvasElement>(
+    'canvas[data-annual-chart]'
+  )
+  if (!chartCanvas || !foundSelect) throw new Error('Elements not found')
+
+  const actualYear = new Date().getFullYear()
+  const firstYear = 2005
+  const years = Array.from(
+    { length: actualYear - firstYear },
+    (_, i) => firstYear + i
+  )
+
+  const getDatasets = (found: Found = 'A') =>
+    Object.entries(jsonAnnualData).map(([name, data]) => {
+      const firstYearAfp = parseInt(Object.keys(data)[0])
+      const yearDiff = firstYearAfp - firstYear
+      const datasetData = [
+        ...Array(yearDiff).fill(null),
+        ...Object.values(data).map((v) => v[found])
+      ]
+
+      return {
+        label: name,
+        borderColor: AFPS[name as keyof typeof AFPS].mainColor,
+        backgroundColor: AFPS[name as keyof typeof AFPS].mainColor,
+        data: datasetData,
+        tension: 0.2
+      }
+    })
+
+  const chart = new Chart(chartCanvas, {
+    type: 'line',
+    data: {
+      labels: years,
+      datasets: getDatasets()
+    },
+    options: {
+      maintainAspectRatio: false,
+      interaction: {
+        mode: 'nearest',
+        intersect: false,
+        axis: 'x'
+      },
+      scales: {
+        y: {
+          min: -50,
+          max: 50,
+          title: {
+            display: true,
+            text: 'Rentabilidad real',
+            font: {
+              size: 18
+            }
+          },
+          ticks: {
+            callback: (value) => `${value}%`
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Año',
+            font: {
+              size: 18
+            }
+          }
+        }
+      },
+      plugins: {
+        tooltip: {
+          itemSort: ({ formattedValue }, { formattedValue: formattedValue2 }) =>
+            parseFloat(formattedValue2) - parseFloat(formattedValue),
+          callbacks: {
+            label: ({ dataset, formattedValue }) =>
+              `${dataset.label}: ${formattedValue}%`
+          }
+        }
+      }
+    },
+    plugins: [ZERO_LINE_PLUGIN]
+  })
+
+  foundSelect.addEventListener('change', () => {
+    updateChart({ chart, newDatasets: getDatasets(foundSelect.value as Found) })
+  })
+</script>

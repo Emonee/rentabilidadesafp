@@ -1,0 +1,58 @@
+---
+import { FONDOS } from '@/consts/afp'
+---
+
+<article>
+  <p>Fondo a visualizar:</p>
+  <select style="max-width: 200px;" data-found-select-historical-chart>
+    {FONDOS.map(({ name }) => <option value={name}>{name}</option>)}
+  </select>
+  <div style={{ 'min-height': '456px' }}>
+    <canvas data-historical-chart></canvas>
+  </div>
+</article>
+
+<script>
+  import { HISTORICAL_INITIAL_CHART_CONFIG } from '@/consts/charts'
+  import { updateChart } from '@/lib/client/charts'
+  import { buildHistoricalData } from '@/lib/server/data_builds'
+  import { Chart } from 'chart.js/auto'
+  import type { Found } from '@/lib/utilities/types'
+  import { getHistoricalData } from '@/lib/client/historicalData'
+
+  const foundSelect = document.querySelector<HTMLSelectElement>(
+    'select[data-found-select-historical-chart]'
+  )
+  const canvasChart = document.querySelector<HTMLCanvasElement>(
+    'canvas[data-historical-chart]'
+  )
+  if (!foundSelect || !canvasChart) throw new Error('Elements not found')
+
+  const now = new Date()
+  const historicalData = await getHistoricalData()
+  const chart = new Chart(canvasChart, HISTORICAL_INITIAL_CHART_CONFIG)
+  const { labels: newLabels, datasets: newDatasets } = buildHistoricalData({
+    found: 'A',
+    historicalData,
+    monthFrom: 8,
+    yearFrom: 2005,
+    monthTo: now.getMonth(),
+    yearTo: now.getFullYear()
+  })
+
+  updateChart({ chart, newDatasets, newLabels })
+  foundSelect.addEventListener('change', (e) => {
+    const target = e.target as HTMLSelectElement
+    const found = target.value as Found
+    const { labels: newLabels, datasets: newDatasets } = buildHistoricalData({
+      found,
+      historicalData,
+      monthFrom: 8,
+      yearFrom: 2005,
+      monthTo: now.getMonth(),
+      yearTo: now.getFullYear()
+    })
+
+    updateChart({ chart, newDatasets, newLabels })
+  })
+</script>

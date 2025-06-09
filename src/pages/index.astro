@@ -1,20 +1,19 @@
 ---
 import BestAfpByComitionSection from '@/components/sections/BestAfpByComitionSection/BestAfpByComitionSection.astro'
-import BestAfpByPeriodSectionSolid from '@/components/sections/BestAfpByPeriodSection/BestAfpByPeriodSection.solid'
-import BestAfpByYtdSection from '@/components/sections/BestAfpByYtdSection/BestAfpByYtdSection'
+import BestAfpByPeriodSection from '@/components/sections/BestAfpByPeriodSection/index.astro'
+import BestAfpByYtdSection from '@/components/sections/BestAfpByYtdSection/index.astro'
 import Layout from '@/layouts/Layout.astro'
-import { getHistoricalData, getLastUpdateDate } from '@/lib/server/data'
+import { getLastUpdateDate } from '@/lib/server/data'
 import { getMonthNameByMonth } from '@/lib/utilities/dates'
 
-const historicalData = await getHistoricalData()
 const lastUpdatedDate = await getLastUpdateDate()
 const monthString = getMonthNameByMonth(lastUpdatedDate.getMonth())
 ---
 
 <Layout>
   <main>
-    <BestAfpByYtdSection client:visible />
-    <BestAfpByPeriodSectionSolid historicalData={historicalData} client:load />
+    <BestAfpByYtdSection />
+    <BestAfpByPeriodSection />
     <BestAfpByComitionSection />
     <p id="last-data">
       * Datos actualizados a {monthString} del {lastUpdatedDate.getFullYear()}.

@@ -1,0 +1,101 @@
+---
+import jsonData from '@/data/ytd_12_months.json'
+import { FONDOS } from '@/consts/afp'
+import { getColor } from '@/lib/utilities/nums'
+
+const afpEntries = Object.entries(jsonData)
+const initialFound = 'A'
+const sortedAfps = afpEntries
+  .map(([afpName, fondos]) => ({
+    name: afpName,
+    value: fondos[initialFound].ytd
+  }))
+  .sort(({ value: value1 }, { value: value2 }) => value2 - value1)
+const [initialBestAfp] = sortedAfps
+---
+
+<section>
+  <h2>
+    Mejor AFP <span data-tooltip="Year To Date">YTD</span> por fondo: <span
+      data-span-best-ytd-afp>{initialBestAfp.name}</span
+    >
+    <a href="#last-data" style="text-decoration: none"> * </a>
+  </h2>
+  <p>
+    Corresponde al raking por rentabilidad real acumulada desde inicios del
+    presente año a la actualidad.
+  </p>
+  <p>
+    <b>Fondo a visualizar:</b>
+  </p>
+  <select name="found" style="max-width: 200px;">
+    {FONDOS.map(({ name }) => <option value={name}>{name}</option>)}
+  </select>
+  <table style="max-width: 500px;">
+    <tbody data-tbody-best-ytd-afp>
+      {
+        sortedAfps.map(({ name, value }) => {
+          const color = getColor(10, -10, value)
+          const colorStyle = `4px solid ${color}`
+          return (
+            <tr>
+              <td style={{ 'border-left': colorStyle }}>{name}</td>
+              <td
+                style={{
+                  'border-left': colorStyle,
+                  'border-right': colorStyle
+                }}
+              >
+                {value}%
+              </td>
+            </tr>
+          )
+        })
+      }
+    </tbody>
+  </table>
+</section>
+
+<script>
+  import jsonData from '@/data/ytd_12_months.json'
+  import type { Found } from '@/lib/utilities/types'
+  import { getColor } from '@/lib/utilities/nums'
+
+  const afpEntries = Object.entries(jsonData)
+  const bestAfpSpan = document.querySelector<HTMLSpanElement>(
+    'span[data-span-best-ytd-afp]'
+  )
+  const select = document.querySelector<HTMLSelectElement>(
+    'select[name="found"]'
+  )
+  const tbody = document.querySelector<HTMLTableSectionElement>(
+    'tbody[data-tbody-best-ytd-afp]'
+  )
+
+  if (!bestAfpSpan || !select || !tbody) throw new Error('Missing dom elements')
+
+  select.addEventListener('change', (e) => {
+    const target = e.target as HTMLSelectElement
+    const sortedAfps = afpEntries
+      .map(([afpName, fondos]) => ({
+        name: afpName,
+        value: fondos[target.value as Found].ytd
+      }))
+      .sort(({ value: value1 }, { value: value2 }) => value2 - value1)
+    const [initialBestAfp] = sortedAfps
+    bestAfpSpan.textContent = initialBestAfp.name
+    tbody.innerHTML = ''
+    tbody.innerHTML = sortedAfps
+      .map(({ name, value }) => {
+        const color = getColor(10, -10, value)
+        const colorStyle = `4px solid ${color}`
+        return `
+            <tr>
+              <td style="border-left: ${colorStyle}">${name}</td>
+              <td style="border-left: ${colorStyle}; border-right: ${colorStyle}">${value}%</td>
+            </tr>
+          `
+      })
+      .join('')
+  })
+</script>

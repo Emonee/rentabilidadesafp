@@ -1,0 +1,92 @@
+---
+import { getBestAfpByPeriodInitialData } from '@/lib/client/initialData'
+import { getHistoricalData } from '@/lib/server/data'
+import { buildHistoricalData } from '@/lib/server/data_builds'
+import { getColor } from '@/lib/utilities/nums'
+
+const historicalData = await getHistoricalData()
+const { monthFrom, monthTo, yearFrom, yearTo } = getBestAfpByPeriodInitialData()
+const { tableData } = buildHistoricalData({
+  historicalData,
+  found: 'A',
+  monthFrom,
+  yearFrom,
+  monthTo,
+  yearTo
+})
+---
+
+<table data-period-table>
+  <tbody>
+    {
+      tableData.map(([afpName, returnValue]) => {
+        const color = getColor(100, -100, returnValue, false, true)
+        return (
+          <tr>
+            <td
+              style={{
+                'border-left': `4px solid ${color}`
+              }}
+            >
+              {afpName}
+            </td>
+            <td
+              style={{
+                'text-align': 'center',
+                'border-left': `4px solid ${color}`,
+                'border-right': `4px solid ${color}`
+              }}
+            >
+              {`${returnValue.toString().padEnd(4, '0')}%`}
+            </td>
+          </tr>
+        )
+      })
+    }
+  </tbody>
+</table>
+
+<script>
+  import { getColor } from '@/lib/utilities/nums'
+
+  const periodTable = document.querySelector<HTMLTableElement>(
+    'table[data-period-table]'
+  )
+  const tBody = periodTable?.querySelector('tbody')
+  if (!periodTable || !tBody) throw new Error('Missing dom elements')
+
+  // Create an observer instance
+  const observer = new MutationObserver(function (mutationsList) {
+    for (const mutation of mutationsList) {
+      if (
+        mutation.type === 'attributes' &&
+        mutation.attributeName === 'data-rows'
+      ) {
+        const newRows = JSON.parse(
+          periodTable.getAttribute(mutation.attributeName)!
+        ) as [string, number][]
+        const tBodyChildren = newRows
+          .map(([afpName, returnValue]) => {
+            const color = getColor(100, -100, returnValue, false, true)
+            return `
+              <tr>
+                <td style="border-left: 4px solid ${color};">
+                  ${afpName}
+                </td>
+                <td style="text-align: center; border-left: 4px solid ${color}; border-right: 4px solid ${color};">
+                  ${returnValue.toString().padEnd(4, '0')}%
+                </td>
+              </tr>
+            `
+          })
+          .join('')
+        tBody.innerHTML = tBodyChildren
+      }
+    }
+  })
+
+  // Start observing the target node
+  observer.observe(periodTable, {
+    attributeFilter: ['data-rows'] // Optional: only observe specific attributes
+  })
+</script>

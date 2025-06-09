@@ -1,0 +1,136 @@
+---
+import { FONDOS } from '@/consts/afp'
+import { MONTHS, YEARS } from '@/consts/dates'
+import { getBestAfpByPeriodInitialData } from '@/lib/client/initialData'
+
+const { monthFrom, monthTo, yearFrom, yearTo } = getBestAfpByPeriodInitialData()
+---
+
+<form data-period-chart-form>
+  <select style="max-width: 200px;" name="found">
+    {FONDOS.map(({ name }) => <option value={name}>{name}</option>)}
+  </select>
+  <p>
+    <b>Periodo:</b>
+  </p>
+
+  <div class="container">
+    <p class="margin0">Desde</p>
+    <select name="monthFrom" class="select margin0">
+      {
+        Object.entries(MONTHS).map(([month, monthName]) => (
+          <option value={month} selected={+month === monthFrom}>
+            {monthName}
+          </option>
+        ))
+      }
+    </select>
+    <p class="margin0">del</p>
+    <select name="yearFrom" class="select margin0">
+      {
+        YEARS.map((year) => (
+          <option value={year} selected={+year === yearFrom}>
+            {year}
+          </option>
+        ))
+      }
+    </select>
+  </div>
+
+  <div class="container">
+    <p class="margin0">Hasta</p>
+    <select name="monthTo" class="select margin0">
+      {
+        Object.entries(MONTHS).map(([month, monthName]) => (
+          <option value={month} selected={+month === monthTo}>
+            {monthName}
+          </option>
+        ))
+      }
+    </select>
+    <p class="margin0">del</p>
+    <select name="yearTo" class="select margin0">
+      {
+        YEARS.map((year) => (
+          <option value={year} selected={+year === yearTo}>
+            {year}
+          </option>
+        ))
+      }
+    </select>
+  </div>
+</form>
+
+<style>
+  .container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: center;
+    max-width: 500px;
+  }
+
+  .select {
+    --padding-y: 0.25rem;
+    padding-top: var(--padding-y);
+    padding-bottom: var(--padding-y);
+  }
+
+  .margin0 {
+    margin: 0;
+  }
+</style>
+
+<script>
+  import { buildHistoricalData } from '@/lib/server/data_builds'
+  import { getHistoricalData } from '@/lib/client/historicalData'
+
+  const form = document.querySelector<HTMLFormElement>(
+    'form[data-period-chart-form]'
+  )
+  const table = document.querySelector('table[data-period-table]')
+  const divAfpOutOfPeriod = document.querySelector<HTMLDivElement>(
+    'div[data-afp-out-of-period]'
+  )
+  const canvasElement = document.querySelector<HTMLCanvasElement>(
+    'canvas[data-period-chart]'
+  )
+  const bestAfpName = document.querySelector<HTMLSpanElement>(
+    'span[data-best-period-afp-name]'
+  )
+  if (!form || !table || !divAfpOutOfPeriod || !canvasElement || !bestAfpName)
+    throw new Error('Missing dom elemnts')
+
+  const historicalData = await getHistoricalData()
+  const selects = form.querySelectorAll('select')
+
+  const handleFormChange = () => {
+    const data = Object.fromEntries(new FormData(form))
+    const { labels, datasets, afpsOutOfPeriod, tableData } =
+      buildHistoricalData({
+        historicalData: historicalData,
+        found: String(data.found),
+        monthFrom: Number(data.monthFrom),
+        yearFrom: Number(data.yearFrom),
+        monthTo: Number(data.monthTo),
+        yearTo: Number(data.yearTo)
+      })
+    table.setAttribute('data-rows', JSON.stringify(tableData))
+    divAfpOutOfPeriod.setAttribute(
+      'data-afps-out-of-period',
+      JSON.stringify(Array.from(afpsOutOfPeriod))
+    )
+    canvasElement.setAttribute('data-labels', JSON.stringify(labels))
+    canvasElement.setAttribute(
+      'data-datasets',
+      JSON.stringify(
+        datasets.filter(({ data }) => data.every((d) => d != null))
+      )
+    )
+    bestAfpName.textContent = tableData[0][0]
+  }
+
+  for (const select of selects) {
+    select.addEventListener('change', handleFormChange)
+  }
+</script>

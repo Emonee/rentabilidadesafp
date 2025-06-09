@@ -1,0 +1,66 @@
+<article class="chart-container">
+  <div style={{ 'min-height': '456px' }}>
+    <canvas data-ytd-bar-chart></canvas>
+  </div>
+</article>
+
+<script>
+  import { AFPS } from '@/consts/afp'
+  import ytdAccData from '@/data/ytd_12_months.json'
+  import Chart from 'chart.js/auto'
+
+  const canvasChart = document.querySelector<HTMLCanvasElement>(
+    'canvas[data-ytd-bar-chart]'
+  )
+  if (!canvasChart) throw new Error('Chart canvas not found')
+
+  const labels = Object.keys(Object.values(ytdAccData)[0])
+  const datasets = Object.entries(ytdAccData).map(([name, values]) => ({
+    label: name,
+    borderColor: AFPS[name as keyof typeof AFPS].mainColor,
+    backgroundColor: AFPS[name as keyof typeof AFPS].mainColor,
+    data: Object.values(values).map((v) => v.ytd)
+  }))
+  new Chart(canvasChart, {
+    type: 'bar',
+    options: {
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Rentabilidad real',
+            font: {
+              size: 18
+            }
+          },
+          ticks: {
+            callback: (value) => `${value}%`
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Fondo',
+            font: {
+              size: 18
+            }
+          }
+        }
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: ({ dataset, formattedValue }) =>
+              `${dataset.label}: ${formattedValue}%`
+          }
+        }
+      }
+    },
+    data: {
+      labels,
+      datasets
+    }
+  })
+</script>

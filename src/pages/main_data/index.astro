@@ -1,13 +1,12 @@
 ---
 import AnnualArticle from '@/components/articles/AnnualArticle.astro'
-import HistoricalArticle from '@/components/articles/HistoricalArticle'
-import Acc from '@/components/charts/bar/Acc'
-import Ytd from '@/components/charts/bar/Ytd'
+import HistoricalArticle from '@/components/articles/HistoricalArticle.astro'
+import Acc from '@/components/charts/bar/Acc.astro'
+import Ytd from '@/components/charts/bar/Ytd.astro'
 import Layout from '@/layouts/Layout.astro'
-import { getHistoricalData, getLastUpdateDate } from '@/lib/server/data'
+import { getLastUpdateDate } from '@/lib/server/data'
 import { getMonthNameByMonth } from '@/lib/utilities/dates'
 
-const historicalData = await getHistoricalData()
 const lastUpdatedDate = await getLastUpdateDate()
 const monthString = getMonthNameByMonth(lastUpdatedDate.getMonth())
 ---
@@ -20,7 +19,7 @@ const monthString = getMonthNameByMonth(lastUpdatedDate.getMonth())
       >
     </h2>
     <p>Es el acumulado mes a mes de cada AFP.</p>
-    <HistoricalArticle historicalData={historicalData} client:load />
+    <HistoricalArticle />
     <h2>
       Rentabilidad real histórica anual <small style="font-size: 14px"
         >(Más es mejor)</small
@@ -36,7 +35,7 @@ const monthString = getMonthNameByMonth(lastUpdatedDate.getMonth())
       <small style="font-size: 14px">(Más es mejor)</small>
     </h2>
     <p>También conocido como Year To Date.</p>
-    <Ytd client:visible />
+    <Ytd />
     <h2>
       Rentabilidad real últimos 12 meses<a
         href="#last-data"
@@ -44,7 +43,7 @@ const monthString = getMonthNameByMonth(lastUpdatedDate.getMonth())
       >
       <small style="font-size: 14px">(Más es mejor)</small>
     </h2>
-    <Acc client:visible />
+    <Acc />
     <p id="last-data">
       * Datos actualizados a {monthString} del {lastUpdatedDate.getFullYear()}.
     </p>

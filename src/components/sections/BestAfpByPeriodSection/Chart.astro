@@ -1,0 +1,56 @@
+---
+import { buildHistoricalData } from '@/lib/server/data_builds'
+import { getHistoricalData } from '@/lib/server/data'
+import { getBestAfpByPeriodInitialData } from '@/lib/client/initialData'
+
+const historicalData = await getHistoricalData()
+const { found, monthFrom, yearFrom, monthTo, yearTo } =
+  getBestAfpByPeriodInitialData()
+
+const { labels, datasets } = buildHistoricalData({
+  historicalData,
+  found,
+  monthFrom,
+  yearFrom,
+  monthTo,
+  yearTo
+})
+---
+
+<div style={{ 'min-height': '456px' }}>
+  <canvas
+    data-period-chart
+    data-datasets={JSON.stringify(datasets)}
+    data-labels={JSON.stringify(labels)}></canvas>
+</div>
+
+<script>
+  import { Chart } from 'chart.js/auto'
+  import { HISTORICAL_INITIAL_CHART_CONFIG } from '@/consts/charts'
+  import { updateChart } from '@/lib/client/charts'
+
+  const canvasElement = document.querySelector<HTMLCanvasElement>(
+    'canvas[data-period-chart]'
+  )
+  if (!canvasElement) throw new Error('Missing dom elements')
+
+  const chart = new Chart(canvasElement, HISTORICAL_INITIAL_CHART_CONFIG)
+  updateChart({
+    chart,
+    newDatasets: JSON.parse(canvasElement.dataset.datasets!),
+    newLabels: JSON.parse(canvasElement.dataset.labels!)
+  })
+
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.type === 'attributes') {
+        updateChart({
+          chart,
+          newDatasets: JSON.parse(canvasElement.dataset.datasets!),
+          newLabels: JSON.parse(canvasElement.dataset.labels!)
+        })
+      }
+    })
+  })
+  observer.observe(canvasElement, { attributeFilter: ['data-datasets'] })
+</script>
